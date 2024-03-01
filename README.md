@@ -1,4 +1,4 @@
-![Image Alt text](/images/logo.png
+![Image Alt text](/images/logo.png)
 
 # Readme Mercurius
 Aplikacja do zbierania b³êdów programów to narzêdzie, które umo¿liwia wykrywanie, 
