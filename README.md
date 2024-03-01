@@ -29,5 +29,5 @@ monitorowanie i raportowanie błędów w oprogramowaniu
 
 ## Links
 
-[Link architecture pattern]([https://website-name.com](https://github.com/dotnet-architecture/eShopOnWeb)https://github.com/dotnet-architecture/eShopOnWeb)
+[Link architecture pattern](https://website-name.com](https://github.com/dotnet-architecture/eShopOnWeb)https://github.com/dotnet-architecture/eShopOnWeb)
 
