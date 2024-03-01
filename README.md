@@ -13,8 +13,14 @@ monitorowanie i raportowanie błędów w oprogramowaniu
 - Historia zmian: Aplikacja rejestruje historię zmian w błędach, co ułatwia śledzenie postępów.
 - Powiadomienia: Automatyczne powiadomienia o zmianach w błędach (np. przypisanie, zmiana statusu) są wysyłane do odpowiednich użytkowników.
 - Statystyki i raporty: Generowanie raportów na temat ilości błędów, czasu naprawy i innych statystyk.
+- Zapisywanie błędów zgloszonych przez aplikacje.
+- Automatyczne grupowanie błędów: potrafi grupować podobne błędy, co ułatwia ich zarządzanie i śledzenie
+- SDK pozwoli na zbieranie informacji o błędach i ich przesyłanie do Api ( jezyk C#)
 
 
+
+
+## Application architecture
 
 
 
