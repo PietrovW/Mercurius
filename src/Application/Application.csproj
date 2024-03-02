@@ -15,4 +15,11 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="WolverineFx" Version="1.20.1" />
+    <PackageReference Include="WolverineFx.FluentValidation" Version="1.20.1" />
+    <PackageReference Include="WolverineFx.Http" Version="1.20.1" />
+    <PackageReference Include="WolverineFx.Http.FluentValidation" Version="1.20.1" />
+  </ItemGroup>
+
 </Project>
