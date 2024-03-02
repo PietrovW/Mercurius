@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:${TAG}
+    ports:
+      - 5432:5432
+    volumes:
+      - volum-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${PASSWORD}
+      - POSTGRES_USER=${USER}
+      - POSTGRES_DB=${DB}
+volumes:
+  volum-db:

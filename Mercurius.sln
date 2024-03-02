@@ -29,6 +29,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{9F95D828-5D5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "src\Web\Web.csproj", "{34E26AE3-A8AA-4B19-9656-997C79BB29C0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker-compose", "docker-compose", "{B2118F89-32BA-4892-8ABF-9B4687F1A4FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mysql", "mysql", "{808CCB85-DA0F-4BC3-90C7-7AEB80910A20}"
+	ProjectSection(SolutionItems) = preProject
+		infra\docker-compose\mysql\.env = infra\docker-compose\mysql\.env
+		infra\docker-compose\mysql\docker-compose.yml = infra\docker-compose\mysql\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mssql", "mssql", "{C550D7A5-1079-4016-8B2D-7E795143D07A}"
+	ProjectSection(SolutionItems) = preProject
+		infra\docker-compose\mssql\.env = infra\docker-compose\mssql\.env
+		infra\docker-compose\mssql\docker-compose.yml = infra\docker-compose\mssql\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "postgresql", "postgresql", "{1E3D258A-7D22-4661-A544-16C5AECB56EB}"
+	ProjectSection(SolutionItems) = preProject
+		infra\docker-compose\postgresql\.env = infra\docker-compose\postgresql\.env
+		infra\docker-compose\postgresql\docker-compose.yml = infra\docker-compose\postgresql\docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +85,10 @@ Global
 		{06E1E4D8-F34D-4F6A-9680-811E41E211A6} = {586610B6-A6F4-4EA3-9EB6-815B91190AF4}
 		{9F95D828-5D5D-4BA4-93C1-6A5CA3AA346D} = {B08D211E-91CB-4190-A4F0-1CEA26B197DA}
 		{34E26AE3-A8AA-4B19-9656-997C79BB29C0} = {9F95D828-5D5D-4BA4-93C1-6A5CA3AA346D}
+		{B2118F89-32BA-4892-8ABF-9B4687F1A4FC} = {C28067BE-2544-4190-B220-533D6538A07F}
+		{808CCB85-DA0F-4BC3-90C7-7AEB80910A20} = {B2118F89-32BA-4892-8ABF-9B4687F1A4FC}
+		{C550D7A5-1079-4016-8B2D-7E795143D07A} = {B2118F89-32BA-4892-8ABF-9B4687F1A4FC}
+		{1E3D258A-7D22-4661-A544-16C5AECB56EB} = {B2118F89-32BA-4892-8ABF-9B4687F1A4FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2B110795-5592-4A5E-849D-B33BDADE113F}

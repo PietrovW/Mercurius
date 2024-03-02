@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: mysql:${TAG}
+    ports:
+      - 3306:3306
+    volumes:
+      - volum-db:/var/lib/mysql
+    environment:
+      - MYSQL_PASSWORD=${PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${PASSWORD}
+      - MYSQL_USER=${USER}
+      - MYSQL_DATABASE=${DB}
+volumes:
+  volum-db:
