@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Configuration\" />
     <Folder Include="Identity\" />
     <Folder Include="Logging\" />
     <Folder Include="Services\" />
