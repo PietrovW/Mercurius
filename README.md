@@ -16,8 +16,11 @@ monitorowanie i raportowanie błędów w oprogramowaniu
 - Automatyczne grupowanie błędów: potrafi grupować podobne błędy, co ułatwia ich zarządzanie i śledzenie
 - SDK pozwoli na zbieranie informacji o błędach i ich przesyłanie do Api ( jezyk C#)
 
+## Technologies
 
-
+* [ASP.NET Core 8](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)
+* [Entity Framework Core 8](https://docs.microsoft.com/en-us/ef/core/)
+* [wolverine](https://wolverine.netlify.app/)
 
 ## Application architecture
 
@@ -29,4 +32,5 @@ monitorowanie i raportowanie błędów w oprogramowaniu
 ## Links
 
 [Link architecture pattern](https://github.com/dotnet-architecture/eShopOnWeb)
+[Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
 
