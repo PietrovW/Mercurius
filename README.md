@@ -4,7 +4,6 @@
 Aplikacja do zbierania błędów programów to narzędzie, które umożliwia wykrywanie, 
 monitorowanie i raportowanie błędów w oprogramowaniu
 ## Getting started
-
 ## Features
 
 - Zgłaszanie błędów: Użytkownicy mogą zgłaszać błędy, defekty i problemy związane z aplikacją.
