@@ -11,3 +11,11 @@
 /src/Application/bin/Debug/net8.0
 /src/Infrastructure/bin/Debug/net8.0
 /src/Web/bin/Debug/net8.0
+/src/Api/bin/Debug/net8.0
+/src/Api/obj
+/src/Migrations/Infrastructure.MSSql/bin/Debug/net8.0
+/src/Migrations/Infrastructure.MSSql/obj
+/src/Migrations/Infrastructure.MySql/bin/Debug/net8.0
+/src/Migrations/Infrastructure.MySql/obj
+/src/Migrations/Infrastructure.Postgres/bin/Debug/net8.0
+/src/Migrations/Infrastructure.Postgres/obj
