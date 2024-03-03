@@ -8,6 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{6F9547E4-6601-44C0-8B42-27364A177268}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{9ABB4143-441A-44DB-B4B3-918B71F9939E}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.md = docker-compose.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{32AAB095-F64F-4385-BFD3-E485A438DE8B}"
 EndProject
@@ -27,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infra", "infra", "{C28067BE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{9F95D828-5D5D-4BA4-93C1-6A5CA3AA346D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "src\Web\Web.csproj", "{34E26AE3-A8AA-4B19-9656-997C79BB29C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "src\Web\Web.csproj", "{34E26AE3-A8AA-4B19-9656-997C79BB29C0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker-compose", "docker-compose", "{B2118F89-32BA-4892-8ABF-9B4687F1A4FC}"
 EndProject
