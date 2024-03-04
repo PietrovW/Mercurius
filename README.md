@@ -16,16 +16,21 @@ monitorowanie i raportowanie błędów w oprogramowaniu
 - Automatyczne grupowanie błędów: potrafi grupować podobne błędy, co ułatwia ich zarządzanie i śledzenie
 - SDK pozwoli na zbieranie informacji o błędach i ich przesyłanie do Api ( jezyk C#)
 
+Tworzenie migracji 
  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="40" height="40"/>
 ```
  cd Api
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.MySql  -- --provider MySql
 ```
-
  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="40" height="40"/>
 ```
  cd Api
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.Postgres  -- --provider Postgres
+```
+ <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="40" height="40"/>
+```
+ cd Api
+ dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.SqlServer  -- --provider SqlServer
 ```
 
 ## Technologies
@@ -33,7 +38,9 @@ monitorowanie i raportowanie błędów w oprogramowaniu
 * [ASP.NET Core 8](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)
 * [Entity Framework Core 8](https://docs.microsoft.com/en-us/ef/core/)
 * [wolverine](https://wolverine.netlify.app/)
-
+* [SqlServer](Microsoft.EntityFrameworkCore.SqlServer)
+* [PostgreSQL](Npgsql.EntityFrameworkCore.PostgreSQL)
+* [MySql](Pomelo.EntityFrameworkCore.MySql)
 ## Application architecture
 
 

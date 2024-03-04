@@ -31,10 +31,10 @@ builder.Services.AddDbContext<MercuriusContext>((services, options) =>
         options.UseMySql(connectionString: mercuriusOption.ConnectionString, serverVersion: serverVersion,
                          mySqlOptionsAction: x => x.MigrationsAssembly(Provider.MySql.Assembly));
     }
-    else if (provider == Provider.MSSql.Name)
+    else if (provider == Provider.SqlServer.Name)
     {
         options.UseSqlServer(connectionString: mercuriusOption.ConnectionString,
-                          sqlServerOptionsAction: x => x.MigrationsAssembly(Provider.MSSql.Assembly));
+                          sqlServerOptionsAction: x => x.MigrationsAssembly(Provider.SqlServer.Assembly));
     }
     else
     {
