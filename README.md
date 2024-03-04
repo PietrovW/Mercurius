@@ -16,6 +16,14 @@ monitorowanie i raportowanie błędów w oprogramowaniu
 - Automatyczne grupowanie błędów: potrafi grupować podobne błędy, co ułatwia ich zarządzanie i śledzenie
 - SDK pozwoli na zbieranie informacji o błędach i ich przesyłanie do Api ( jezyk C#)
 
+cd Api
+```
+ dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.MySql  -- --provider MySql
+```
+```
+ dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.Postgres  -- --provider Postgres
+```
+
 ## Technologies
 
 * [ASP.NET Core 8](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)

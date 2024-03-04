@@ -8,9 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
-    <ProjectReference Include="..\Migrations\Infrastructure.MSSql\Infrastructure.MSSql.csproj" />
-    <ProjectReference Include="..\Migrations\Infrastructure.MySql\Infrastructure.MySql.csproj" />
-    <ProjectReference Include="..\Migrations\Infrastructure.Postgres\Infrastructure.Postgres.csproj" />
   </ItemGroup>
 
   <ItemGroup>

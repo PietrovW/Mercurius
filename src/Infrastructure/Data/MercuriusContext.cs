@@ -7,8 +7,8 @@ namespace Infrastructure.Data;
 
 public sealed class MercuriusContext:DbContext
 {
-    public MercuriusContext(DbContextOptions<MercuriusContext> options) : base(options) { }
-    public DbSet<ExceptionInfoEntitie> ExceptionInfos { get; set; }
+    public MercuriusContext(DbContextOptions options) : base(options) { }
+    public DbSet<ExceptionInfoEntitie> ExceptionInfos { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -20,16 +20,5 @@ public sealed class MercuriusContext:DbContext
     {
         await db.Database.MigrateAsync();
     }
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-
-        var builder = new ConfigurationBuilder();
-        builder.SetBasePath(Directory.GetCurrentDirectory());
-        builder.AddJsonFile("appsettings.json");
-        IConfiguration Configuration = builder.Build();
-        
-        optionsBuilder.UseNpgsql(
-            Configuration.GetConnectionString("DefaultConnection"));
-        base.OnConfiguring(optionsBuilder);
-    }
+   
 }
