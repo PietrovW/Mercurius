@@ -3,11 +3,13 @@
 ################################################################################
 
 /.vs
-/src/Api/Api/obj
+/src/Domain/bin/Debug/net8.0
+/src/Domain/obj
+/src/Api/obj
 /src/Application/obj
 /src/Infrastructure/obj
 /src/Web/obj
-/src/Api/Api/bin/Debug/net8.0
+/src/Api/bin/Debug/net8.0
 /src/Application/bin/Debug/net8.0
 /src/Infrastructure/bin/Debug/net8.0
 /src/Web/bin/Debug/net8.0
