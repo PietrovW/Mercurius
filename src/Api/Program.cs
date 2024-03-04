@@ -18,21 +18,28 @@ builder.Services.AddDbContext<MercuriusContext>((services, options) =>
 {
     var mercuriusOption = services.GetRequiredService<MercuriusOptions>();
     var provider = config.GetValue("provider", Provider.Postgres.Name);
+
     if (provider == Provider.Postgres.Name)
     {
         options.UseNpgsql(
-            config.GetConnectionString(Provider.Postgres.Name)!,
-            x => x.MigrationsAssembly(Provider.Postgres.Assembly)
-            );
+            connectionString: mercuriusOption.ConnectionString,
+           npgsqlOptionsAction: x => x.MigrationsAssembly(Provider.Postgres.Assembly));
     }
-    if (provider == Provider.MySql.Name)
+    else if (provider == Provider.MySql.Name)
     {
         var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
-        options.UseMySql(connectionString: config.GetConnectionString(Provider.MySql.Name)!, serverVersion: serverVersion,
-                         mySqlOptionsAction: x => x.MigrationsAssembly(Provider.MySql.Assembly)
-                );
+        options.UseMySql(connectionString: mercuriusOption.ConnectionString, serverVersion: serverVersion,
+                         mySqlOptionsAction: x => x.MigrationsAssembly(Provider.MySql.Assembly));
     }
-
+    else if (provider == Provider.MSSql.Name)
+    {
+        options.UseSqlServer(connectionString: mercuriusOption.ConnectionString,
+                          sqlServerOptionsAction: x => x.MigrationsAssembly(Provider.MSSql.Assembly));
+    }
+    else
+    {
+        throw new Exception($"Unsupported provider: {provider}");
+    }
 });
 
 
