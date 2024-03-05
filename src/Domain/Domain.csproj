@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Events\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="ValueObjects\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WolverineFx" Version="1.20.1" />
+    <PackageReference Include="WolverineFx.FluentValidation" Version="1.20.1" />
+    <PackageReference Include="WolverineFx.Http" Version="1.20.1" />
+  </ItemGroup>
+
 </Project>
