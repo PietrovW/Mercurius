@@ -19,15 +19,12 @@ monitorowanie i raportowanie błędów w oprogramowaniu
 Tworzenie migracji :
 
 ```
- cd Api
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.MySql  -- --provider MySql
 ```
 ```
- cd Api
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.Postgres  -- --provider Postgres
 ```
 ```
- cd Api
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.SqlServer  -- --provider SqlServer
 ```
 
