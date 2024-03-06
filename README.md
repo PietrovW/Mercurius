@@ -4,6 +4,8 @@
 Aplikacja do zbierania błędów programów to narzędzie, które umożliwia wykrywanie, 
 monitorowanie i raportowanie błędów w oprogramowaniu
 ## Getting started
+
+
 ## Features
 
 - Zgłaszanie błędów: Użytkownicy mogą zgłaszać błędy, defekty i problemy związane z aplikacją.
@@ -21,15 +23,16 @@ Tworzenie migracji :
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.MySql  -- --provider MySql
 ```
+
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.Postgres  -- --provider Postgres
 ```
+
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.SqlServer  -- --provider SqlServer
 ```
 
 ## Technologies
-
 * [ASP.NET Core 8](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)
 * [Entity Framework Core 8](https://docs.microsoft.com/en-us/ef/core/)
 * [wolverine](https://wolverine.netlify.app/)
@@ -37,7 +40,6 @@ Tworzenie migracji :
 * [PostgreSQL](Npgsql.EntityFrameworkCore.PostgreSQL)
 * [MySql](Pomelo.EntityFrameworkCore.MySql)
 ## Application architecture
-
 
 
 ## Links
