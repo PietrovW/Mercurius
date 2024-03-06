@@ -2,7 +2,7 @@
 
 namespace Application.ExceptionInfos.Commands.CreateExceptionInfoItem;
 
-public class CreateExceptionInfoItemValidator : AbstractValidator<CreateExceptionInfoItemCommand>
+public sealed class CreateExceptionInfoItemValidator : AbstractValidator<CreateExceptionInfoItemCommand>
 {
     public CreateExceptionInfoItemValidator()
     { 

@@ -5,6 +5,7 @@ using Oakton;
 using Wolverine;
 using Wolverine.FluentValidation;
 using Application.ExceptionInfos.Commands.CreateExceptionInfoItem;
+using Infrastructure;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 builder.Configuration.AddEnvironmentVariables(prefix: "Mercurius_");
@@ -15,7 +16,7 @@ var config = builder.Configuration;
 builder.Services.AddPooledDbContextFactory<MercuriusContext>(options => options.UseNpgsql(
             connectionString: config.GetConnectionString(Provider.Postgres.Name)!,
           npgsqlOptionsAction: x => x.MigrationsAssembly(Provider.Postgres.Assembly)));
-builder.Services.AddDbContext<MercuriusContext>(options =>
+builder.Services.AddDbContextFactory<MercuriusContext>(options =>
 {
     var provider = config.GetValue("provider", Provider.Postgres.Name);
 
@@ -51,13 +52,14 @@ builder.Host.UseWolverine(options =>
     options.UseFluentValidation();
     options.UseFluentValidation(RegistrationBehavior.ExplicitRegistration);
 });
-
+builder.Services.ConfigureInfrastructureServices();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<MercuriusContext>();
-    await MercuriusContext.InitializeAsync(db);
+    var db = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MercuriusContext>>();
+    var datebase = await db.CreateDbContextAsync();
+    await MercuriusContext.InitializeAsync(datebase);
 }
 
 app.MapPost("/exceptionInfoItems", async (CreateExceptionInfoItemCommand body, IMessageBus bus) =>
