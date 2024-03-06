@@ -27,7 +27,13 @@ public class ExceptionInfoRepository : IExceptionInfoRepository
 
     public ExceptionInfoEntitie GetExceptionInfoByID(Guid exceptionInfoId)
     {
-        throw new NotImplementedException();
+       var item = _context.ExceptionInfos.Where(s=>s.Id==exceptionInfoId).FirstOrDefault();
+
+        if (item != null)
+        {
+            return item;
+        }
+        return default(ExceptionInfoEntitie);
     }
 
     public IEnumerable<ExceptionInfoEntitie> GetExceptionInfos()
@@ -37,12 +43,19 @@ public class ExceptionInfoRepository : IExceptionInfoRepository
 
     public void InsertExceptionInfo(ExceptionInfoEntitie exceptionInfo)
     {
-        _context.Add(exceptionInfo);
+        _context.ExceptionInfos.Add(exceptionInfo);
     }
 
     public void Save()
     {
-        _context.SaveChanges();
+        try
+        {
+            _context.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 
     public void UpdateExceptionInfo(ExceptionInfoEntitie exceptionInfo)

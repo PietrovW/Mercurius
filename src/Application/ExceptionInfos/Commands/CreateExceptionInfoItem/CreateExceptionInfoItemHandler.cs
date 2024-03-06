@@ -20,8 +20,9 @@ public sealed class CreateExceptionInfoItemHandler
             Source=command.Source,
             StackTrace=command.StackTrace,
             TargetSite=command.TargetSite,
-            Id=0,
+          
         });
+        _exceptionInfoRepository.Save();
         return new ExceptionInfoCreatedEvent() { };
     }
 }

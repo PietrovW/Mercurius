@@ -4,7 +4,8 @@ namespace Domain.Common;
 
 public record BaseEntity
 {
-    public int Id { get; set; }
+    public Guid Id { get; init; } = Guid.NewGuid();
+    public DateTimeOffset Creat { get; init; } = DateTimeOffset.UtcNow;
 
     private readonly List<BaseEvent> _domainEvents = new();
 
