@@ -3,6 +3,14 @@ version: '3.4'
 services:
   api:
     image: ${DOCKER_REGISTRY-}api
+    ports:
+      - 80
+      - 443
     build:
       context: .
       dockerfile: src/Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - Provider=${Provider}
+      - ConnectionStrings__Postgres=${ConnectionStrings}
