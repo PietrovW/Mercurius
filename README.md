@@ -3,6 +3,9 @@
 # Readme Mercurius
 Aplikacja do zbierania błędów programów to narzędzie, które umożliwia wykrywanie, 
 monitorowanie i raportowanie błędów w oprogramowaniu
+
+
+
 ## Getting started
 
 
@@ -40,6 +43,7 @@ Tworzenie migracji :
 * [PostgreSQL](Npgsql.EntityFrameworkCore.PostgreSQL)
 * [MySql](Pomelo.EntityFrameworkCore.MySql)
 ## Application architecture
+
 
 
 ## Links
