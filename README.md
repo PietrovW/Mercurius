@@ -1,4 +1,7 @@
-![Image Alt text](/images/logo.png)
+![Logo](/images/logo.png)
+
+
+![swagger](/images/swagger.png)
 
 # Readme Mercurius
 Aplikacja do zbierania błędów programów to narzędzie, które umożliwia wykrywanie, 
