@@ -10,6 +10,7 @@ using Application.Entities;
 using Application.ExceptionInfos.Queries.GetAllExceptionInfo;
 using Application.ExceptionInfos.Queries.GeExceptionInfoById;
 using Microsoft.OpenApi.Models;
+using System;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 builder.Configuration.AddEnvironmentVariables(prefix: "Mercurius_");
@@ -26,7 +27,6 @@ builder.Services.AddPooledDbContextFactory<MercuriusContext>(options => options.
 builder.Services.AddDbContextFactory<MercuriusContext>(options =>
 {
     var provider = config.GetValue("provider", Provider.Postgres.Name);
-
     if (provider == Provider.Postgres.Name)
     {
         options.UseNpgsql(
@@ -35,6 +35,7 @@ builder.Services.AddDbContextFactory<MercuriusContext>(options =>
     }
     else if (provider == Provider.MySql.Name)
     {
+
         var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
         options.UseMySql(connectionString: config.GetConnectionString(Provider.MySql.Name)!, serverVersion: serverVersion,
                          mySqlOptionsAction: x => x.MigrationsAssembly(Provider.MySql.Assembly));

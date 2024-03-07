@@ -12,8 +12,8 @@ public sealed class GetAllExceptionInfoQuerieHandler
         _exceptionInfoRepository = exceptionInfoRepository;
     }
 
-    public IEnumerable<ExceptionInfoEntitie> Handle(GetAllExceptionInfoQuerie querie)
+    public async Task<IEnumerable<ExceptionInfoEntitie>> Handle(GetAllExceptionInfoQuerie querie, CancellationToken cancellationToken = default(CancellationToken))
     {
-        return _exceptionInfoRepository.GetExceptionInfos();
+        return await _exceptionInfoRepository.GetExceptionInfosAsync(cancellationToken: cancellationToken);
     }
 }

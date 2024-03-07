@@ -9,15 +9,22 @@ public class ExceptionInfoRepository : IExceptionInfoRepository
 {
     private readonly IDbContextFactory<MercuriusContext> _dbContextFactory;
     private readonly MercuriusContext _context;
-    
+
     public ExceptionInfoRepository(IDbContextFactory<MercuriusContext> dbContextFactory)
     {
         _dbContextFactory = dbContextFactory;
         _context = _dbContextFactory.CreateDbContext();
     }
-    public void DeleteExceptionInfo(Guid exceptionInfoId)
+    public async Task<bool> DeleteExceptionInfoAsync(Guid exceptionInfoId, CancellationToken cancellationToken = default(CancellationToken))
     {
-        throw new NotImplementedException();
+        var result = await _context.ExceptionInfos.FirstOrDefaultAsync(s => s.Id == exceptionInfoId, cancellationToken: cancellationToken);
+        if (result == null) return false;
+        var resultDelete = _context.ExceptionInfos.Remove(result);
+        if (resultDelete != null)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void Dispose()
@@ -27,7 +34,7 @@ public class ExceptionInfoRepository : IExceptionInfoRepository
 
     public ExceptionInfoEntitie GetExceptionInfoByID(Guid exceptionInfoId)
     {
-       var item = _context.ExceptionInfos.Where(s=>s.Id==exceptionInfoId).FirstOrDefault();
+        var item = _context.ExceptionInfos.Where(s => s.Id == exceptionInfoId).FirstOrDefault();
 
         if (item != null)
         {
@@ -36,30 +43,23 @@ public class ExceptionInfoRepository : IExceptionInfoRepository
         return default(ExceptionInfoEntitie);
     }
 
-    public IEnumerable<ExceptionInfoEntitie> GetExceptionInfos()
+    public async Task<IEnumerable<ExceptionInfoEntitie>> GetExceptionInfosAsync(CancellationToken cancellationToken = default(CancellationToken))
     {
-       return _context.ExceptionInfos.ToList();
+        return await _context.ExceptionInfos.ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public void InsertExceptionInfo(ExceptionInfoEntitie exceptionInfo)
+    public async Task InsertExceptionInfoAsync(ExceptionInfoEntitie exceptionInfo, CancellationToken cancellationToken = default(CancellationToken))
     {
-        _context.ExceptionInfos.Add(exceptionInfo);
+        await _context.ExceptionInfos.AddAsync(exceptionInfo);
     }
 
-    public void Save()
+    public async Task SaveAsync(CancellationToken cancellationToken = default(CancellationToken))
     {
-        try
-        {
-            _context.SaveChanges();
-        }
-        catch (Exception ex)
-        {
-
-        }
+        await _context.SaveChangesAsync(cancellationToken: cancellationToken);
     }
 
     public void UpdateExceptionInfo(ExceptionInfoEntitie exceptionInfo)
     {
-        throw new NotImplementedException();
+        _context.ExceptionInfos.Update(exceptionInfo);
     }
 }

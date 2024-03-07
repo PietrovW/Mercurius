@@ -12,17 +12,24 @@ public sealed class CreateExceptionInfoItemHandler
         _exceptionInfoRepository = exceptionInfoRepository;
     }
 
-    public ExceptionInfoCreatedEvent Handle(CreateExceptionInfoItemCommand command)
+    public async Task<ExceptionInfoCreatedEvent> Handle(CreateExceptionInfoItemCommand command, CancellationToken cancellationToken = default(CancellationToken))
     {
-        _exceptionInfoRepository.InsertExceptionInfo(new Entities.ExceptionInfoEntitie() { 
-            InnerException=command.InnerException,
-            Message=command.Message,
-            Source=command.Source,
-            StackTrace=command.StackTrace,
-            TargetSite=command.TargetSite,
-          
-        });
-        _exceptionInfoRepository.Save();
-        return new ExceptionInfoCreatedEvent() { };
+        await _exceptionInfoRepository.InsertExceptionInfoAsync(new Entities.ExceptionInfoEntitie()
+        {
+            InnerException = command.InnerException,
+            Message = command.Message,
+            Source = command.Source,
+            StackTrace = command.StackTrace,
+            TargetSite = command.TargetSite,
+
+        }, cancellationToken: cancellationToken);
+        await _exceptionInfoRepository.SaveAsync(cancellationToken: cancellationToken);
+        return new ExceptionInfoCreatedEvent() {
+            InnerException = command.InnerException,
+            Message = command.Message,
+            Source = command.Source,
+            StackTrace = command.StackTrace,
+            TargetSite = command.TargetSite,
+        };
     }
 }
