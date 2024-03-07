@@ -23,3 +23,4 @@
 /src/Migrations/Infrastructure.Postgres/obj
 /src/Migrations/Infrastructure.SqlServer/bin/Debug/net8.0
 /src/Migrations/Infrastructure.SqlServer/obj
+/obj/Docker
