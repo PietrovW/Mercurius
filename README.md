@@ -4,14 +4,15 @@
 ![swagger](/images/swagger.png)
 
 # Readme Mercurius
-Aplikacja do zbierania błędów programów to narzędzie, które umożliwia wykrywanie, 
-monitorowanie i raportowanie błędów w oprogramowaniu
-
-
+A program error collection application is a tool that allows you to detect,
+monitoring and reporting software errors
 
 ## Getting started
 
-
+Launch Apps, using the command
+```
+    docker-compose up
+```
 ## Features
 
 - Zgłaszanie błędów: Użytkownicy mogą zgłaszać błędy, defekty i problemy związane z aplikacją.
@@ -24,7 +25,7 @@ monitorowanie i raportowanie błędów w oprogramowaniu
 - Automatyczne grupowanie błędów: potrafi grupować podobne błędy, co ułatwia ich zarządzanie i śledzenie
 - SDK pozwoli na zbieranie informacji o błędach i ich przesyłanie do Api ( jezyk C#)
 
-Tworzenie migracji :
+Creating a migration:
 
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.MySql  -- --provider MySql
