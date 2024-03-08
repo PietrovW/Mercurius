@@ -7,7 +7,6 @@
 A program error collection application is a tool that allows you to detect,
 monitoring and reporting software errors
 
-## Getting started
 
 Launch Apps, using the command
 ```
