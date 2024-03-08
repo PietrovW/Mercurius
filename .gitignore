@@ -26,3 +26,6 @@
 /obj/Docker
 /bin/Debug
 /obj/Debug
+/test/IntegrationTests/obj/Debug/net8.0
+/test/IntegrationTests/obj
+/test/IntegrationTests/bin/Debug/net8.0
