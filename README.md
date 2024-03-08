@@ -45,6 +45,7 @@ Creating a migration:
 * [SqlServer](Microsoft.EntityFrameworkCore.SqlServer)
 * [PostgreSQL](Npgsql.EntityFrameworkCore.PostgreSQL)
 * [MySql](Pomelo.EntityFrameworkCore.MySql)
+* [Docker Compose](https://docs.docker.com/compose/)
 ## Application architecture
 
 
