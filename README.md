@@ -7,10 +7,12 @@
 Aplikacja do zbierania błędów programów to narzędzie, które umożliwia wykrywanie, 
 monitorowanie i raportowanie błędów w oprogramowaniu
 
-
-
 ## Getting started
 
+```
+
+
+```
 
 ## Features
 
