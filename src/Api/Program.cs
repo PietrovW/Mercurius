@@ -10,7 +10,7 @@ using Application.Entities;
 using Application.ExceptionInfos.Queries.GetAllExceptionInfo;
 using Application.ExceptionInfos.Queries.GeExceptionInfoById;
 using Microsoft.OpenApi.Models;
-using System;
+
 
 var builder = WebApplication.CreateSlimBuilder(args);
 builder.Configuration.AddEnvironmentVariables(prefix: "Mercurius_");
@@ -105,3 +105,4 @@ app.UseHttpsRedirection();
 return await app.RunOaktonCommands(args);
 
 
+public partial class Program { }

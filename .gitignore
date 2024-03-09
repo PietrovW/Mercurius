@@ -29,3 +29,5 @@
 /test/IntegrationTests/obj/Debug/net8.0
 /test/IntegrationTests/obj
 /test/IntegrationTests/bin/Debug/net8.0
+/test/FunctionalTests/bin/Debug/net8.0
+/test/FunctionalTests/obj
