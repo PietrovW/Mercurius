@@ -10,7 +10,8 @@ using Application.Entities;
 using Application.ExceptionInfos.Queries.GetAllExceptionInfo;
 using Application.ExceptionInfos.Queries.GeExceptionInfoById;
 using Microsoft.OpenApi.Models;
-
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("FunctionalTests")]
 
 var builder = WebApplication.CreateSlimBuilder(args);
 builder.Configuration.AddEnvironmentVariables(prefix: "Mercurius_");
@@ -21,9 +22,7 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mercurius API", Version = "v1" });
 });
 var config = builder.Configuration;
-builder.Services.AddPooledDbContextFactory<MercuriusContext>(options => options.UseNpgsql(
-            connectionString: config.GetConnectionString(Provider.Postgres.Name)!,
-          npgsqlOptionsAction: x => x.MigrationsAssembly(Provider.Postgres.Assembly)));
+
 builder.Services.AddDbContextFactory<MercuriusContext>(options =>
 {
     var provider = config.GetValue("provider", Provider.Postgres.Name);
@@ -44,6 +43,10 @@ builder.Services.AddDbContextFactory<MercuriusContext>(options =>
     {
         options.UseSqlServer(connectionString: config.GetConnectionString(Provider.SqlServer.Name)!,
                           sqlServerOptionsAction: x => x.MigrationsAssembly(Provider.SqlServer.Assembly));
+    }
+    else if (provider == "InMemory")
+    {
+        options.UseInMemoryDatabase($"MercuriusDatabase-{Guid.NewGuid().ToString()}");
     }
     else
     {
@@ -67,7 +70,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MercuriusContext>>();
     var datebase = await db.CreateDbContextAsync();
-    await MercuriusContext.InitializeAsync(datebase);
+    // await MercuriusContext.InitializeAsync(datebase);
 }
 
 app.MapPost("/api/exceptionInfo", async (CreateExceptionInfoItemCommand body, IMessageBus bus) =>
@@ -103,6 +106,3 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 return await app.RunOaktonCommands(args);
-
-
-public partial class Program { }
