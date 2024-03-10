@@ -70,7 +70,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MercuriusContext>>();
     var datebase = await db.CreateDbContextAsync();
-    // await MercuriusContext.InitializeAsync(datebase);
+    await MercuriusContext.InitializeAsync(datebase);
 }
 
 app.MapPost("/api/exceptionInfo", async (CreateExceptionInfoItemCommand body, IMessageBus bus) =>
@@ -105,4 +105,4 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-return await app.RunOaktonCommands(args);
+ return await app.RunOaktonCommands(args);
