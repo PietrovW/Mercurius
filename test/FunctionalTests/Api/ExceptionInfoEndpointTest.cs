@@ -16,14 +16,14 @@ public class ExceptionInfoEndpointTest
     public async Task CreatingExceptionInfoItemCommandShouldReturnIt()
     {
         // Arrange
-        //var payload = new CreateExceptionInfoItemCommand()
-        //{
-        //    InnerException = string.Empty,
-        //    Message = string.Empty,
-        //    Source = string.Empty,
-        //    StackTrace = string.Empty,
-        //    TargetSite = string.Empty
-        //};
+        var payload = new CreateExceptionInfoItemCommand()
+        {
+            InnerException = string.Empty,
+            Message = string.Empty,
+            Source = string.Empty,
+            StackTrace = string.Empty,
+            TargetSite = string.Empty
+        };
 
 
 
