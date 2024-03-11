@@ -14,7 +14,7 @@ public sealed class CreateExceptionInfoItemHandler
 
     public async Task<ExceptionInfoCreatedEvent> Handle(CreateExceptionInfoItemCommand command, CancellationToken cancellationToken = default(CancellationToken))
     {
-        await _exceptionInfoRepository.InsertExceptionInfoAsync(new Entities.ExceptionInfoEntitie()
+        var record = new Entities.ExceptionInfoEntitie()
         {
             InnerException = command.InnerException,
             Message = command.Message,
@@ -22,7 +22,8 @@ public sealed class CreateExceptionInfoItemHandler
             StackTrace = command.StackTrace,
             TargetSite = command.TargetSite,
 
-        }, cancellationToken: cancellationToken);
+        };
+        await _exceptionInfoRepository.InsertExceptionInfoAsync(exceptionInfo: record, cancellationToken: cancellationToken);
         await _exceptionInfoRepository.SaveAsync(cancellationToken: cancellationToken);
         return new ExceptionInfoCreatedEvent() {
             InnerException = command.InnerException,
@@ -30,6 +31,7 @@ public sealed class CreateExceptionInfoItemHandler
             Source = command.Source,
             StackTrace = command.StackTrace,
             TargetSite = command.TargetSite,
+            Id= record.Id
         };
     }
 }

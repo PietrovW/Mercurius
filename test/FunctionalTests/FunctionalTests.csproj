@@ -10,10 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Api\ExceptionInfoEndpointTest.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Alba" Version="7.4.1" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="JasperFx.CodeGeneration" Version="3.5.0" />
     <PackageReference Include="JasperFx.Core" Version="1.5.1" />
@@ -34,10 +31,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Api\Api.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Api\" />
   </ItemGroup>
 
 </Project>

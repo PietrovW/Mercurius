@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.DAL;
 
-public class ExceptionInfoRepository : IExceptionInfoRepository
+public sealed class ExceptionInfoRepository : IExceptionInfoRepository
 {
     private readonly IDbContextFactory<MercuriusContext> _dbContextFactory;
     private readonly MercuriusContext _context;
@@ -50,7 +50,7 @@ public class ExceptionInfoRepository : IExceptionInfoRepository
 
     public async Task InsertExceptionInfoAsync(ExceptionInfoEntitie exceptionInfo, CancellationToken cancellationToken = default(CancellationToken))
     {
-        await _context.ExceptionInfos.AddAsync(exceptionInfo);
+      await _context.ExceptionInfos.AddAsync(exceptionInfo, cancellationToken: cancellationToken);
     }
 
     public async Task SaveAsync(CancellationToken cancellationToken = default(CancellationToken))

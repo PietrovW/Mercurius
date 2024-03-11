@@ -11,6 +11,7 @@ using Application.ExceptionInfos.Queries.GetAllExceptionInfo;
 using Application.ExceptionInfos.Queries.GeExceptionInfoById;
 using Microsoft.OpenApi.Models;
 using System.Runtime.CompilerServices;
+using Domain.Events;
 [assembly: InternalsVisibleTo("FunctionalTests")]
 
 var builder = WebApplication.CreateSlimBuilder(args);
@@ -34,7 +35,6 @@ builder.Services.AddDbContextFactory<MercuriusContext>(options =>
     }
     else if (provider == Provider.MySql.Name)
     {
-
         var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
         options.UseMySql(connectionString: config.GetConnectionString(Provider.MySql.Name)!, serverVersion: serverVersion,
                          mySqlOptionsAction: x => x.MigrationsAssembly(Provider.MySql.Assembly));
@@ -74,10 +74,10 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.MapPost("/api/exceptionInfo", async (CreateExceptionInfoItemCommand body, IMessageBus bus) =>
-{
-    await bus.InvokeAsync(body);
-    return Results.Created($"/exceptionInfoItems/1", body);
-}).WithOpenApi();
+    await bus.InvokeAsync<ExceptionInfoCreatedEvent>(body) is ExceptionInfoCreatedEvent exceptionInfos ?
+     Results.Created($"/exceptionInfoItems/{exceptionInfos.Id}", body) : Results.BadRequest()
+).WithOpenApi();
+
 app.MapGet("/api/exceptionInfo/", async (IMessageBus bus) => await bus.InvokeAsync<IEnumerable<ExceptionInfoEntitie>>(new GetAllExceptionInfoQuerie()) is IEnumerable<ExceptionInfoEntitie> exceptionInfos
          ? Results.Ok(exceptionInfos)
          : Results.NotFound())

@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Infrastructure.Data;
 
-public class MercuriusContext:DbContext
+public sealed class MercuriusContext:DbContext
 {
     public MercuriusContext(DbContextOptions<MercuriusContext> options) : base(options) { }
     public DbSet<ExceptionInfoEntitie> ExceptionInfos { get; set; } = null!;
@@ -17,9 +17,11 @@ public class MercuriusContext:DbContext
 
     public static async Task InitializeAsync(MercuriusContext db)
     {
-        await db.Database.MigrateAsync();
-        if (db.ExceptionInfos.Any())
-            return;
+        if (db.Database!=null && (!db.Database.ProviderName.Contains("InMemory")))
+        {
+            await db.Database.MigrateAsync();
+            if (db.ExceptionInfos.Any())
+                return;
+        }
     }
-   
 }
