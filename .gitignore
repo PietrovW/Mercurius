@@ -31,3 +31,5 @@
 /test/IntegrationTests/bin/Debug/net8.0
 /test/FunctionalTests/bin/Debug/net8.0
 /test/FunctionalTests/obj
+/src/Web/Web/obj
+/src/Web/Web.Client/obj
