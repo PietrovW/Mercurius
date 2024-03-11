@@ -17,7 +17,7 @@ public sealed class MercuriusContext:DbContext
 
     public static async Task InitializeAsync(MercuriusContext db)
     {
-        if (db.Database!=null && (!db.Database.ProviderName.Contains("InMemory")))
+        if (db.Database!=null && (!db.Database.ProviderName.Contains("Microsoft.EntityFrameworkCore.InMemory")))
         {
             await db.Database.MigrateAsync();
             if (db.ExceptionInfos.Any())

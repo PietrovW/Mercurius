@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.TestHost;
+﻿using Api.Providers;
+using Microsoft.AspNetCore.TestHost;
 using System.Net;
 
 namespace FunctionalTests.Api;
@@ -10,7 +11,6 @@ public class ExceptionInfoEndpointTest
     {
         // Arrange
         // Act
-        Environment.SetEnvironmentVariable("Provider", "InMemory");
         AppFixture application = new AppFixture();
 
         await application.InitializeAsync();

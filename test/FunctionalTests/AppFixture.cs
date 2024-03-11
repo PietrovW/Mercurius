@@ -1,6 +1,5 @@
 ﻿using Alba;
-using Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+using Api.Providers;
 using Oakton;
 
 namespace FunctionalTests;
@@ -9,22 +8,15 @@ public class AppFixture : IAsyncLifetime
 {
     public IAlbaHost Host { get; private set; }
 
-    public Task DisposeAsync()
+    public async Task DisposeAsync()
     {
-        throw new NotImplementedException();
+       await Host.DisposeAsync();
     }
 
     public async Task InitializeAsync()
     {
         OaktonEnvironment.AutoStartHost = true;
-
-        Environment.SetEnvironmentVariable("Provider", "InMemory");
-        Host = await AlbaHost.For<Program>(x => {
-            x.ConfigureServices((context, services) =>
-            {
-                services.AddDbContextFactory<MercuriusContext>(options
-                 => options.UseInMemoryDatabase($"MercuriusDatabase-{Guid.NewGuid()}"));
-            });
-        });
+        Environment.SetEnvironmentVariable("Provider", Provider.InMemory.Name);
+        Host = await AlbaHost.For<Program>();
     }
 }

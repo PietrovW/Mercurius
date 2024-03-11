@@ -44,9 +44,9 @@ builder.Services.AddDbContextFactory<MercuriusContext>(options =>
         options.UseSqlServer(connectionString: config.GetConnectionString(Provider.SqlServer.Name)!,
                           sqlServerOptionsAction: x => x.MigrationsAssembly(Provider.SqlServer.Assembly));
     }
-    else if (provider == "InMemory")
+    else if (provider == Provider.InMemory.Name)
     {
-        options.UseInMemoryDatabase($"MercuriusDatabase-{Guid.NewGuid().ToString()}");
+        options.UseInMemoryDatabase($"MercuriusDatabase-{Guid.NewGuid()}");
     }
     else
     {
