@@ -26,8 +26,6 @@ public class ExceptionInfoEndpointTest
         };
 
 
-
-
         Environment.SetEnvironmentVariable("Provider", "InMemory");
         await using var application = new WebApplicationFactory<Program>()  
 
