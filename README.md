@@ -52,6 +52,7 @@ Creating a migration:
 * [PostgreSQL](Npgsql.EntityFrameworkCore.PostgreSQL)
 * [MySql](Pomelo.EntityFrameworkCore.MySql)
 * [Docker Compose](https://docs.docker.com/compose/)
+* [xunit](https://xunit.net/)
 ## Application architecture
 
 
