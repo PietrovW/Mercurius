@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}
+    volumes:
+      - ./my-realm.json:/tmp/my-realm.json:ro
+    environment:
+      KC_DB_URL: ${POSTGRESQL_URL}
+      KC_DB_USERNAME: ${POSTGRESQL_USER}
+      KC_DB_PASSWORD: ${POSTGRESQL_PASS}
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: adminpassword
+    ports:
+      - 8080:8080
+      - 8443:8443
+    networks:
+      - my_net
+networks:
+  my_net:
+    name: my_net
