@@ -61,4 +61,20 @@ public class ExceptionInfoEndpointTest
         // Assert
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
+
+    [Fact]
+    public async Task GetByIdExceptionInfoItemCommandShouldReturnStatusCodeNotFound()
+    {
+        // Arrange
+        Guid Id = Guid.NewGuid();
+        // Act
+        AppFixture application = new AppFixture();
+
+        await application.InitializeAsync();
+        var httpClient = application.Host.GetTestClient();
+        var result = await httpClient.GetAsync($"/api/exceptionInfo/{Id}");
+
+        // Assert
+        Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
+    }
 }
