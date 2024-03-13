@@ -1,6 +1,3 @@
-![Logo](/images/logo.png)
-
-
 W dzisiejszym nowoczesnym środowisku rozwoju oprogramowania budowanie skalowalnych i skonteneryzowanych aplikacji jest kluczowe. W tym wpisie na zadbam, jak zbudować interfejs API przy użyciu popularnego frameworka .NET Core, umieścić go w kontenerze Docker i wdrożyć. Ta kombinacja oferuje potężne i elastyczne środowisko do tworzenia, pakowania i zarządzania Twoim interfejsem API. 
 
 Przed przystąpieniem do kroków upewnij się, że masz zainstalowane następujące narzędzia: 
@@ -11,43 +8,43 @@ Przed przystąpieniem do kroków upewnij się, że masz zainstalowane następuj�
 
 Krok 1: Tworzenie interfejsu API przy użyciu .NET Core 
 
-Otwórz swoje ulubione środowisko programistyczne (IDE) lub wiersz poleceń (CLI). 
-
-Utwórz nowy projekt .NET Core Web API, wykonując poniższą komendę: 
-
-Struktura plików powinna wyglądać podobnie do tej: 
-
-Zawiera pliki Program kontrolerów odpowiedzialnych za obsługę żądań API i definiowanie punktów końcowych. 
-
-Plik Mercurius.csproj to plik projektu, który zarządza zależnościami i konfiguracją projektu. 
-
-Plik Program.cs to punkt wejścia do aplikacji i konfiguruje aplikację i usługi. 
-
-Teraz możemy zbudować i uruchomić nasz projekt interfejsu API: 
+ Otwórz swoje ulubione środowisko programistyczne (IDE) lub wiersz poleceń (CLI). 
+ 
+ Utwórz nowy projekt .NET Core Web API, wykonując poniższą komendę: 
+ 
+ Struktura plików powinna wyglądać podobnie do tej: 
+ 
+ Zawiera pliki Program kontrolerów odpowiedzialnych za obsługę żądań API i definiowanie punktów końcowych. 
+ 
+ Plik Mercurius.csproj to plik projektu, który zarządza zależnościami i konfiguracją projektu. 
+ 
+ Plik Program.cs to punkt wejścia do aplikacji i konfiguruje aplikację i usługi. 
+ 
+ Teraz możemy zbudować i uruchomić nasz projekt interfejsu API: 
 
 Otwórz przeglądarkę i odwiedź adres URL: 4(http://localhost:5248/api/mercurius) 
 
 Krok 2: Umieszczanie interfejsu API w kontenerze Docker 
 
-W katalogu głównym projektu API utwórz plik o nazwie Dockerfile. 
-
-Otwórz plik Dockerfile i dodaj następujący kod: 
-
-Upewnij się, że w pliku Dockerfile używasz takiej samej wersji SDK .NET, jak w Twoim projekcie. W moim przypadku używam .NET 8, więc sprawdź plik .csproj. 
-
-Dockerfile krok po kroku: 
-
-Instrukcja FROM ustawia obraz bazowy jako obraz SDK .NET, który umożliwia nam budowanie i publikowanie API. 
-
-Instrukcja WORKDIR ustawia katalog roboczy wewnątrz kontenera na /app. 
-
-Polecenie COPY kopiuje plik .csproj do katalogu /app w kontenerze. 
-
-Polecenie RUN dotnet restore przywraca paczki NuGet dla projektu. 
-
-Drugie polecenie COPY kopiuje pozostałe pliki projektu do katalogu /app w kontenerze. 
-
-To wszystko! Pomyśln 
+ W katalogu głównym projektu API utwórz plik o nazwie Dockerfile. 
+ 
+ Otwórz plik Dockerfile i dodaj następujący kod: 
+ 
+ Upewnij się, że w pliku Dockerfile używasz takiej samej wersji SDK .NET, jak w Twoim projekcie. W moim przypadku używam .NET 8, więc sprawdź plik .csproj. 
+ 
+ Dockerfile krok po kroku: 
+ 
+ Instrukcja FROM ustawia obraz bazowy jako obraz SDK .NET, który umożliwia nam budowanie i publikowanie API. 
+ 
+ Instrukcja WORKDIR ustawia katalog roboczy wewnątrz kontenera na /app. 
+ 
+ Polecenie COPY kopiuje plik .csproj do katalogu /app w kontenerze. 
+ 
+ Polecenie RUN dotnet restore przywraca paczki NuGet dla projektu. 
+ 
+ Drugie polecenie COPY kopiuje pozostałe pliki projektu do katalogu /app w kontenerze. 
+ 
+ To wszystko! Pomyśln 
 
 ```
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
