@@ -70,11 +70,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FunctionalTests", "Function
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionalTests", "test\FunctionalTests\FunctionalTests.csproj", "{1B0F5A5F-E967-4B18-AD98-8949728A0239}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "src\Web\Web\Web.csproj", "{5C926E06-4F3E-46A1-B580-CDED454157E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "src\Web\Web\Web.csproj", "{5C926E06-4F3E-46A1-B580-CDED454157E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Client", "src\Web\Web.Client\Web.Client.csproj", "{D42DE560-40C7-4787-9040-C7A7F3F18BAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Client", "src\Web\Web.Client\Web.Client.csproj", "{D42DE560-40C7-4787-9040-C7A7F3F18BAB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "keycloak", "keycloak", "{89AAACEC-62C6-4BF8-907F-C0A01D750080}"
+	ProjectSection(SolutionItems) = preProject
+		infra\docker-compose\keycloak\.env = infra\docker-compose\keycloak\.env
+		infra\docker-compose\keycloak\docker-compose.yml = infra\docker-compose\keycloak\docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
