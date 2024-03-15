@@ -28,6 +28,7 @@ public class GetExceptionInfoByID
             StackTrace = string.Empty,
             TargetSite = string.Empty,
         };
+        
         // Act
         await _exceptionInfoRepository.InsertExceptionInfoAsync(exceptionInfo: exceptionInfo);
         await _exceptionInfoRepository.SaveAsync();
@@ -35,6 +36,7 @@ public class GetExceptionInfoByID
         Assert.AreEqual(0, 0);
     }
 }
+
 public class MigrationsContextFactory : IDbContextFactory<MercuriusContext>
 {
     public MercuriusContext CreateDbContext()
