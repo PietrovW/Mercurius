@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Net;
-using System.Security.Claims;
-
-namespace Web.Client.Pages.Authentication;
+﻿namespace Web.Client.Pages.Authentication;
 
 public partial class Login
 {
    // private FluentValidation _fluentValidationValidator;
    // private bool Validated => _fluentValidationValidator.Validate(options => { options.IncludeAllRuleSets(); });
-    private TokenRequest _tokenModel = new();
+  //  private TokenRequest _tokenModel = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -19,7 +15,7 @@ public partial class Login
         //}
     }
 
-    private async Task SubmitAsync()
+    private  Task SubmitAsync()
     {
         //var result = await _authenticationManager.Login(_tokenModel);
         //if (!result.Succeeded)
@@ -32,34 +28,34 @@ public partial class Login
     }
 
     private bool _passwordVisibility;
-    private InputType _passwordInput = InputType.Password;
-    private string _passwordInputIcon = Icons.Material.Filled.VisibilityOff;
+    //private InputType _passwordInput = InputType.Password;
+    //private string _passwordInputIcon = Icons.Material.Filled.VisibilityOff;
 
     void TogglePasswordVisibility()
     {
         if (_passwordVisibility)
         {
             _passwordVisibility = false;
-            _passwordInputIcon = Icons.Material.Filled.VisibilityOff;
-            _passwordInput = InputType.Password;
+            //_passwordInputIcon = Icons.Material.Filled.VisibilityOff;
+            //_passwordInput = InputType.Password;
         }
         else
         {
             _passwordVisibility = true;
-            _passwordInputIcon = Icons.Material.Filled.Visibility;
-            _passwordInput = InputType.Text;
+            //_passwordInputIcon = Icons.Material.Filled.Visibility;
+            //_passwordInput = InputType.Text;
         }
     }
 
     private void FillAdministratorCredentials()
     {
-        _tokenModel.Email = "mukesh@blazorhero.com";
-        _tokenModel.Password = "123Pa$$word!";
+       // _tokenModel.Email = "mukesh@blazorhero.com";
+       // _tokenModel.Password = "123Pa$$word!";
     }
 
     private void FillBasicUserCredentials()
     {
-        _tokenModel.Email = "john@blazorhero.com";
-        _tokenModel.Password = "123Pa$$word!";
+       // _tokenModel.Email = "john@blazorhero.com";
+       // _tokenModel.Password = "123Pa$$word!";
     }
 }
