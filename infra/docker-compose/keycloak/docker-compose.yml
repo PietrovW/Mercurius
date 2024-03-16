@@ -1,27 +1,30 @@
 version: '3.9'
 
 services:
+  postgres_db:
+     image: postgres:${POSTGRES_VERSION}
+     environment:
+       POSTGRES_DB: keycloak
+       POSTGRES_USER: ${POSTGRES_USER:-keycloak}
+       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-eX4mP13p455w0Rd}
+
   keycloak:
     image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}
-    restart: unless-stopped
     environment:
       KC_LOG_LEVEL: debug
       KC_DB: ${DB_VENDOR}
       KC_DB_USERNAME: ${KC_DB_USERNAME}
       KC_DB_PASSWORD: ${KC_DB_PASSWORD}
       KC_DB_SCHEMA: ${KC_DB_SCHEMA}
-      KC_DB_URL: ${POSTGRESQL_URL}
+      KC_DB_URL_PORT: ${KC_DB_URL_PORT:-5432}
+      KC_DB_URL: 'jdbc:postgresql://postgres_db/keycloak'
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: $(KEYCLOAK_ADMIN_PASSWORD:-adminpassword}
-    command:
-      [
-        'start-dev'
-      ]
     ports:
       - 8080:8080
       - 8443:8443
-    networks:
-      - net_keycloak
-networks:
-  net_keycloak:
-    name: net_keycloak
+    depends_on:
+      - postgres_db
+    command:
+      - start
+ 
