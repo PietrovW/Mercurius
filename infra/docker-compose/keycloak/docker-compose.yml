@@ -3,19 +3,25 @@ version: '3.9'
 services:
   keycloak:
     image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}
-    volumes:
-      - ./my-realm.json:/tmp/my-realm.json:ro
+    restart: unless-stopped
     environment:
+      KC_LOG_LEVEL: debug
+      KC_DB: ${DB_VENDOR}
+      KC_DB_USERNAME: ${KC_DB_USERNAME}
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
+      KC_DB_SCHEMA: ${KC_DB_SCHEMA}
       KC_DB_URL: ${POSTGRESQL_URL}
-      KC_DB_USERNAME: ${POSTGRESQL_USER}
-      KC_DB_PASSWORD: ${POSTGRESQL_PASS}
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: adminpassword
+      KEYCLOAK_ADMIN_PASSWORD: $(KEYCLOAK_ADMIN_PASSWORD:-adminpassword}
+    command:
+      [
+        'start-dev'
+      ]
     ports:
       - 8080:8080
       - 8443:8443
     networks:
-      - my_net
+      - net_keycloak
 networks:
-  my_net:
-    name: my_net
+  net_keycloak:
+    name: net_keycloak
