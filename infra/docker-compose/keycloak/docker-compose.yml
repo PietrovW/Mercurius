@@ -3,6 +3,7 @@ version: '3.9'
 services:
   postgres_db:
      image: postgres:${POSTGRES_VERSION}
+     restart: unless-stopped
      environment:
        POSTGRES_DB: keycloak
        POSTGRES_USER: ${POSTGRES_USER:-keycloak}
