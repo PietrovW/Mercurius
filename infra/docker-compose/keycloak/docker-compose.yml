@@ -7,24 +7,48 @@ services:
        POSTGRES_DB: keycloak
        POSTGRES_USER: ${POSTGRES_USER:-keycloak}
        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-eX4mP13p455w0Rd}
+     networks:
+      - backend
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:${PGADMIN_VERSION}
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domain.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+      POSTGRES_USER: ${POSTGRES_USER:-keycloak}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-eX4mP13p455w0Rd}
+    ports:
+      - 5050:80
+    depends_on:
+      - postgres_db
+    networks:
+      - backend
 
   keycloak:
     image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}
     environment:
-      KC_LOG_LEVEL: debug
-      KC_DB: ${DB_VENDOR}
-      KC_DB_USERNAME: ${KC_DB_USERNAME}
-      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
-      KC_DB_SCHEMA: ${KC_DB_SCHEMA}
-      KC_DB_URL_PORT: ${KC_DB_URL_PORT:-5432}
-      KC_DB_URL: 'jdbc:postgresql://postgres_db/keycloak'
+      KC_DB: postgres
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KC_DB_URL: jdbc:postgresql://postgres_db/keycloak
+      DB_DATABASE: keycloak
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: $(KEYCLOAK_ADMIN_PASSWORD:-adminpassword}
+      KEYCLOAK_ADMIN_PASSWORD: admin
     ports:
       - 8080:8080
       - 8443:8443
     depends_on:
       - postgres_db
     command:
-      - start
+      - start-dev
+    networks:
+      - backend
+
+
+networks:
+  backend:
+    name: backend
+    driver: bridge 
+
  
