@@ -78,6 +78,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "keycloak", "keycloak", "{89
 	ProjectSection(SolutionItems) = preProject
 		infra\docker-compose\keycloak\.env = infra\docker-compose\keycloak\.env
 		infra\docker-compose\keycloak\docker-compose.yml = infra\docker-compose\keycloak\docker-compose.yml
+		infra\docker-compose\keycloak\servers.json = infra\docker-compose\keycloak\servers.json
 	EndProjectSection
 EndProject
 Global
