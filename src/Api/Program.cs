@@ -1,4 +1,3 @@
-using Api.Providers;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Oakton;
@@ -9,51 +8,21 @@ using Infrastructure;
 using Application.Entities;
 using Application.ExceptionInfos.Queries.GetAllExceptionInfo;
 using Application.ExceptionInfos.Queries.GeExceptionInfoById;
-using Microsoft.OpenApi.Models;
 using System.Runtime.CompilerServices;
 using Domain.Events;
+using Api.Extensions;
+using Keycloak.AuthServices.Authentication;
+using Microsoft.Extensions.Configuration;
 [assembly: InternalsVisibleTo("FunctionalTests")]
 
 var builder = WebApplication.CreateSlimBuilder(args);
 builder.Configuration.AddEnvironmentVariables(prefix: "Mercurius_");
-
+ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mercurius API", Version = "v1" });
-});
-var config = builder.Configuration;
-
-builder.Services.AddDbContextFactory<MercuriusContext>(options =>
-{
-    var provider = config.GetValue("provider", Provider.Postgres.Name);
-    if (provider == Provider.Postgres.Name)
-    {
-        options.UseNpgsql(
-            connectionString: config.GetConnectionString(Provider.Postgres.Name)!,
-           npgsqlOptionsAction: x => x.MigrationsAssembly(Provider.Postgres.Assembly));
-    }
-    else if (provider == Provider.MySql.Name)
-    {
-        var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
-        options.UseMySql(connectionString: config.GetConnectionString(Provider.MySql.Name)!, serverVersion: serverVersion,
-                         mySqlOptionsAction: x => x.MigrationsAssembly(Provider.MySql.Assembly));
-    }
-    else if (provider == Provider.SqlServer.Name)
-    {
-        options.UseSqlServer(connectionString: config.GetConnectionString(Provider.SqlServer.Name)!,
-                          sqlServerOptionsAction: x => x.MigrationsAssembly(Provider.SqlServer.Assembly));
-    }
-    else if (provider == Provider.InMemory.Name)
-    {
-        options.UseInMemoryDatabase($"MercuriusDatabase-{Guid.NewGuid()}");
-    }
-    else
-    {
-        throw new Exception($"Unsupported provider: {provider}");
-    }
-});
-
+builder.Services.AddSwagger(configuration: configuration)
+    .AddConfigurationDataBase(configuration: configuration);
+// .AddAuth(configuration: config);
+builder.Services.AddKeycloakAuthentication(configuration: configuration);
 builder.Host.UseWolverine(options =>
 {
     options.Discovery.IncludeAssembly(typeof(Application.Extensions).Assembly);
@@ -64,7 +33,9 @@ builder.Host.UseWolverine(options =>
     options.UseFluentValidation(RegistrationBehavior.ExplicitRegistration);
 });
 builder.Services.ConfigureInfrastructureServices();
+
 var app = builder.Build();
+
 
 using (var scope = app.Services.CreateScope())
 {
@@ -76,7 +47,7 @@ using (var scope = app.Services.CreateScope())
 app.MapPost("/api/exceptionInfo", async (CreateExceptionInfoItemCommand body, IMessageBus bus) =>
     await bus.InvokeAsync<ExceptionInfoCreatedEvent>(body) is ExceptionInfoCreatedEvent exceptionInfos ?
      Results.Created($"/exceptionInfoItems/{exceptionInfos.Id}", body) : Results.BadRequest()
-).WithOpenApi();
+).WithOpenApi().RequireAuthorization();
 
 app.MapGet("/api/exceptionInfo/", async (IMessageBus bus) => await bus.InvokeAsync<IEnumerable<ExceptionInfoEntitie>>(new GetAllExceptionInfoQuerie()) is IEnumerable<ExceptionInfoEntitie> exceptionInfos
          ? Results.Ok(exceptionInfos)
@@ -86,13 +57,13 @@ app.MapGet("/api/exceptionInfo/", async (IMessageBus bus) => await bus.InvokeAsy
    .WithOpenApi(operation => new(operation)
    {
        OperationId = "GetExceptionInfo"
-   });
+   }).RequireAuthorization();
 
 app.MapGet("/api/exceptionInfo/{id}", async (Guid id, IMessageBus bus) => await bus.InvokeAsync<ExceptionInfoEntitie>(new GetExceptionInfoByIdQuerie(Id: id)) is ExceptionInfoEntitie item
             ? Results.Ok(item)
             : Results.NotFound())
      .Produces<ExceptionInfoEntitie>(StatusCodes.Status200OK)
-   .Produces(StatusCodes.Status404NotFound);
+   .Produces(StatusCodes.Status404NotFound).RequireAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
@@ -103,6 +74,7 @@ if (app.Environment.IsDevelopment())
     });
     app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
 }
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseHttpsRedirection();
- return await app.RunOaktonCommands(args);
+return await app.RunOaktonCommands(args);
