@@ -12,59 +12,32 @@ using System.Runtime.CompilerServices;
 using Domain.Events;
 using Api.Extensions;
 using Keycloak.AuthServices.Authentication;
-using Microsoft.Extensions.Configuration;
+
 [assembly: InternalsVisibleTo("FunctionalTests")]
 
-var builder = WebApplication.CreateSlimBuilder(args);
-builder.Configuration.AddEnvironmentVariables(prefix: "Mercurius_");
-ConfigurationManager configuration = builder.Configuration;
-builder.Services.AddEndpointsApiExplorer();
+    var builder = WebApplication.CreateSlimBuilder(args);
+
+    builder.Configuration.AddEnvironmentVariables(prefix: "Mercurius_");
+    ConfigurationManager configuration = builder.Configuration;
+    builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwagger(configuration: configuration)
-    .AddConfigurationDataBase(configuration: configuration);
-// .AddAuth(configuration: config);
-builder.Services.AddKeycloakAuthentication(configuration: configuration);
-builder.Host.UseWolverine(options =>
-{
-    options.Discovery.IncludeAssembly(typeof(Application.Extensions).Assembly);
-    options.Discovery.IncludeAssembly(typeof(Infrastructure.Extensions).Assembly);
-    options.Discovery.IncludeAssembly(typeof(Domain.Extensions).Assembly);
+    .AddConfigurationDataBase(configuration: configuration)
+    .AddAuth(configuration: configuration);
 
-    options.UseFluentValidation();
-    options.UseFluentValidation(RegistrationBehavior.ExplicitRegistration);
-});
-builder.Services.ConfigureInfrastructureServices();
+    //builder.Services.AddKeycloakAuthentication(configuration: configuration);
+    builder.Services.AddAuthentication();
+    builder.Host.UseWolverine(options =>
+    {
+        options.Discovery.IncludeAssembly(typeof(Application.Extensions).Assembly);
+        options.Discovery.IncludeAssembly(typeof(Infrastructure.Extensions).Assembly);
+        options.Discovery.IncludeAssembly(typeof(Domain.Extensions).Assembly);
 
-var app = builder.Build();
+        options.UseFluentValidation();
+        options.UseFluentValidation(RegistrationBehavior.ExplicitRegistration);
+    });
+    builder.Services.ConfigureInfrastructureServices();
 
-
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MercuriusContext>>();
-    var datebase = await db.CreateDbContextAsync();
-    await MercuriusContext.InitializeAsync(datebase);
-}
-
-app.MapPost("/api/exceptionInfo", async (CreateExceptionInfoItemCommand body, IMessageBus bus) =>
-    await bus.InvokeAsync<ExceptionInfoCreatedEvent>(body) is ExceptionInfoCreatedEvent exceptionInfos ?
-     Results.Created($"/exceptionInfoItems/{exceptionInfos.Id}", body) : Results.BadRequest()
-).WithOpenApi().RequireAuthorization();
-
-app.MapGet("/api/exceptionInfo/", async (IMessageBus bus) => await bus.InvokeAsync<IEnumerable<ExceptionInfoEntitie>>(new GetAllExceptionInfoQuerie()) is IEnumerable<ExceptionInfoEntitie> exceptionInfos
-         ? Results.Ok(exceptionInfos)
-         : Results.NotFound())
-     .Produces<ExceptionInfoEntitie>(StatusCodes.Status200OK)
-   .Produces(StatusCodes.Status404NotFound)
-   .WithOpenApi(operation => new(operation)
-   {
-       OperationId = "GetExceptionInfo"
-   }).RequireAuthorization();
-
-app.MapGet("/api/exceptionInfo/{id}", async (Guid id, IMessageBus bus) => await bus.InvokeAsync<ExceptionInfoEntitie>(new GetExceptionInfoByIdQuerie(Id: id)) is ExceptionInfoEntitie item
-            ? Results.Ok(item)
-            : Results.NotFound())
-     .Produces<ExceptionInfoEntitie>(StatusCodes.Status200OK)
-   .Produces(StatusCodes.Status404NotFound).RequireAuthorization();
-
+    var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -74,7 +47,44 @@ if (app.Environment.IsDevelopment())
     });
     app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
 }
-app.UseAuthentication();
-app.UseAuthorization();
-app.UseHttpsRedirection();
-return await app.RunOaktonCommands(args);
+try
+{
+    app.UseAuthentication();
+    app.UseAuthorization();
+}
+catch (Exception ex)
+{
+
+}
+using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MercuriusContext>>();
+        var datebase = await db.CreateDbContextAsync();
+        await MercuriusContext.InitializeAsync(datebase);
+    }
+
+    app.MapPost("/api/exceptionInfo", async (CreateExceptionInfoItemCommand body, IMessageBus bus) =>
+        await bus.InvokeAsync<ExceptionInfoCreatedEvent>(body) is ExceptionInfoCreatedEvent exceptionInfos ?
+         Results.Created($"/exceptionInfoItems/{exceptionInfos.Id}", body) : Results.BadRequest()
+    ).WithOpenApi().RequireAuthorization();
+
+    app.MapGet("/api/exceptionInfo/", async (IMessageBus bus) => await bus.InvokeAsync<IEnumerable<ExceptionInfoEntitie>>(new GetAllExceptionInfoQuerie()) is IEnumerable<ExceptionInfoEntitie> exceptionInfos
+             ? Results.Ok(exceptionInfos)
+             : Results.NotFound())
+         .Produces<ExceptionInfoEntitie>(StatusCodes.Status200OK)
+       .Produces(StatusCodes.Status404NotFound)
+       .WithOpenApi(operation => new(operation)
+       {
+           OperationId = "GetExceptionInfo"
+       }).RequireAuthorization();
+
+    app.MapGet("/api/exceptionInfo/{id}", async (Guid id, IMessageBus bus) => await bus.InvokeAsync<ExceptionInfoEntitie>(new GetExceptionInfoByIdQuerie(Id: id)) is ExceptionInfoEntitie item
+                ? Results.Ok(item)
+                : Results.NotFound())
+         .Produces<ExceptionInfoEntitie>(StatusCodes.Status200OK)
+       .Produces(StatusCodes.Status404NotFound).RequireAuthorization();
+
+   
+
+    //app.UseHttpsRedirection();
+    return await app.RunOaktonCommands(args);

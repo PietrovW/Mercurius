@@ -1,6 +1,7 @@
 ﻿using Api.Providers;
 using Infrastructure.Data;
 using Keycloak.AuthServices.Authentication;
+using Keycloak.AuthServices.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -79,37 +80,33 @@ internal static class ServiceCollectionExtensions
 
     public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
     {
-        var authenticationOptions = new KeycloakAuthenticationOptions
+
+      services.AddKeycloakAuthentication(configuration);
+
+        services.AddAuthorization(options =>
         {
-            AuthServerUrl = "http://localhost:8080/",
-            Realm = "Test"//,
-            //Resource = "test-client",
-        };
+            options.AddPolicy(
+                Policies.RequireAspNetCoreRole,
+                builder => builder.RequireRole(Roles.AspNetCoreRole));
+            options.AddPolicy(
+               Policies.RequireAspNetCoreRole,
+               builder => builder.RequireRole("Test_user"));
+            
+            options.AddPolicy(
+                Policies.RequireRealmRole,
+                builder => builder.RequireRealmRoles(Roles.RealmRole));
 
-        services.AddKeycloakAuthentication(authenticationOptions);
-        //services.AddKeycloakAuthentication(configuration);
+            options.AddPolicy(
+                Policies.RequireClientRole,
+                builder => builder.RequireResourceRoles(Roles.ClientRole));
 
-        //services.AddAuthorization(options =>
-        //{
-        //    options.AddPolicy(
-        //        Policies.RequireAspNetCoreRole,
-        //        builder => builder.RequireRole(Roles.AspNetCoreRole));
+            options.AddPolicy(
+                Policies.RequireToBeInKeycloakGroupAsReader,
+                builder => builder
+                    .RequireAuthenticatedUser()
+                    .RequireProtectedResource("workspace", "workspaces:read"));
 
-        //    options.AddPolicy(
-        //        Policies.RequireRealmRole,
-        //        builder => builder.RequireRealmRoles(Roles.RealmRole));
-
-        //    options.AddPolicy(
-        //        Policies.RequireClientRole,
-        //        builder => builder.RequireResourceRoles(Roles.ClientRole));
-
-        //    options.AddPolicy(
-        //        Policies.RequireToBeInKeycloakGroupAsReader,
-        //        builder => builder
-        //            .RequireAuthenticatedUser()
-        //            .RequireProtectedResource("workspace", "workspaces:read"));
-
-        //}).AddKeycloakAuthorization(configuration);
+        }).AddKeycloakAuthorization(configuration);
 
         return services;
     }
