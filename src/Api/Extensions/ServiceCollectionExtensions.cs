@@ -81,30 +81,17 @@ internal static class ServiceCollectionExtensions
     public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
     {
 
-      services.AddKeycloakAuthentication(configuration);
+     // services.AddKeycloakAuthentication(configuration);
 
         services.AddAuthorization(options =>
         {
             options.AddPolicy(
-                Policies.RequireAspNetCoreRole,
-                builder => builder.RequireRole(Roles.AspNetCoreRole));
-            options.AddPolicy(
-               Policies.RequireAspNetCoreRole,
-               builder => builder.RequireRole("Test_user"));
-            
-            options.AddPolicy(
-                Policies.RequireRealmRole,
-                builder => builder.RequireRealmRoles(Roles.RealmRole));
+       Policies.RequireRealmRole,
+       builder => builder.RequireRealmRoles(Roles.RealmRole));
 
             options.AddPolicy(
                 Policies.RequireClientRole,
                 builder => builder.RequireResourceRoles(Roles.ClientRole));
-
-            options.AddPolicy(
-                Policies.RequireToBeInKeycloakGroupAsReader,
-                builder => builder
-                    .RequireAuthenticatedUser()
-                    .RequireProtectedResource("workspace", "workspaces:read"));
 
         }).AddKeycloakAuthorization(configuration);
 
