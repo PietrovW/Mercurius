@@ -2,9 +2,6 @@
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
 
-
-
-
 ![Logo](/images/logo.png)
 
 ![swagger](/images/swagger.png)
