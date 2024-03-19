@@ -18,3 +18,4 @@ public static class PoliciesBuilderExtensions
             .RequireClaim(KeycloakConstants.RealmAccessClaimType)
             .AddRequirements(new RealmAccessRequirement(roles));
 }
+

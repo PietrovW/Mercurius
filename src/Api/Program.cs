@@ -21,7 +21,7 @@ using static Api.Extensions.AuthorizationConstants;
     builder.Configuration.AddEnvironmentVariables(prefix: "Mercurius_");
     ConfigurationManager configuration = builder.Configuration;
     builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwagger(configuration: configuration)
+builder.Services.AddApplicationSwagger(configuration: configuration)
     .AddConfigurationDataBase(configuration: configuration)
     .AddAuth(configuration: configuration);
 
@@ -39,13 +39,15 @@ builder.Services.AddSwagger(configuration: configuration)
     builder.Services.ConfigureInfrastructureServices();
 
     var app = builder.Build();
+app.UseHttpsRedirection();
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mercurius API V1");
-    });
+    app.UseApplicationSwagger(configuration: configuration);
+    //app.UseSwagger();
+    //app.UseSwaggerUI(c =>
+    //{
+    //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mercurius API V1");
+    //});
     app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
 }
 try
@@ -67,7 +69,7 @@ using (var scope = app.Services.CreateScope())
     app.MapPost("/api/exceptionInfo", async (CreateExceptionInfoItemCommand body, IMessageBus bus) =>
         await bus.InvokeAsync<ExceptionInfoCreatedEvent>(body) is ExceptionInfoCreatedEvent exceptionInfos ?
          Results.Created($"/exceptionInfoItems/{exceptionInfos.Id}", body) : Results.BadRequest()
-    ).WithOpenApi().RequireAuthorization(policyNames: Policies.RequireRealmRole);
+    ).WithOpenApi().RequireAuthorization(Policies.RequireRealmRole);
 
     app.MapGet("/api/exceptionInfo/", async (IMessageBus bus) => await bus.InvokeAsync<IEnumerable<ExceptionInfoEntitie>>(new GetAllExceptionInfoQuerie()) is IEnumerable<ExceptionInfoEntitie> exceptionInfos
              ? Results.Ok(exceptionInfos)
@@ -77,13 +79,13 @@ using (var scope = app.Services.CreateScope())
        .WithOpenApi(operation => new(operation)
        {
            OperationId = "GetExceptionInfo"
-       }).RequireAuthorization(policyNames: Policies.RequireRealmRole);
+       }).RequireAuthorization(Policies.RequireRealmRole);
 
     app.MapGet("/api/exceptionInfo/{id}", async (Guid id, IMessageBus bus) => await bus.InvokeAsync<ExceptionInfoEntitie>(new GetExceptionInfoByIdQuerie(Id: id)) is ExceptionInfoEntitie item
                 ? Results.Ok(item)
                 : Results.NotFound())
          .Produces<ExceptionInfoEntitie>(StatusCodes.Status200OK)
-       .Produces(StatusCodes.Status404NotFound).RequireAuthorization(policyNames: Policies.RequireRealmRole);
+       .Produces(StatusCodes.Status404NotFound).RequireAuthorization(Policies.RequireRealmRole);
 
    
 
