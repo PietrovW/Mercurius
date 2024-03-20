@@ -86,9 +86,10 @@ internal static class ServiceCollectionExtensions
 
         services.AddAuthorization(options =>
         {
+
             options.AddPolicy(
-                Policies.RequireAspNetCoreRole,
-                builder => builder.RequireRole(Roles.AspNetCoreRole));
+             Policies.RequireAspNetCoreRole,
+             builder => builder.RequireRole(Roles.AspNetCoreRole));
 
             options.AddPolicy(
                 Policies.RequireRealmRole,
@@ -103,7 +104,6 @@ internal static class ServiceCollectionExtensions
                 builder => builder
                     .RequireAuthenticatedUser()
                     .RequireProtectedResource("workspace", "workspaces:read"));
-
         }).AddKeycloakAuthorization(configuration);
 
         return services;

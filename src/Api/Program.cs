@@ -69,7 +69,7 @@ using (var scope = app.Services.CreateScope())
     app.MapPost("/api/exceptionInfo", async (CreateExceptionInfoItemCommand body, IMessageBus bus) =>
         await bus.InvokeAsync<ExceptionInfoCreatedEvent>(body) is ExceptionInfoCreatedEvent exceptionInfos ?
          Results.Created($"/exceptionInfoItems/{exceptionInfos.Id}", body) : Results.BadRequest()
-    ).WithOpenApi().RequireAuthorization(Policies.RequireRealmRole);
+    ).WithOpenApi().RequireAuthorization(Policies.RequireAspNetCoreRole);
 
     app.MapGet("/api/exceptionInfo/", async (IMessageBus bus) => await bus.InvokeAsync<IEnumerable<ExceptionInfoEntitie>>(new GetAllExceptionInfoQuerie()) is IEnumerable<ExceptionInfoEntitie> exceptionInfos
              ? Results.Ok(exceptionInfos)
@@ -79,15 +79,15 @@ using (var scope = app.Services.CreateScope())
        .WithOpenApi(operation => new(operation)
        {
            OperationId = "GetExceptionInfo"
-       }).RequireAuthorization(Policies.RequireRealmRole);
+       }).RequireAuthorization(Policies.RequireAspNetCoreRole);
 
     app.MapGet("/api/exceptionInfo/{id}", async (Guid id, IMessageBus bus) => await bus.InvokeAsync<ExceptionInfoEntitie>(new GetExceptionInfoByIdQuerie(Id: id)) is ExceptionInfoEntitie item
                 ? Results.Ok(item)
                 : Results.NotFound())
          .Produces<ExceptionInfoEntitie>(StatusCodes.Status200OK)
-       .Produces(StatusCodes.Status404NotFound).RequireAuthorization(Policies.RequireRealmRole);
+       .Produces(StatusCodes.Status404NotFound).RequireAuthorization(Policies.RequireAspNetCoreRole);
 
    
 
-    //app.UseHttpsRedirection();
+    app.UseHttpsRedirection();
     return await app.RunOaktonCommands(args);
