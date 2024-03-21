@@ -84,9 +84,13 @@ internal static class ServiceCollectionExtensions
 
         services.AddKeycloakAuthentication(configuration);
 
+
+
+
         services.AddAuthorization(options =>
         {
-
+            options.FallbackPolicy = options.DefaultPolicy;
+            
             options.AddPolicy(
              Policies.RequireAspNetCoreRole,
              builder => builder.RequireRole(Roles.AspNetCoreRole));
