@@ -2,12 +2,8 @@
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
 
-
-
-
 ![Logo](/images/logo.png)
 
-![swagger](/images/swagger.png)
 
 # Readme Mercurius
 A program error collection application is a tool that allows you to detect,
@@ -55,6 +51,7 @@ Creating a migration:
 * [xunit](https://xunit.net/)
 ## Application architecture
 
+![swagger](/images/swagger.png)
 
 
 ## Links
@@ -67,3 +64,5 @@ Creating a migration:
 ## License
 
 Mercurius is licensed under the [MIT LICENSE](https://choosealicense.com/licenses/mit/) 
+
+
