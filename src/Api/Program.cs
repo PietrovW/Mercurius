@@ -11,8 +11,8 @@ using Application.ExceptionInfos.Queries.GeExceptionInfoById;
 using System.Runtime.CompilerServices;
 using Domain.Events;
 using Api.Extensions;
-using Keycloak.AuthServices.Authentication;
-using static Api.Extensions.AuthorizationConstants;
+using Microsoft.AspNetCore.Authentication;
+using Api.Authentication;
 
 [assembly: InternalsVisibleTo("FunctionalTests")]
 
@@ -24,9 +24,10 @@ using static Api.Extensions.AuthorizationConstants;
 builder.Services.AddApplicationSwagger(configuration: configuration)
     .AddConfigurationDataBase(configuration: configuration)
     .AddAuth(configuration: configuration);
-
-    //builder.Services.AddKeycloakAuthentication(configuration: configuration);
-    builder.Services.AddAuthentication();
+builder.Services.AddTransient<IClaimsTransformation>(_ =>
+           new KeycloakRolesClaimsTransformation());
+//builder.Services.AddKeycloakAuthentication(configuration: configuration);
+builder.Services.AddAuthentication();
     builder.Host.UseWolverine(options =>
     {
         options.Discovery.IncludeAssembly(typeof(Application.Extensions).Assembly);
@@ -69,7 +70,7 @@ using (var scope = app.Services.CreateScope())
     app.MapPost("/api/exceptionInfo", async (CreateExceptionInfoItemCommand body, IMessageBus bus) =>
         await bus.InvokeAsync<ExceptionInfoCreatedEvent>(body) is ExceptionInfoCreatedEvent exceptionInfos ?
          Results.Created($"/exceptionInfoItems/{exceptionInfos.Id}", body) : Results.BadRequest()
-    ).WithOpenApi().RequireAuthorization(Policies.RequireAspNetCoreRole);
+    ).WithOpenApi().RequireAuthorization();
 
     app.MapGet("/api/exceptionInfo/", async (IMessageBus bus) => await bus.InvokeAsync<IEnumerable<ExceptionInfoEntitie>>(new GetAllExceptionInfoQuerie()) is IEnumerable<ExceptionInfoEntitie> exceptionInfos
              ? Results.Ok(exceptionInfos)
@@ -79,13 +80,13 @@ using (var scope = app.Services.CreateScope())
        .WithOpenApi(operation => new(operation)
        {
            OperationId = "GetExceptionInfo"
-       }).RequireAuthorization(Policies.RequireAspNetCoreRole);
+       }).RequireAuthorization();
 
     app.MapGet("/api/exceptionInfo/{id}", async (Guid id, IMessageBus bus) => await bus.InvokeAsync<ExceptionInfoEntitie>(new GetExceptionInfoByIdQuerie(Id: id)) is ExceptionInfoEntitie item
                 ? Results.Ok(item)
                 : Results.NotFound())
          .Produces<ExceptionInfoEntitie>(StatusCodes.Status200OK)
-       .Produces(StatusCodes.Status404NotFound).RequireAuthorization(Policies.RequireAspNetCoreRole);
+       .Produces(StatusCodes.Status404NotFound).RequireAuthorization();
 
    
 

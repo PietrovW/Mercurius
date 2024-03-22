@@ -1,15 +1,10 @@
 ﻿using Api.Providers;
 using Infrastructure.Data;
-using Keycloak.AuthServices.Authentication;
-using Keycloak.AuthServices.Authorization;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Wolverine;
-using static Api.Extensions.AuthorizationConstants;
-
 namespace Api.Extensions;
 
 internal static class ServiceCollectionExtensions
@@ -81,16 +76,67 @@ internal static class ServiceCollectionExtensions
 
     public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
 
-        //services.AddKeycloakAuthentication(configuration);
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>
-         {
-             o.MetadataAddress = "http://localhost:8080/realms/Test2/.well-known/openid-configuration";
-             o.Authority = "http://localhost:8080/realms/Test2";
-             o.Audience = "account";
-             o.RequireHttpsMetadata = false;
-         });
+            options.Authority = "http://localhost:8080/realms/Test2";
+
+            options.MetadataAddress = "http://localhost:8080/realms/Test2/.well-known/openid-configuration";
+            options.RequireHttpsMetadata = false;
+
+            options.RequireHttpsMetadata = false; //dev
+            options.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateAudience = false,
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = true,
+                ValidIssuer = "http://localhost:8080/realms/Test2",
+                ValidateLifetime = true
+            };
+            options.Events = new JwtBearerEvents()
+            {
+                OnAuthenticationFailed = c =>
+                {
+                    c.NoResult();
+                    c.Response.StatusCode = 401;
+                    c.Response.ContentType = "text/plain";
+                    return c.Response.WriteAsync(c.Exception.ToString());
+                }
+
+            };
+        });
+
+
+
+
+        services.AddAuthorization(o =>
+        {
+            o.DefaultPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .RequireClaim("email_verified", "true")
+                .Build();
+        });
+
+
+        // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        //.AddJwtBearer(o =>
+        //  {
+        //      o.MetadataAddress = "http://localhost:8080/realms/Test2/.well-known/openid-configuration";
+        //      o.Authority = "http://localhost:8080/realms/Test2";
+        //      o.Audience = "account";
+        //      o.RequireHttpsMetadata = false;
+        //      o.SaveToken = true;
+
+
+        //  });
+
+
+
+
 
         //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         //    .AddJwtBearer(opts =>
@@ -138,11 +184,11 @@ internal static class ServiceCollectionExtensions
 
     public static IServiceCollection AddApplicationSwagger(this IServiceCollection services, IConfiguration configuration)
     {
-        KeycloakAuthenticationOptions options = new();
+       // KeycloakAuthenticationOptions options = new();
 
-        configuration
-            .GetSection(KeycloakAuthenticationOptions.Section)
-            .Bind(options, opt => opt.BindNonPublicProperties = true);
+        //configuration
+        //    .GetSection(KeycloakAuthenticationOptions.Section)
+        //    .Bind(options, opt => opt.BindNonPublicProperties = true);
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
@@ -160,8 +206,8 @@ internal static class ServiceCollectionExtensions
                 {
                     Implicit = new OpenApiOAuthFlow
                     {
-                        AuthorizationUrl = new Uri($"{options.KeycloakUrlRealm}/protocol/openid-connect/auth"),
-                        TokenUrl = new Uri($"{options.KeycloakUrlRealm}/protocol/openid-connect/token"),
+                        AuthorizationUrl = new Uri("http://localhost:8080/realms/Test2/protocol/openid-connect/auth"),
+                        TokenUrl = new Uri("http://localhost:8080/realms/Test2/protocol/openid-connect/token"),
                         Scopes = new Dictionary<string, string>(),
                     }
                 }
@@ -177,14 +223,14 @@ internal static class ServiceCollectionExtensions
 
     public static IApplicationBuilder UseApplicationSwagger(this IApplicationBuilder app, IConfiguration configuration)
     {
-        KeycloakAuthenticationOptions options = new();
+       // KeycloakAuthenticationOptions options = new();
 
-        configuration
-            .GetSection(KeycloakAuthenticationOptions.Section)
-            .Bind(options, opt => opt.BindNonPublicProperties = true);
+        //configuration
+        //    .GetSection(KeycloakAuthenticationOptions.Section)
+        //    .Bind(options, opt => opt.BindNonPublicProperties = true);
 
         app.UseSwagger();
-        app.UseSwaggerUI(s => s.OAuthClientId(options.Resource));
+        app.UseSwaggerUI(s => s.OAuthClientId("test-client"));
 
         return app;
     }
