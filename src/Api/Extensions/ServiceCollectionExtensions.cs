@@ -3,6 +3,7 @@ using Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 namespace Api.Extensions;
@@ -135,7 +136,19 @@ internal static class ServiceCollectionExtensions
         //  });
 
 
+        //.Services.AddOidcAuthentication(options =>
+        // {
+        //     options.ProviderOptions.MetadataUrl = "http://localhost:8080/realms/Test2/.well-known/openid-configuration";
+        //     options.ProviderOptions.Authority = "http://localhost:8080/realms/Test2";
+       ///W12linux options.RequireHttpsMetadata = false;
+        //     options.ProviderOptions.ClientId = "test-client";
+        //     options.ProviderOptions.ResponseType = "id_token token";
+        //     //options.ProviderOptions.DefaultScopes.Add("Audience");
 
+        //     options.UserOptions.NameClaim = "preferred_username";
+        //     options.UserOptions.RoleClaim = "roles";
+        //     options.UserOptions.ScopeClaim = "scope";
+        // });
 
 
         //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -189,6 +202,16 @@ internal static class ServiceCollectionExtensions
         //configuration
         //    .GetSection(KeycloakAuthenticationOptions.Section)
         //    .Bind(options, opt => opt.BindNonPublicProperties = true);
+
+
+
+    
+
+
+
+
+
+
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
