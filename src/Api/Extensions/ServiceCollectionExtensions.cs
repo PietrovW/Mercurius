@@ -82,33 +82,54 @@ internal static class ServiceCollectionExtensions
     public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
     {
 
-        services.AddKeycloakAuthentication(configuration);
+        //services.AddKeycloakAuthentication(configuration);
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>
+         {
+             o.MetadataAddress = "http://localhost:8080/realms/Test2/.well-known/openid-configuration";
+             o.Authority = "http://localhost:8080/realms/Test2";
+             o.Audience = "account";
+             o.RequireHttpsMetadata = false;
+         });
+
+        //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        //    .AddJwtBearer(opts =>
+        //    {
+        //        //var sslRequired = string.IsNullOrWhiteSpace(keycloakOptions.SslRequired)
+        //        //    || keycloakOptions.SslRequired
+        //        //        .Equals("external", StringComparison.OrdinalIgnoreCase);
+
+        //        opts.Authority = "Test2";
+        //        opts.Audience = "test-client";
+        //        //opts.TokenValidationParameters = validationParameters;
+        //        opts.RequireHttpsMetadata = false;// sslRequired;
+        //        opts.SaveToken = true;
+        //        // configureOptions?.Invoke(opts);
+        //    });
 
 
+        services.AddAuthorization();
+        //{
+        //    options.FallbackPolicy = options.DefaultPolicy;
 
+        //    options.AddPolicy(
+        //     Policies.RequireAspNetCoreRole,
+        //     builder => builder.RequireRole(Roles.AspNetCoreRole));
 
-        services.AddAuthorization(options =>
-        {
-            options.FallbackPolicy = options.DefaultPolicy;
-            
-            options.AddPolicy(
-             Policies.RequireAspNetCoreRole,
-             builder => builder.RequireRole(Roles.AspNetCoreRole));
+        //    options.AddPolicy(
+        //        Policies.RequireRealmRole,
+        //        builder => builder.RequireRealmRoles(Roles.RealmRole));
 
-            options.AddPolicy(
-                Policies.RequireRealmRole,
-                builder => builder.RequireRealmRoles(Roles.RealmRole));
+        //    options.AddPolicy(
+        //        Policies.RequireClientRole,
+        //        builder => builder.RequireResourceRoles(Roles.ClientRole));
 
-            options.AddPolicy(
-                Policies.RequireClientRole,
-                builder => builder.RequireResourceRoles(Roles.ClientRole));
-
-            options.AddPolicy(
-                Policies.RequireToBeInKeycloakGroupAsReader,
-                builder => builder
-                    .RequireAuthenticatedUser()
-                    .RequireProtectedResource("workspace", "workspaces:read"));
-        }).AddKeycloakAuthorization(configuration);
+        //    options.AddPolicy(
+        //        Policies.RequireToBeInKeycloakGroupAsReader,
+        //        builder => builder
+        //            .RequireAuthenticatedUser()
+        //            .RequireProtectedResource("workspace", "workspaces:read"));
+        //});// ;//.AddKeycloakAuthorization(configuration);
 
         return services;
     }
