@@ -1,5 +1,8 @@
-﻿using Api.Providers;
+﻿using Api.Authentication;
+using Api.Authorization.Decision;
+using Api.Providers;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -74,18 +77,18 @@ internal static class ServiceCollectionExtensions
         return services;
     }
 
-
     public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddTransient<IClaimsTransformation>(_ =>
+           new KeycloakRolesClaimsTransformation());
+        services.AddSingleton<IAuthorizationHandler, DecisionRequirementHandler>();
         services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         }).AddJwtBearer(options =>
         {
-
             options.Authority = "http://localhost:8080/realms/Test2";
-
             options.MetadataAddress = "http://localhost:8080/realms/Test2/.well-known/openid-configuration";
             options.RequireHttpsMetadata = false;
 
@@ -113,12 +116,17 @@ internal static class ServiceCollectionExtensions
 
 
 
-        services.AddAuthorization(o =>
+        services.AddAuthorization(options =>
         {
-            o.DefaultPolicy = new AuthorizationPolicyBuilder()
+            options.DefaultPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
                 .RequireClaim("email_verified", "true")
                 .Build();
+
+
+            options.AddPolicy("customers#read"
+                   , builder => builder.AddRequirements(new DecisionRequirement("customers", "read"))
+               );
         });
 
 

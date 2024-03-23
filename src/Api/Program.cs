@@ -13,33 +13,33 @@ using Domain.Events;
 using Api.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Api.Authentication;
+using Api.Authorization.Decision;
+using Microsoft.AspNetCore.Authorization;
 
 [assembly: InternalsVisibleTo("FunctionalTests")]
 
-    var builder = WebApplication.CreateSlimBuilder(args);
+var builder = WebApplication.CreateSlimBuilder(args);
 
-    builder.Configuration.AddEnvironmentVariables(prefix: "Mercurius_");
-    ConfigurationManager configuration = builder.Configuration;
-    builder.Services.AddEndpointsApiExplorer();
+builder.Configuration.AddEnvironmentVariables(prefix: "Mercurius_");
+ConfigurationManager configuration = builder.Configuration;
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApplicationSwagger(configuration: configuration)
     .AddConfigurationDataBase(configuration: configuration)
     .AddAuth(configuration: configuration);
-builder.Services.AddTransient<IClaimsTransformation>(_ =>
-           new KeycloakRolesClaimsTransformation());
-//builder.Services.AddKeycloakAuthentication(configuration: configuration);
+//KeycloakOptions
 builder.Services.AddAuthentication();
-    builder.Host.UseWolverine(options =>
-    {
-        options.Discovery.IncludeAssembly(typeof(Application.Extensions).Assembly);
-        options.Discovery.IncludeAssembly(typeof(Infrastructure.Extensions).Assembly);
-        options.Discovery.IncludeAssembly(typeof(Domain.Extensions).Assembly);
+builder.Host.UseWolverine(options =>
+{
+    options.Discovery.IncludeAssembly(typeof(Application.Extensions).Assembly);
+    options.Discovery.IncludeAssembly(typeof(Infrastructure.Extensions).Assembly);
+    options.Discovery.IncludeAssembly(typeof(Domain.Extensions).Assembly);
 
-        options.UseFluentValidation();
-        options.UseFluentValidation(RegistrationBehavior.ExplicitRegistration);
-    });
-    builder.Services.ConfigureInfrastructureServices();
+    options.UseFluentValidation();
+    options.UseFluentValidation(RegistrationBehavior.ExplicitRegistration);
+});
+builder.Services.ConfigureInfrastructureServices();
 
-    var app = builder.Build();
+var app = builder.Build();
 app.UseHttpsRedirection();
 if (app.Environment.IsDevelopment())
 {
@@ -61,34 +61,34 @@ catch (Exception ex)
 
 }
 using (var scope = app.Services.CreateScope())
-    {
-        var db = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MercuriusContext>>();
-        var datebase = await db.CreateDbContextAsync();
-        await MercuriusContext.InitializeAsync(datebase);
-    }
+{
+    var db = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MercuriusContext>>();
+    var datebase = await db.CreateDbContextAsync();
+    await MercuriusContext.InitializeAsync(datebase);
+}
 
-    app.MapPost("/api/exceptionInfo", async (CreateExceptionInfoItemCommand body, IMessageBus bus) =>
-        await bus.InvokeAsync<ExceptionInfoCreatedEvent>(body) is ExceptionInfoCreatedEvent exceptionInfos ?
-         Results.Created($"/exceptionInfoItems/{exceptionInfos.Id}", body) : Results.BadRequest()
-    ).WithOpenApi().RequireAuthorization();
+app.MapPost("/api/exceptionInfo", async (CreateExceptionInfoItemCommand body, IMessageBus bus) =>
+    await bus.InvokeAsync<ExceptionInfoCreatedEvent>(body) is ExceptionInfoCreatedEvent exceptionInfos ?
+     Results.Created($"/exceptionInfoItems/{exceptionInfos.Id}", body) : Results.BadRequest()
+).WithOpenApi().RequireAuthorization();
 
-    app.MapGet("/api/exceptionInfo/", async (IMessageBus bus) => await bus.InvokeAsync<IEnumerable<ExceptionInfoEntitie>>(new GetAllExceptionInfoQuerie()) is IEnumerable<ExceptionInfoEntitie> exceptionInfos
-             ? Results.Ok(exceptionInfos)
-             : Results.NotFound())
-         .Produces<ExceptionInfoEntitie>(StatusCodes.Status200OK)
-       .Produces(StatusCodes.Status404NotFound)
-       .WithOpenApi(operation => new(operation)
-       {
-           OperationId = "GetExceptionInfo"
-       }).RequireAuthorization();
+app.MapGet("/api/exceptionInfo/", async (IMessageBus bus) => await bus.InvokeAsync<IEnumerable<ExceptionInfoEntitie>>(new GetAllExceptionInfoQuerie()) is IEnumerable<ExceptionInfoEntitie> exceptionInfos
+         ? Results.Ok(exceptionInfos)
+         : Results.NotFound())
+     .Produces<ExceptionInfoEntitie>(StatusCodes.Status200OK)
+   .Produces(StatusCodes.Status404NotFound)
+   .WithOpenApi(operation => new(operation)
+   {
+       OperationId = "GetExceptionInfo"
+   }).RequireAuthorization();
 
-    app.MapGet("/api/exceptionInfo/{id}", async (Guid id, IMessageBus bus) => await bus.InvokeAsync<ExceptionInfoEntitie>(new GetExceptionInfoByIdQuerie(Id: id)) is ExceptionInfoEntitie item
-                ? Results.Ok(item)
-                : Results.NotFound())
-         .Produces<ExceptionInfoEntitie>(StatusCodes.Status200OK)
-       .Produces(StatusCodes.Status404NotFound).RequireAuthorization();
+app.MapGet("/api/exceptionInfo/{id}", async (Guid id, IMessageBus bus) => await bus.InvokeAsync<ExceptionInfoEntitie>(new GetExceptionInfoByIdQuerie(Id: id)) is ExceptionInfoEntitie item
+            ? Results.Ok(item)
+            : Results.NotFound())
+     .Produces<ExceptionInfoEntitie>(StatusCodes.Status200OK)
+   .Produces(StatusCodes.Status404NotFound).RequireAuthorization();
 
-   
 
-    app.UseHttpsRedirection();
-    return await app.RunOaktonCommands(args);
+
+app.UseHttpsRedirection();
+return await app.RunOaktonCommands(args);
