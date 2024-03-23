@@ -80,7 +80,7 @@ internal static class ServiceCollectionExtensions
     public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddTransient<IClaimsTransformation>(_ =>
-           new KeycloakRolesClaimsTransformation());
+           new RolesClaimsTransformation());
         services.AddSingleton<IAuthorizationHandler, DecisionRequirementHandler>();
         services.AddAuthentication(options =>
         {

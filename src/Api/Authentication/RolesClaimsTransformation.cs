@@ -3,7 +3,7 @@ using System.Security.Claims;
 
 namespace Api.Authentication;
 
-internal sealed class KeycloakRolesClaimsTransformation : IClaimsTransformation
+internal sealed class RolesClaimsTransformation : IClaimsTransformation
 {
     public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
     {
