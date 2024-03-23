@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{9ABB4143-441A-44DB-B4B3-918B71F9939E}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.md = docker-compose.md
+		docs\DOCKER.md = docs\DOCKER.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{32AAB095-F64F-4385-BFD3-E485A438DE8B}"
