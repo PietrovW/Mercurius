@@ -11,10 +11,7 @@ using Application.ExceptionInfos.Queries.GeExceptionInfoById;
 using System.Runtime.CompilerServices;
 using Domain.Events;
 using Api.Extensions;
-using Microsoft.AspNetCore.Authentication;
-using Api.Authentication;
-using Api.Authorization.Decision;
-using Microsoft.AspNetCore.Authorization;
+using Api.Options;
 
 [assembly: InternalsVisibleTo("FunctionalTests")]
 
@@ -22,11 +19,14 @@ var builder = WebApplication.CreateSlimBuilder(args);
 
 builder.Configuration.AddEnvironmentVariables(prefix: "Mercurius_");
 ConfigurationManager configuration = builder.Configuration;
+builder.Services.Configure<KeycloakOptions>(
+    builder.Configuration.GetSection(KeycloakOptions.Keycloak));
+builder.Services.Configure<MercuriusOptions>(
+    builder.Configuration.GetSection(MercuriusOptions.Mercurius));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApplicationSwagger(configuration: configuration)
     .AddConfigurationDataBase(configuration: configuration)
     .AddAuth(configuration: configuration);
-//KeycloakOptions
 builder.Services.AddAuthentication();
 builder.Host.UseWolverine(options =>
 {
@@ -44,22 +44,11 @@ app.UseHttpsRedirection();
 if (app.Environment.IsDevelopment())
 {
     app.UseApplicationSwagger(configuration: configuration);
-    //app.UseSwagger();
-    //app.UseSwaggerUI(c =>
-    //{
-    //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mercurius API V1");
-    //});
     app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
 }
-try
-{
-    app.UseAuthentication();
-    app.UseAuthorization();
-}
-catch (Exception ex)
-{
 
-}
+app.UseAuthentication();
+app.UseAuthorization();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MercuriusContext>>();
@@ -87,8 +76,6 @@ app.MapGet("/api/exceptionInfo/{id}", async (Guid id, IMessageBus bus) => await 
             : Results.NotFound())
      .Produces<ExceptionInfoEntitie>(StatusCodes.Status200OK)
    .Produces(StatusCodes.Status404NotFound).RequireAuthorization();
-
-
 
 app.UseHttpsRedirection();
 return await app.RunOaktonCommands(args);

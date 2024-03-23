@@ -253,15 +253,8 @@ internal static class ServiceCollectionExtensions
 
     public static IApplicationBuilder UseApplicationSwagger(this IApplicationBuilder app, IConfiguration configuration)
     {
-       // KeycloakAuthenticationOptions options = new();
-
-        //configuration
-        //    .GetSection(KeycloakAuthenticationOptions.Section)
-        //    .Bind(options, opt => opt.BindNonPublicProperties = true);
-
         app.UseSwagger();
         app.UseSwaggerUI(s => s.OAuthClientId("test-client"));
-
         return app;
     }
 }
