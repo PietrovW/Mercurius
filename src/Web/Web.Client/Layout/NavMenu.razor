@@ -13,20 +13,7 @@
             <FluentNavLink Href="Issues" Icon="@(new Icons.Regular.Size20.WeatherPartlyCloudyDay())" IconColor="Color.Accent">Issues</FluentNavLink>
             <FluentNavLink Href="Projects" Icon="@(new Icons.Regular.Size20.WeatherPartlyCloudyDay())" IconColor="Color.Accent">Projects</FluentNavLink>
             <FluentNavLink Href="Alerts" Icon="@(new Icons.Regular.Size20.WeatherPartlyCloudyDay())" IconColor="Color.Accent">Alerts</FluentNavLink>
-             <AuthorizeView>
-                <Authorized>
-                    <FluentNavLink Href="Account/Manage">@context.User.Identity?.Name</FluentNavLink>
-                    <form action="Account/Logout" method="post">
-                        <AntiforgeryToken />
-                        <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-                        <FluentButton Type="ButtonType.Submit" Style="width: 100%;">Logout</FluentButton>
-                    </form>
-                </Authorized>
-                <NotAuthorized>
-                    <FluentNavLink Href="Account/Register">Register</FluentNavLink>
-                    <FluentNavLink Href="Account/Login">Login</FluentNavLink>
-                </NotAuthorized>
-            </AuthorizeView>
+             
         </FluentNavMenu>
     </nav>
 </div>

@@ -113,7 +113,6 @@ internal static class ServiceCollectionExtensions
 
 
 
-
         services.AddAuthorization(o =>
         {
             o.DefaultPolicy = new AuthorizationPolicyBuilder()
