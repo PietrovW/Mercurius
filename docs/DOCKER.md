@@ -1,3 +1,6 @@
+## Docker
+
+
 W dzisiejszym nowoczesnym środowisku rozwoju oprogramowania budowanie skalowalnych i skonteneryzowanych aplikacji jest kluczowe. W tym wpisie na zadbam, jak zbudować interfejs API przy użyciu popularnego frameworka .NET Core, umieścić go w kontenerze Docker i wdrożyć. Ta kombinacja oferuje potężne i elastyczne środowisko do tworzenia, pakowania i zarządzania Twoim interfejsem API. 
 
 Przed przystąpieniem do kroków upewnij się, że masz zainstalowane następujące narzędzia: 
