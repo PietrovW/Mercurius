@@ -5,7 +5,7 @@ namespace Application;
 
 public static class Extensions
 {
-    public static services ConfigureServices(this IServiceCollection services,IConfiguration configuration)
+    public static IServiceCollection ConfigureServices(this IServiceCollection services,IConfiguration configuration)
     {
         return services;
     }
