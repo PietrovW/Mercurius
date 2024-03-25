@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 namespace Api.Extensions;
@@ -15,8 +14,6 @@ internal static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddSwagger(this IServiceCollection services, ConfigurationManager configuration)
     {
-        var openIdConnectUrl = $"{configuration["Keycloak:auth-server-url"]}/realms/{configuration["Keycloak:realm"]}/.well-known/openid-configuration";
-
         services.AddSwaggerGen(c =>
         {
             var securityScheme = new OpenApiSecurityScheme
@@ -25,7 +22,7 @@ internal static class ServiceCollectionExtensions
                 Description = "Enter JWT Bearer token **_only_**",
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.OpenIdConnect,
-                OpenIdConnectUrl = new Uri(openIdConnectUrl),
+                OpenIdConnectUrl = new Uri($"{configuration["Keycloak:auth-server-url"]}realms/{configuration["Keycloak:realm"]}/.well-known/openid-configuration"),
                 Scheme = "bearer",
                 BearerFormat = "JWT",
                 Reference = new OpenApiReference
@@ -77,10 +74,13 @@ internal static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
     {
+        string authServerUrl= configuration["Keycloak:AuthServerUrl"]!;
+        string realms = configuration["Keycloak:realm"]!;
         services.AddTransient<IClaimsTransformation>(_ =>
            new RolesClaimsTransformation());
+        services.AddHttpContextAccessor();
         services.AddSingleton<IAuthorizationHandler, DecisionRequirementHandler>();
         services.AddAuthentication(options =>
         {
@@ -88,17 +88,15 @@ internal static class ServiceCollectionExtensions
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         }).AddJwtBearer(options =>
         {
-            options.Authority = "http://localhost:8080/realms/Test2";
-            options.MetadataAddress = "http://localhost:8080/realms/Test2/.well-known/openid-configuration";
-            options.RequireHttpsMetadata = false;
-
+            options.Authority = $"{authServerUrl}realms/{realms}";
+            options.MetadataAddress = $"{authServerUrl}realms/{realms}/.well-known/openid-configuration";
             options.RequireHttpsMetadata = false; //dev
             options.TokenValidationParameters = new TokenValidationParameters()
             {
                 ValidateAudience = false,
                 ValidateIssuerSigningKey = true,
                 ValidateIssuer = true,
-                ValidIssuer = "http://localhost:8080/realms/Test2",
+                ValidIssuer = $"{authServerUrl}realms/{realms}",
                 ValidateLifetime = true
             };
             options.Events = new JwtBearerEvents()
@@ -113,8 +111,6 @@ internal static class ServiceCollectionExtensions
 
             };
         });
-
-
 
         services.AddAuthorization(options =>
         {
@@ -204,22 +200,8 @@ internal static class ServiceCollectionExtensions
 
     public static IServiceCollection AddApplicationSwagger(this IServiceCollection services, IConfiguration configuration)
     {
-       // KeycloakAuthenticationOptions options = new();
-
-        //configuration
-        //    .GetSection(KeycloakAuthenticationOptions.Section)
-        //    .Bind(options, opt => opt.BindNonPublicProperties = true);
-
-
-
-    
-
-
-
-
-
-
-
+        string authServerUrl = configuration["Keycloak:AuthServerUrl"]!;
+        string realms = configuration["Keycloak:realm"]!;
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
         {
@@ -236,8 +218,8 @@ internal static class ServiceCollectionExtensions
                 {
                     Implicit = new OpenApiOAuthFlow
                     {
-                        AuthorizationUrl = new Uri("http://localhost:8080/realms/Test2/protocol/openid-connect/auth"),
-                        TokenUrl = new Uri("http://localhost:8080/realms/Test2/protocol/openid-connect/token"),
+                        AuthorizationUrl = new Uri($"{authServerUrl}realms/{realms}/protocol/openid-connect/auth"),
+                        TokenUrl = new Uri($"{authServerUrl}realms/{realms}/protocol/openid-connect/token"),
                         Scopes = new Dictionary<string, string>(),
                     }
                 }

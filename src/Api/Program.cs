@@ -27,7 +27,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApplicationSwagger(configuration: configuration)
     .AddConfigurationDataBase(configuration: configuration)
     .AddAuth(configuration: configuration);
-builder.Services.AddAuthentication();
+//builder.Services.AddAuthentication();
 builder.Host.UseWolverine(options =>
 {
     options.Discovery.IncludeAssembly(typeof(Application.Extensions).Assembly);
@@ -46,7 +46,6 @@ if (app.Environment.IsDevelopment())
     app.UseApplicationSwagger(configuration: configuration);
     app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
 }
-
 app.UseAuthentication();
 app.UseAuthorization();
 using (var scope = app.Services.CreateScope())
@@ -55,12 +54,10 @@ using (var scope = app.Services.CreateScope())
     var datebase = await db.CreateDbContextAsync();
     await MercuriusContext.InitializeAsync(datebase);
 }
-
 app.MapPost("/api/exceptionInfo", async (CreateExceptionInfoItemCommand body, IMessageBus bus) =>
     await bus.InvokeAsync<ExceptionInfoCreatedEvent>(body) is ExceptionInfoCreatedEvent exceptionInfos ?
      Results.Created($"/exceptionInfoItems/{exceptionInfos.Id}", body) : Results.BadRequest()
 ).WithOpenApi().RequireAuthorization();
-
 app.MapGet("/api/exceptionInfo/", async (IMessageBus bus) => await bus.InvokeAsync<IEnumerable<ExceptionInfoEntitie>>(new GetAllExceptionInfoQuerie()) is IEnumerable<ExceptionInfoEntitie> exceptionInfos
          ? Results.Ok(exceptionInfos)
          : Results.NotFound())
