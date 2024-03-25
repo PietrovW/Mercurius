@@ -2,7 +2,7 @@
 
 namespace Api.Authorization.Decision;
 
-internal sealed class DecisionRequirement : IAuthorizationRequirement
+public class DecisionRequirement : IAuthorizationRequirement
 {
     public string Resource { get; }
     public string Scope { get; }

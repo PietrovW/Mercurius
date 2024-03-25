@@ -79,7 +79,7 @@ internal static class ServiceCollectionExtensions
         string authServerUrl= configuration["Keycloak:AuthServerUrl"]!;
         string realms = configuration["Keycloak:realm"]!;
         services.AddTransient<IClaimsTransformation>(_ =>
-           new RolesClaimsTransformation());
+           new RolesClaimsTransformation("role", "http://localhost:8080/"));
         services.AddHttpContextAccessor();
         services.AddSingleton<IAuthorizationHandler, DecisionRequirementHandler>();
         services.AddAuthentication(options =>
@@ -120,8 +120,8 @@ internal static class ServiceCollectionExtensions
                 .Build();
 
 
-            options.AddPolicy("customers#read"
-                   , builder => builder.AddRequirements(new DecisionRequirement("customers", "read"))
+            options.AddPolicy("api_roles#testScope"
+                   , builder => builder.AddRequirements(new DecisionRequirement("api_roles", "testScope"))
                );
         });
 
