@@ -4,12 +4,10 @@ namespace Api.Authorization.Decision;
 
 public class DecisionRequirement : IAuthorizationRequirement
 {
-    public string Resource { get; }
-    public string Scope { get; }
+    public string Role { get; }
 
-    public DecisionRequirement(string resource, string scope)
+    public DecisionRequirement(string role)
     {
-        Resource = resource;
-        Scope = scope;
+        Role = role;
     }
 }

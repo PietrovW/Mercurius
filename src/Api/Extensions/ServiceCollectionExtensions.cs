@@ -79,7 +79,7 @@ internal static class ServiceCollectionExtensions
         string authServerUrl= configuration["Keycloak:AuthServerUrl"]!;
         string realms = configuration["Keycloak:realm"]!;
         services.AddTransient<IClaimsTransformation>(_ =>
-           new RolesClaimsTransformation("role", "http://localhost:8080/"));
+           new RolesClaimsTransformation("role", authServerUrl));
         services.AddHttpContextAccessor();
         services.AddSingleton<IAuthorizationHandler, DecisionRequirementHandler>();
         services.AddAuthentication(options =>
@@ -108,7 +108,6 @@ internal static class ServiceCollectionExtensions
                     c.Response.ContentType = "text/plain";
                     return c.Response.WriteAsync(c.Exception.ToString());
                 }
-
             };
         });
 
@@ -120,83 +119,15 @@ internal static class ServiceCollectionExtensions
                 .Build();
 
 
-            options.AddPolicy("api_roles#testScope"
-                   , builder => builder.AddRequirements(new DecisionRequirement("api_roles", "testScope"))
+            options.AddPolicy("rola_add"
+                   , builder => builder.AddRequirements(new DecisionRequirement("rola_add"))
                );
         });
 
-
-        // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        //.AddJwtBearer(o =>
-        //  {
-        //      o.MetadataAddress = "http://localhost:8080/realms/Test2/.well-known/openid-configuration";
-        //      o.Authority = "http://localhost:8080/realms/Test2";
-        //      o.Audience = "account";
-        //      o.RequireHttpsMetadata = false;
-        //      o.SaveToken = true;
-
-
-        //  });
-
-
-        //.Services.AddOidcAuthentication(options =>
-        // {
-        //     options.ProviderOptions.MetadataUrl = "http://localhost:8080/realms/Test2/.well-known/openid-configuration";
-        //     options.ProviderOptions.Authority = "http://localhost:8080/realms/Test2";
-       ///W12linux options.RequireHttpsMetadata = false;
-        //     options.ProviderOptions.ClientId = "test-client";
-        //     options.ProviderOptions.ResponseType = "id_token token";
-        //     //options.ProviderOptions.DefaultScopes.Add("Audience");
-
-        //     options.UserOptions.NameClaim = "preferred_username";
-        //     options.UserOptions.RoleClaim = "roles";
-        //     options.UserOptions.ScopeClaim = "scope";
-        // });
-
-
-        //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        //    .AddJwtBearer(opts =>
-        //    {
-        //        //var sslRequired = string.IsNullOrWhiteSpace(keycloakOptions.SslRequired)
-        //        //    || keycloakOptions.SslRequired
-        //        //        .Equals("external", StringComparison.OrdinalIgnoreCase);
-
-        //        opts.Authority = "Test2";
-        //        opts.Audience = "test-client";
-        //        //opts.TokenValidationParameters = validationParameters;
-        //        opts.RequireHttpsMetadata = false;// sslRequired;
-        //        opts.SaveToken = true;
-        //        // configureOptions?.Invoke(opts);
-        //    });
-
-
         services.AddAuthorization();
-        //{
-        //    options.FallbackPolicy = options.DefaultPolicy;
-
-        //    options.AddPolicy(
-        //     Policies.RequireAspNetCoreRole,
-        //     builder => builder.RequireRole(Roles.AspNetCoreRole));
-
-        //    options.AddPolicy(
-        //        Policies.RequireRealmRole,
-        //        builder => builder.RequireRealmRoles(Roles.RealmRole));
-
-        //    options.AddPolicy(
-        //        Policies.RequireClientRole,
-        //        builder => builder.RequireResourceRoles(Roles.ClientRole));
-
-        //    options.AddPolicy(
-        //        Policies.RequireToBeInKeycloakGroupAsReader,
-        //        builder => builder
-        //            .RequireAuthenticatedUser()
-        //            .RequireProtectedResource("workspace", "workspaces:read"));
-        //});// ;//.AddKeycloakAuthorization(configuration);
-
+        
         return services;
     }
-
-
 
     public static IServiceCollection AddApplicationSwagger(this IServiceCollection services, IConfiguration configuration)
     {

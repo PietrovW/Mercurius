@@ -32,7 +32,7 @@ internal sealed class RolesClaimsTransformation : IClaimsTransformation
         using var resourceAccess = JsonDocument.Parse(resourceAccessValue);
         var clientRoles = resourceAccess
             .RootElement
-           // .GetProperty("realm_access")
+           //  .GetProperty("realm-role")
             .GetProperty("roles");
 
         foreach (var role in clientRoles.EnumerateArray())

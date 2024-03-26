@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
-using System.Net.Http.Headers;
 
 namespace Api.Authorization.Decision;
 
@@ -27,25 +25,11 @@ internal sealed class DecisionRequirementHandler : AuthorizationHandler<Decision
             return;
         }
 
-        var data = new Dictionary<string, string>();
-        data.Add("grant_type", "urn:ietf:params:oauth:grant-type:uma-ticket");
-        //data.Add("response_mode", "decision");
-        data.Add("audience", "account");// options.Audience);
-        data.Add("permission", $"{requirement.Resource}#{requirement.Scope}");
-
-        var client = new HttpClient();
-        var token = await httpContext.GetTokenAsync(JwtBearerDefaults.AuthenticationScheme, "access_token");
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-        var configuration = await options.ConfigurationManager.GetConfigurationAsync(CancellationToken.None);
-        var response = await client.PostAsync(configuration.TokenEndpoint, new FormUrlEncodedContent(data));
-
-       // if (response.IsSuccessStatusCode)
-       // {
+       if(httpContext!.User.Claims.Any(w => w.Type == "role" && w.Value == requirement.Role))
+        {
             context.Succeed(requirement);
             return;
-       // }
-
+        }
         context.Fail();
     }
 }
