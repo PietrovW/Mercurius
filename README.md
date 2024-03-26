@@ -4,6 +4,12 @@
 
 ![Logo](/images/logo.png)
 
+![Home](/images/Home.png)
+![login](/images/login.png)
+![create_realm](/images/create_realm.png)
+![create_realm_mercurius](/images/create_realm_mercurius.png)
+
+![Swagger Login](/images/swagger_Login.png)
 
 # Readme Mercurius
 A program error collection application is a tool that allows you to detect,
