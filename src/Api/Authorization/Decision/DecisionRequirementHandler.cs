@@ -29,22 +29,22 @@ internal sealed class DecisionRequirementHandler : AuthorizationHandler<Decision
 
         var data = new Dictionary<string, string>();
         data.Add("grant_type", "urn:ietf:params:oauth:grant-type:uma-ticket");
-        data.Add("response_mode", "decision");
+        //data.Add("response_mode", "decision");
         data.Add("audience", "account");// options.Audience);
         data.Add("permission", $"{requirement.Resource}#{requirement.Scope}");
 
         var client = new HttpClient();
-        //var token = await httpContext.GetTokenAsync(JwtBearerDefaults.AuthenticationScheme, "access_token");
-        //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        var token = await httpContext.GetTokenAsync(JwtBearerDefaults.AuthenticationScheme, "access_token");
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-        //var configuration = await options.ConfigurationManager.GetConfigurationAsync(CancellationToken.None);
-        //var response = await client.PostAsync(configuration.TokenEndpoint, new FormUrlEncodedContent(data));
+        var configuration = await options.ConfigurationManager.GetConfigurationAsync(CancellationToken.None);
+        var response = await client.PostAsync(configuration.TokenEndpoint, new FormUrlEncodedContent(data));
 
-        //if (response.IsSuccessStatusCode)
-        //{
-          context.Succeed(requirement);
-           return;
-        //}
+       // if (response.IsSuccessStatusCode)
+       // {
+            context.Succeed(requirement);
+            return;
+       // }
 
         context.Fail();
     }
