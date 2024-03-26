@@ -52,11 +52,7 @@ Creating a migration:
 ## Application architecture
 
 ![swagger](/images/swagger.png)
-![Home](/images/Home.png)
 ![login](/images/login.png)
-![create_realm](/images/create_realm.png)
-![create_realm_mercurius](/images/create_realm_mercurius.png)
-
 ![Swagger Login](/images/swagger_Login.png)
 
 
