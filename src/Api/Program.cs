@@ -28,7 +28,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApplicationSwagger(configuration: configuration)
     .AddConfigurationDataBase(configuration: configuration)
     .AddAuth(configuration: configuration);
-//builder.Services.AddAuthentication();
 builder.Host.UseWolverine(options =>
 {
     options.Discovery.IncludeAssembly(typeof(Application.Extensions).Assembly);
