@@ -7,13 +7,10 @@ namespace Api.Authentication;
 internal sealed class RolesClaimsTransformation : IClaimsTransformation
 {
     private readonly string _roleClaimType;
-    private readonly string _audience;
-
    
-    public RolesClaimsTransformation(string roleClaimType, string audience)
+    public RolesClaimsTransformation(string roleClaimType)
     {
         _roleClaimType = roleClaimType;
-        _audience = audience;
     }
     public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
     {

@@ -79,7 +79,7 @@ internal static class ServiceCollectionExtensions
         string authServerUrl= configuration["Keycloak:AuthServerUrl"]!;
         string realms = configuration["Keycloak:realm"]!;
         services.AddTransient<IClaimsTransformation>(_ =>
-           new RolesClaimsTransformation("role", authServerUrl));
+           new RolesClaimsTransformation("role"));
         services.AddHttpContextAccessor();
         services.AddSingleton<IAuthorizationHandler, DecisionRequirementHandler>();
         services.AddAuthentication(options =>
@@ -118,9 +118,8 @@ internal static class ServiceCollectionExtensions
                 .RequireClaim("email_verified", "true")
                 .Build();
 
-
-            options.AddPolicy("rola_add"
-                   , builder => builder.AddRequirements(new DecisionRequirement("rola_add"))
+            options.AddPolicy(RolesConstants.RolaAdd
+                   , builder => builder.AddRequirements(new DecisionRequirement(RolesConstants.RolaAdd))
                );
         });
 
@@ -166,8 +165,9 @@ internal static class ServiceCollectionExtensions
 
     public static IApplicationBuilder UseApplicationSwagger(this IApplicationBuilder app, IConfiguration configuration)
     {
+        string resource = configuration["Keycloak:resource"]!;
         app.UseSwagger();
-        app.UseSwaggerUI(s => s.OAuthClientId("test-client"));
+        app.UseSwaggerUI(s => s.OAuthClientId(resource));
         return app;
     }
 }
