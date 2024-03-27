@@ -20,8 +20,6 @@ var builder = WebApplication.CreateSlimBuilder(args);
 
 builder.Configuration.AddEnvironmentVariables(prefix: "Mercurius_");
 ConfigurationManager configuration = builder.Configuration;
-builder.Services.Configure<KeycloakOptions>(
-    builder.Configuration.GetSection(KeycloakOptions.Keycloak));
 builder.Services.Configure<MercuriusOptions>(
     builder.Configuration.GetSection(MercuriusOptions.Mercurius));
 builder.Services.AddEndpointsApiExplorer();
