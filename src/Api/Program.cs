@@ -31,7 +31,6 @@ builder.Host.UseWolverine(options =>
     options.Discovery.IncludeAssembly(typeof(Application.Extensions).Assembly);
     options.Discovery.IncludeAssembly(typeof(Infrastructure.Extensions).Assembly);
     options.Discovery.IncludeAssembly(typeof(Domain.Extensions).Assembly);
-
     options.UseFluentValidation();
     options.UseFluentValidation(RegistrationBehavior.ExplicitRegistration);
 });
