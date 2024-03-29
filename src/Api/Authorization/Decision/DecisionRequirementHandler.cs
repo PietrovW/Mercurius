@@ -8,6 +8,7 @@ internal sealed class DecisionRequirementHandler : AuthorizationHandler<Decision
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IOptionsMonitor<JwtBearerOptions> _options;
+    private const string role = nameof(role);
 
     public DecisionRequirementHandler(IHttpContextAccessor httpContextAccessor, IOptionsMonitor<JwtBearerOptions> options)
     {
@@ -17,19 +18,23 @@ internal sealed class DecisionRequirementHandler : AuthorizationHandler<Decision
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, DecisionRequirement requirement)
     {
-        var options = _options.Get(JwtBearerDefaults.AuthenticationScheme);
-        var httpContext = _httpContextAccessor.HttpContext;
-        if (httpContext != null && httpContext.User.Identity != null && !httpContext.User.Identity.IsAuthenticated)
-        {
-            context.Fail();
-            return;
-        }
+        await Task.Run
+               (() =>
+               {
+                   var options = _options.Get(JwtBearerDefaults.AuthenticationScheme);
+                   var httpContext = _httpContextAccessor.HttpContext;
+                   if (httpContext != null && httpContext.User.Identity != null && !httpContext.User.Identity.IsAuthenticated)
+                   {
+                       context.Fail();
+                       return;
+                   }
 
-       if(httpContext!.User.Claims.Any(w => w.Type == "role" && w.Value == requirement.Role))
-        {
-            context.Succeed(requirement);
-            return;
-        }
-        context.Fail();
+                   if (httpContext!.User.Claims.Any(w => w.Type == role && w.Value == requirement.Role))
+                   {
+                       context.Succeed(requirement);
+                       return;
+                   }
+                   context.Fail();
+               });
     }
 }
