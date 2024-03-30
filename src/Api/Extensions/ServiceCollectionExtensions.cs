@@ -90,7 +90,7 @@ internal static class ServiceCollectionExtensions
         {
             options.Authority = $"{authServerUrl}realms/{realms}";
             options.MetadataAddress = $"{authServerUrl}realms/{realms}/.well-known/openid-configuration";
-            options.RequireHttpsMetadata = false; //dev
+            options.RequireHttpsMetadata = false;
             options.TokenValidationParameters = new TokenValidationParameters()
             {
                 ValidateAudience = false,

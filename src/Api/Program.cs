@@ -50,7 +50,6 @@ var app = builder.Build();
 var apiVersionSet = app.NewApiVersionSet()
     .HasDeprecatedApiVersion(new ApiVersion(1, 0))
     .HasApiVersion(new ApiVersion(2, 0))
-    .HasApiVersion(new ApiVersion(3, 0))
     .ReportApiVersions()
     .Build();
 app.UseHttpsRedirection();
