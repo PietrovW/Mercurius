@@ -55,9 +55,6 @@ Creating a migration:
 * [xunit](https://xunit.net/)
 ## Application architecture
 
-![swagger](/images/swagger.png)
-![login](/images/login.png)
-![Swagger Login](/images/swagger_Login.png)
 
 ## Links
 
