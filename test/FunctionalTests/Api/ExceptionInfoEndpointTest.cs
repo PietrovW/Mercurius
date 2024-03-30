@@ -1,6 +1,8 @@
 ﻿using Application.Entities;
 using Microsoft.AspNetCore.TestHost;
 using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Http;
 
 namespace FunctionalTests.Api;
 
@@ -12,10 +14,11 @@ public class ExceptionInfoEndpointTest
     {
         // Arrange
         // Act
-        AppFixture application = new AppFixture();
+        var application = new AppFixture();
 
         await application.InitializeAsync();
         var httpClient = application.Host.GetTestClient();
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test");
         var result = await httpClient.GetAsync("/api/exceptionInfo");
 
         // Assert

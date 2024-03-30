@@ -21,7 +21,7 @@ public class GetExceptionInfoByID
     public async Task RemoveEmptyQuantities()
     {
         // Arrange
-        ExceptionInfoEntitie exceptionInfo = new ExceptionInfoEntitie() { 
+        var exceptionInfo = new ExceptionInfoEntitie() { 
             InnerException =string.Empty,
             Message = string.Empty, 
             Source = string.Empty, 

@@ -123,7 +123,7 @@ internal static class ServiceCollectionExtensions
                );
         });
 
-        services.AddAuthorization();
+       // services.AddAuthorization();
         
         return services;
     }
