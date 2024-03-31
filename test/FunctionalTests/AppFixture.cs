@@ -7,6 +7,7 @@ using Infrastructure.Data;
 using JasperFx.Core;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Oakton;
 
@@ -32,12 +33,15 @@ public class AppFixture : IDisposable, IAsyncLifetime
         Environment.SetEnvironmentVariable("Provider", Provider.InMemory.Name);
         Host = await AlbaHost.For<Program>(x =>
         {
-            x.ConfigureServices((context, services) =>
+            x.ConfigureTestServices((services) =>
             {
-                services.AddSingleton<IAuthorizationHandler, TestAuthHandler>();
+                services.AddSingleton<IAuthorizationHandler, TestAuthorizationHandler>();
                 services.Configure<TestAuthHandlerOptions>(options => options.DefaultUserId = "teste");
-               // services.AddAuthentication()
-                 //     .AddScheme<TestAuthHandlerOptions, TestAuthHandler>(TestAuthHandler.AuthenticationScheme, options => { });
+               // services.AddSingleton<IAuthorizationHandler, DecisionRequirementHandler>();
+                services.AddAuthentication(TestAuthHandler.AuthenticationScheme)
+                    .AddScheme<TestAuthHandlerOptions, TestAuthHandler>(TestAuthHandler.AuthenticationScheme, options => { });
+                // services.AddAuthentication()
+                //     .AddScheme<TestAuthHandlerOptions, TestAuthHandler>(TestAuthHandler.AuthenticationScheme, options => { });
             });
         });
         

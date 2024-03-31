@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.TestHost;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace FunctionalTests.Api;
 
@@ -18,7 +19,7 @@ public class ExceptionInfoEndpointTest
 
         await application.InitializeAsync();
         var httpClient = application.Host.GetTestClient();
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test");
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme);
         var result = await httpClient.GetAsync("/api/exceptionInfo");
 
         // Assert
