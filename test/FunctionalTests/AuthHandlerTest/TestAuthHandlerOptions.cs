@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FunctionalTests.AuthHandlerTest;
 
-public class TestAuthHandlerOptions : JwtBearerOptions// AuthenticationSchemeOptions
+public class TestAuthHandlerOptions :  AuthenticationSchemeOptions
 {
     public string DefaultUserId { get; set; } = null!;
 }

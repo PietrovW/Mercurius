@@ -5,7 +5,7 @@ using System.Text.Encodings.Web;
 
 namespace FunctionalTests.AuthHandlerTest;
 
-public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+public class TestAuthHandler : AuthenticationHandler<TestAuthHandlerOptions>
 {
     public const string UserId = "UserId";
 
@@ -13,12 +13,12 @@ public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
     private readonly string _defaultUserId;
 
     public TestAuthHandler(
-        IOptionsMonitor<AuthenticationSchemeOptions> options,
+        IOptionsMonitor<TestAuthHandlerOptions> options,
         ILoggerFactory logger,
         UrlEncoder encoder,
         ISystemClock clock) : base(options, logger, encoder, clock)
     {
-        //_defaultUserId = options.CurrentValue.DefaultUserId;
+        _defaultUserId = options.CurrentValue.DefaultUserId;
     }
 
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()

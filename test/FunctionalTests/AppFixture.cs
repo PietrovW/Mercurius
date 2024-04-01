@@ -50,7 +50,7 @@ public class AppFixture : IDisposable, IAsyncLifetime
                     options.DefaultScheme = TestAuthHandler.AuthenticationScheme;
                     options.DefaultChallengeScheme = TestAuthHandler.AuthenticationScheme;
                 })
-                .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(TestAuthHandler.AuthenticationScheme, options => { });
+                .AddScheme<TestAuthHandlerOptions, TestAuthHandler>(TestAuthHandler.AuthenticationScheme, options => { });
 
               //  services.AddAuthentication(defaultScheme: "TestScheme")
                 //     .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("TestScheme", options => { });
