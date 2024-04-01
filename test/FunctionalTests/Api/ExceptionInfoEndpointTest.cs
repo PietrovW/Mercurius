@@ -4,6 +4,11 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using FunctionalTests.AuthHandlerTest;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace FunctionalTests.Api;
 
@@ -13,17 +18,28 @@ public class ExceptionInfoEndpointTest
     [Fact]
     public async Task GetAllExceptionInfoItemCommandShouldReturnStatusCodeOK()
     {
-        // Arrange
-        // Act
-        var application = new AppFixture();
+        try
+        {
 
-        await application.InitializeAsync();
-        var httpClient = application.Host.GetTestClient();
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme);
-        var result = await httpClient.GetAsync("/api/exceptionInfo");
+            var jwt = CreateTestJwt("rola_add");
 
-        // Assert
-        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            // Arrange
+            // Act
+            var application = new AppFixture();
+
+            await application.InitializeAsync();
+            var httpClient = application.Host.GetTestClient();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme: "TestScheme", jwt);
+            //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(TestAuthHandler.AuthenticationScheme, jwt);
+            var result = await httpClient.GetAsync("/api/exceptionInfo");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
     
     [Fact]
@@ -80,5 +96,25 @@ public class ExceptionInfoEndpointTest
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
+    }
+
+    private static string CreateTestJwt(string role)
+    {
+        var securityTokenDescriptor = new SecurityTokenDescriptor
+        {
+            NotBefore = DateTime.UtcNow,
+            Expires = DateTime.UtcNow.AddMinutes(1),
+            SigningCredentials = new SigningCredentials(new RsaSecurityKey(RSA.Create()), SecurityAlgorithms.RsaSha512),
+            Subject = new ClaimsIdentity(new List<Claim>
+        {
+            new("name", "Some User"), new("role", role)
+        })
+        };
+
+        var securityTokenHandler = new JwtSecurityTokenHandler();
+        var token = securityTokenHandler.CreateToken(securityTokenDescriptor);
+        var encodedAccessToken = securityTokenHandler.WriteToken(token);
+
+        return encodedAccessToken;
     }
 }

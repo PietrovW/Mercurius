@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
 namespace FunctionalTests.AuthHandlerTest;
 
-public class TestAuthHandlerOptions : AuthenticationSchemeOptions
+public class TestAuthHandlerOptions : JwtBearerOptions// AuthenticationSchemeOptions
 {
     public string DefaultUserId { get; set; } = null!;
 }

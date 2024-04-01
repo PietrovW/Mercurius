@@ -15,6 +15,7 @@ internal sealed class RolesClaimsTransformation : IClaimsTransformation
     public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
     {
         var result = principal.Clone();
+        return Task.FromResult(result);
         if (result.Identity is not ClaimsIdentity identity)
         {
             return Task.FromResult(result);

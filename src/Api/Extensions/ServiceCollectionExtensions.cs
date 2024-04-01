@@ -81,34 +81,37 @@ internal static class ServiceCollectionExtensions
         services.AddTransient<IClaimsTransformation>(_ =>
            new RolesClaimsTransformation("role"));
         services.AddHttpContextAccessor();
-       // services.Configure<JwtBearerOptions>(configuration.GetSection("JwtBearer"));
+        //services.Configure<JwtBearerOptions>(configuration.GetSection("JwtBearer"));
         services.AddSingleton<IAuthorizationHandler, DecisionRequirementHandler>();
-        services.AddAuthentication().AddJwtBearer(); 
-        //options =>
-        //{
-        //    options.Authority = $"{authServerUrl}realms/{realms}";
-        //    options.MetadataAddress = $"{authServerUrl}realms/{realms}/.well-known/openid-configuration";
-        //    options.RequireHttpsMetadata = false;
-        //    options.TokenValidationParameters = new TokenValidationParameters()
-        //    {
-        //        ValidateAudience = false,
-        //        ValidateIssuerSigningKey = true,
-        //        ValidateIssuer = true,
-        //        ValidIssuer = $"{authServerUrl}realms/{realms}",
-        //        ValidateLifetime = true,
-        //       // IssuerSigningKey = "",
-        //    };
-        //    options.Events = new JwtBearerEvents()
-        //    {
-        //        OnAuthenticationFailed = c =>
-        //        {
-        //            c.NoResult();
-        //            c.Response.StatusCode = 401;
-        //            c.Response.ContentType = "text/plain";
-        //            return c.Response.WriteAsync(c.Exception.ToString());
-        //        }
-        //    };
-        //});
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
+            options.Authority = $"{authServerUrl}realms/{realms}";
+            options.MetadataAddress = $"{authServerUrl}realms/{realms}/.well-known/openid-configuration";
+            options.RequireHttpsMetadata = false;
+            options.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateAudience = false,
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = true,
+                ValidIssuer = $"{authServerUrl}realms/{realms}",
+                ValidateLifetime = true,
+                // IssuerSigningKey = "",
+            };
+            options.Events = new JwtBearerEvents()
+            {
+                OnAuthenticationFailed = c =>
+                {
+                    c.NoResult();
+                    c.Response.StatusCode = 401;
+                    c.Response.ContentType = "text/plain";
+                    return c.Response.WriteAsync(c.Exception.ToString());
+                }
+            };
+        });
 
         services.AddAuthorization(options =>
         {
