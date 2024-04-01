@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.TestHost;
 using System.Net;
 using System.Net.Http.Headers;
-using System.Net.Http;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using FunctionalTests.AuthHandlerTest;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,36 +16,26 @@ public class ExceptionInfoEndpointTest
     [Fact]
     public async Task GetAllExceptionInfoItemCommandShouldReturnStatusCodeOK()
     {
-        try
-        {
+        // Arrange
+        var jwt = CreateTestJwt("rola_add");
+        var application = new AppFixture();
+        await application.InitializeAsync();
+        var httpClient = application.Host.GetTestClient();
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme: TestAuthHandler.AuthenticationScheme, jwt);
+        // Act
+        var result = await httpClient.GetAsync("/api/exceptionInfo");
 
-            var jwt = CreateTestJwt("rola_add");
-
-            // Arrange
-            // Act
-            var application = new AppFixture();
-
-            await application.InitializeAsync();
-            var httpClient = application.Host.GetTestClient();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme: "TestScheme", jwt);
-            //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(TestAuthHandler.AuthenticationScheme, jwt);
-            var result = await httpClient.GetAsync("/api/exceptionInfo");
-
-            // Assert
-            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-        }
-        catch (Exception ex)
-        {
-
-        }
+        // Assert
+        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
-    
+
     [Fact]
     public async Task CreatingExceptionInfoItemCommandShouldReturnIt()
     {
         // Arrange
         var Id = Guid.NewGuid();
-        var exceptionInfo = new ExceptionInfoEntitie() {
+        var exceptionInfo = new ExceptionInfoEntitie()
+        {
             Id = Guid.NewGuid(),
             InnerException = $"InnerException_{Id} ",
             Message = $"Message_{Id} ",
@@ -60,7 +48,7 @@ public class ExceptionInfoEndpointTest
 
         await application.InitializeAsync();
         var httpClient = application.Host.GetTestClient();
-        var result = await httpClient.PostAsJsonAsync<ExceptionInfoEntitie>("/api/exceptionInfo",value: exceptionInfo);
+        var result = await httpClient.PostAsJsonAsync<ExceptionInfoEntitie>("/api/exceptionInfo", value: exceptionInfo);
 
         // Assert
         Assert.Equal(HttpStatusCode.Created, result.StatusCode);
