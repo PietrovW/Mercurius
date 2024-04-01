@@ -15,7 +15,6 @@ Launch Apps, using the command
     docker-compose up
 ```
 ## Features
-
 - Zgłaszanie błędów: Użytkownicy mogą zgłaszać błędy, defekty i problemy związane z aplikacją.
 - Przypisywanie i śledzenie: Błędy są przypisywane do odpowiednich członków zespołu, a następnie śledzone w procesie naprawy.
 - Priorytety i statusy: Każdy błąd ma przypisany priorytet (np. krytyczny, wysoki, niski) oraz status (np. otwarty, w trakcie naprawy, zamknięty).
@@ -31,11 +30,9 @@ Creating a migration:
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.MySql  -- --provider MySql
 ```
-
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.Postgres  -- --provider Postgres
 ```
-
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.SqlServer  -- --provider SqlServer
 ```
