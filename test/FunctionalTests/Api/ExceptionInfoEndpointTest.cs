@@ -21,7 +21,7 @@ public class ExceptionInfoEndpointTest
         var application = new AppFixture();
         await application.InitializeAsync();
         var httpClient = application.Host.GetTestClient();
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme: TestAuthHandler.AuthenticationScheme, jwt);
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme: TestAuthHandler.AuthenticationScheme);
         // Act
         var result = await httpClient.GetAsync("/api/exceptionInfo");
 

@@ -22,10 +22,10 @@ public class TestAuthHandler : AuthenticationHandler<TestAuthHandlerOptions>
 
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        var claims = new[] { new Claim(ClaimTypes.Name, "Test user") };
+        var claims = new[] { new Claim(ClaimTypes.Name, "Test user"),new Claim("realm_access", "{\"roles\":[\"rola_add\"]}") };
         var identity = new ClaimsIdentity(claims, "Test");
         var principal = new ClaimsPrincipal(identity);
-        var ticket = new AuthenticationTicket(principal, "TestScheme");
+        var ticket = new AuthenticationTicket(principal, AuthenticationScheme);
 
         var result = AuthenticateResult.Success(ticket);
 
