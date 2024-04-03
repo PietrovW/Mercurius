@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 namespace Api.Extensions;
 
 internal static class ServiceCollectionExtensions
@@ -78,10 +79,11 @@ internal static class ServiceCollectionExtensions
     {
         string authServerUrl= configuration["Keycloak:AuthServerUrl"]!;
         string realms = configuration["Keycloak:realm"]!;
+        string issuerSigningKey = configuration["JwtBearer:IssuerSigningKey"]!;
         services.AddTransient<IClaimsTransformation>(_ =>
            new RolesClaimsTransformation("role"));
         services.AddHttpContextAccessor();
-        //services.Configure<JwtBearerOptions>(configuration.GetSection("JwtBearer"));
+        
         services.AddSingleton<IAuthorizationHandler, DecisionRequirementHandler>();
         services.AddAuthentication(options =>
         {
@@ -99,7 +101,7 @@ internal static class ServiceCollectionExtensions
                 ValidateIssuer = true,
                 ValidIssuer = $"{authServerUrl}realms/{realms}",
                 ValidateLifetime = true,
-                // IssuerSigningKey = "",
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(issuerSigningKey))
             };
             options.Events = new JwtBearerEvents()
             {
