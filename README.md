@@ -49,6 +49,8 @@ Creating a migration:
 ## Application architecture
 
 
+
+
 ## Links
 [Link architecture pattern](https://github.com/dotnet-architecture/eShopOnWeb)
 [Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
