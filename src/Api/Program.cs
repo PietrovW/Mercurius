@@ -20,6 +20,7 @@ using System.Net;
 using Ardalis.Result;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Builder;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 [assembly: InternalsVisibleTo("FunctionalTests")]
 
@@ -30,7 +31,6 @@ builder.Configuration.AddEnvironmentVariables(prefix: "Mercurius_");
 ConfigurationManager configuration = builder.Configuration;
 builder.Services.Configure<MercuriusOptions>(
     builder.Configuration.GetSection(MercuriusOptions.Mercurius));
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers(mvcOptions => mvcOptions
     .AddResultConvention(resultStatusMap => resultStatusMap
         .AddDefaultMap()
@@ -41,7 +41,9 @@ builder.Services.AddControllers(mvcOptions => mvcOptions
     ));
 builder.Services.AddApplicationSwagger(configuration: configuration)
     .AddConfigurationDataBase(configuration: configuration)
-    .AddAuth(configuration: configuration);
+    .AddSwagger(configuration: configuration)
+    .AddAuth(configuration: configuration)
+    .AddAndConfigLocalization();
 builder.Host.UseWolverine(options =>
 {
     options.Discovery.IncludeAssembly(typeof(Application.Extensions).Assembly);
@@ -67,14 +69,14 @@ builder.Services.AddApiVersioning(options =>
 {
     options.GroupNameFormat = "'v'V";
     options.SubstituteApiVersionInUrl = true;
-});
+}).EnableApiVersionBinding();
 
-//}).AddApiExplorer(options =>
+//builder.Services.AddSwaggerGen(options =>
 //{
-//    options.GroupNameFormat = "'v'V";
-//    options.SubstituteApiVersionInUrl = true;
+//    options.OperationFilter<SwaggerDefaultValues>();
+//    options.OperationFilter<SwaggerLanguageHeader>();
 //});
-
+builder.Services.Configure<RouteOptions>(options => { options.LowercaseUrls = true; });
 var app = builder.Build();
 ApiVersionSet versionSet = app.NewApiVersionSet()
      .HasApiVersion(version1)
@@ -86,7 +88,7 @@ app.UseHttpsRedirection();
 if (app.Environment.IsDevelopment())
 {
     app.UseApplicationSwagger(configuration: configuration);
-    app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
+   
 }
 app.UseAuthentication();
 app.UseAuthorization();
@@ -101,6 +103,7 @@ app.MapPost("/api/v{version:apiVersion}/exceptionInfo", async (CreateExceptionIn
          Results.Created($"/exceptionInfoItems/{exceptionInfos.Id}", body) : Results.BadRequest()
     ).WithApiVersionSet(versionSet).MapToApiVersion(1)
      .Produces<Result<ExceptionInfoCreatedEvent>>(StatusCodes.Status200OK)
+      .Produces<Result>(StatusCodes.Status400BadRequest)
      .WithOpenApi().RequireAuthorization(RolesConstants.RolaAdd);
 
 app.MapGet("/api/v{version:apiVersion}/exceptionInfo", async (IMessageBus bus) => await bus.InvokeAsync<IEnumerable<ExceptionInfoEntitie>>(new GetAllExceptionInfoQuerie()) is IEnumerable<ExceptionInfoEntitie> exceptionInfos
@@ -109,16 +112,17 @@ app.MapGet("/api/v{version:apiVersion}/exceptionInfo", async (IMessageBus bus) =
 
          .Produces<Result<IEnumerable<ExceptionInfoEntitie>>>(StatusCodes.Status200OK)
        .Produces<Result<IEnumerable<ExceptionInfoEntitie>>>(StatusCodes.Status404NotFound)
-      // .WithApiVersionSet(versionSet)
+       .Produces<Result>(StatusCodes.Status400BadRequest)
        .WithOpenApi().RequireAuthorization(RolesConstants.RolaAdd);
 
 app.MapGet("/api/v{version:apiVersion}/exceptionInfo/{id}", async (Guid id, IMessageBus bus) => await bus.InvokeAsync<ExceptionInfoEntitie>(new GetExceptionInfoByIdQuerie(Id: id)) is ExceptionInfoEntitie item
                 ? Result<ExceptionInfoEntitie>.Success(item)
                 : Result<ExceptionInfoEntitie>.NotFound()).WithApiVersionSet(versionSet).MapToApiVersion(1)
          .Produces<Result<ExceptionInfoEntitie>>(StatusCodes.Status200OK)
-       .Produces(StatusCodes.Status404NotFound).RequireAuthorization(RolesConstants.RolaAdd);
+         .Produces<Result>(StatusCodes.Status400BadRequest)
+       .Produces<Result<ExceptionInfoEntitie>>(StatusCodes.Status404NotFound).RequireAuthorization(RolesConstants.RolaAdd);
 
 app.UseHttpsRedirection();
-
+app.UseApiExceptionHandling();
 
 return await app.RunOaktonCommands(args);

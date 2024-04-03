@@ -5,39 +5,63 @@ using Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Globalization;
 using System.Text;
 namespace Api.Extensions;
 
 internal static class ServiceCollectionExtensions
 {
+
+    public static IServiceCollection AddAndConfigLocalization(this IServiceCollection services)
+    {
+        //services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+        //var supportedCultures = new List<CultureInfo> { new("en"), new("fa") };
+        //services.Configure<RequestLocalizationOptions>(options =>
+        //{
+        //    options.DefaultRequestCulture = new RequestCulture("fa");
+        //    options.SupportedCultures = supportedCultures;
+        //    options.SupportedUICultures = supportedCultures;
+        //});
+
+        return services;
+    }
+
     public static IServiceCollection AddSwagger(this IServiceCollection services, ConfigurationManager configuration)
     {
-        services.AddSwaggerGen(c =>
-        {
-            var securityScheme = new OpenApiSecurityScheme
-            {
-                Name = "JWT Authentication",
-                Description = "Enter JWT Bearer token **_only_**",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.OpenIdConnect,
-                OpenIdConnectUrl = new Uri($"{configuration["Keycloak:auth-server-url"]}realms/{configuration["Keycloak:realm"]}/.well-known/openid-configuration"),
-                Scheme = "bearer",
-                BearerFormat = "JWT",
-                Reference = new OpenApiReference
-                {
-                    Id = JwtBearerDefaults.AuthenticationScheme,
-                    Type = ReferenceType.SecurityScheme
-                }
-            };
-            c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {securityScheme, Array.Empty<string>()}
-            });
-        });
+        //services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+        //services.AddSwaggerGen(options =>
+        //{
+        //    options.OperationFilter<SwaggerDefaultValues>();
+        //    options.OperationFilter<SwaggerLanguageHeader>();
+
+        //    //var securityScheme = new OpenApiSecurityScheme
+        //    //{
+        //    //    Name = "JWT Authentication",
+        //    //    Description = "Enter JWT Bearer token **_only_**",
+        //    //    In = ParameterLocation.Header,
+        //    //    Type = SecuritySchemeType.OpenIdConnect,
+        //    //    OpenIdConnectUrl = new Uri($"{configuration["Keycloak:auth-server-url"]}realms/{configuration["Keycloak:realm"]}/.well-known/openid-configuration"),
+        //    //    Scheme = "bearer",
+        //    //    BearerFormat = "JWT",
+        //    //    Reference = new OpenApiReference
+        //    //    {
+        //    //        Id = JwtBearerDefaults.AuthenticationScheme,
+        //    //        Type = ReferenceType.SecurityScheme
+        //    //    }
+        //    //};
+        //    //options.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+        //    //options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        //    //{
+        //    //    {securityScheme, Array.Empty<string>()}
+        //    //});
+        //});
         return services;
     }
 
@@ -135,8 +159,10 @@ internal static class ServiceCollectionExtensions
         string authServerUrl = configuration["Keycloak:AuthServerUrl"]!;
         string realms = configuration["Keycloak:realm"]!;
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(c =>
+        services.AddSwaggerGen(options =>
         {
+            options.OperationFilter<SwaggerDefaultValues>();
+            options.OperationFilter<SwaggerLanguageHeader>();
             var securityScheme = new OpenApiSecurityScheme
             {
                 Name = "Auth",
@@ -156,20 +182,35 @@ internal static class ServiceCollectionExtensions
                     }
                 }
             };
-            c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            options.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {securityScheme, Array.Empty<string>()}
+            });
+
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Mercurius API",
+                Version = "v1",
+                Description = "Mercurius API",
+               
             });
         });
         return services;
     }
-
-    public static IApplicationBuilder UseApplicationSwagger(this IApplicationBuilder app, IConfiguration configuration)
+    const string SwaggerRoutePrefix = "api-docs";
+    public static IApplicationBuilder UseApplicationSwagger(this WebApplication app, IConfiguration configuration)
     {
         string resource = configuration["Keycloak:resource"]!;
-        app.UseSwagger();
-        app.UseSwaggerUI(s => s.OAuthClientId(resource));
+        app.UseSwagger(options => { options.RouteTemplate = "api-docs/{documentName}/docs.json"; });
+        app.UseSwaggerUI(options =>
+        {
+            options.OAuthClientId(resource);
+            options.RoutePrefix = SwaggerRoutePrefix;
+            foreach (var description in app.DescribeApiVersions())
+                options.SwaggerEndpoint($"/{SwaggerRoutePrefix}/{description.GroupName}/docs.json", description.GroupName.ToUpperInvariant());
+        });
+        app.MapGet("/", () => Results.Redirect($"/swagger")).ExcludeFromDescription();
         return app;
     }
 }

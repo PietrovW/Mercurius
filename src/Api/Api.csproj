@@ -26,6 +26,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
@@ -38,6 +39,10 @@
     <ProjectReference Include="..\Migrations\Infrastructure.MySql\Infrastructure.MySql.csproj" />
     <ProjectReference Include="..\Migrations\Infrastructure.Postgres\Infrastructure.Postgres.csproj" />
     <ProjectReference Include="..\Migrations\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>
