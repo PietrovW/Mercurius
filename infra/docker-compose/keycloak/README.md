@@ -163,6 +163,9 @@ Wypełnij formularz w następujący sposób:
 * Root URL: http://localhost:5126
 * Valid Redirect URIs:http://localhost:5126/*
 * Web Origins: http://localhost:5126/
+
+ każdym polu podano odpowiednie wartości, zgodnie z konkretną konfiguracją.
+  
 ![create_client_step_next_mercurius.png](/images/create_client_step_next_mercurius.png)
 
 
@@ -172,3 +175,5 @@ Wypełnij formularz w następujący sposób:
 
 
 ![create_client_user_mercurius.png](/images/create_client_user_mercurius.png)
+
+pobierz dane uwierzytelniające i wygeneruj tokeny
