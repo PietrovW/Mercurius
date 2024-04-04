@@ -157,10 +157,10 @@ Aby utworzyć nowego klienta Keycloak, przejdź do menu Klienci i kliknij przyci
 ![create_client_step_mercurius.png](/images/create_client_step_mercurius.png)
 Wypełnij formularz w następujący sposób:
 * Client Type: OpenID Connect
-* Client ID: (e.g., “codex” in this case)
+* Client ID: "mercurius-client"
 * Client Authentication: Enabled
 * Authorization: Enabled
-* Root URL: http://localhost:5126 (the address of your local API app)
+* Root URL: http://localhost:5126
 * Valid Redirect URIs:http://localhost:5126/*
 * Web Origins: http://localhost:5126/
 ![create_client_step_next_mercurius.png](/images/create_client_step_next_mercurius.png)
