@@ -152,12 +152,23 @@ Ta opcja menu przeniesie Cię na stronę Dodaj Realm. Podaj nazwę dziedziny, kt
 ![create_realn_mercurius.png](/images/create_realn_mercurius.png)
 ![keycloak_home_mercurius.png](/images/keycloak_home_mercurius.png)
 
-
+Tworzenie nowego klienta Keycloak
+Aby utworzyć nowego klienta Keycloak, przejdź do menu Klienci i kliknij przycisk Utwórz klienta.
 ![create_client_step_mercurius.png](/images/create_client_step_mercurius.png)
-
+Wypełnij formularz w następujący sposób:
+* Client Type: OpenID Connect
+* Client ID: (e.g., “codex” in this case)
+* Client Authentication: Enabled
+* Authorization: Enabled
+* Root URL: http://localhost:5126 (the address of your local API app)
+* Valid Redirect URIs:http://localhost:5126/*
+* Web Origins: http://localhost:5126/
 ![create_client_step_next_mercurius.png](/images/create_client_step_next_mercurius.png)
 
 
 ![create_role_rola_add_mercurius.png](/images/create_role_rola_add_mercurius.png)
 
 ![create_client_step_finish_mercurius.png](/images/create_client_step_finish_mercurius.png)
+
+
+![create_client_user_mercurius.png](/images/create_client_user_mercurius.png)
