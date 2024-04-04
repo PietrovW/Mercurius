@@ -1,9 +1,8 @@
 
-## Keycloak
+## Konfiguracja Keycloak
 
 
 Keycloak configuration: 
-
 
 Testing 
 
@@ -40,8 +39,9 @@ services.AddAuthentication(options =>
 
 
 
+# Konfiguracja Docker Compose
 
-
+W tym kroku skonfigurujemy plik docker-compose.yaml, aby skonfigurować Keycloak za pomocą Docker Compose. Ta konfiguracja definiuje dwie usługi: postgres_db i keycloak, pgadmin wraz z powiązanymi woluminami.
 ```
 version: '3.9'
 
@@ -126,4 +126,11 @@ KC_DB_USERNAME=mercurius_user
 KC_DB_PASSWORD=mercuriuscret
 KC_DB_SCHEMA=public
 KEYCLOAK_ADMIN=admin
+```
+
+
+Aby uruchomić usługe Keycloak, uruchom następującego polecenie w terminalu:
+
+```
+docker compose up -d
 ```
