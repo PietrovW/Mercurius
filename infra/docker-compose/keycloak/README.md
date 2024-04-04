@@ -143,3 +143,6 @@ https://localhost:8443
 
 strona startowa 
 ![keycloak_start](/images/keycloak_start.png)
+
+strona logowania do Keycloak
+![keycloak_home_login.png](/images/keycloak_home_login.png)
