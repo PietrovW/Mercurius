@@ -152,3 +152,9 @@ Ta opcja menu przeniesie Cię na stronę Dodaj Realm. Podaj nazwę dziedziny, kt
 ![create_realn_mercurius.png](/images/create_realn_mercurius.png)
 ![keycloak_home_mercurius.png](/images/keycloak_home_mercurius.png)
 
+
+![create_client_step_mercurius.png](/images/create_client_step_mercurius.png)
+
+![create_client_step_next_mercurius.png](/images/create_client_step_next_mercurius.png)
+
+![create_client_step_finish_mercurius.png](/images/create_client_step_finish_mercurius.png)
