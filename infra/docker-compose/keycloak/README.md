@@ -178,3 +178,5 @@ Wypełnij formularz w następujący sposób:
 
 pobierz dane uwierzytelniające i wygeneruj tokeny
 ![client_get_secret_mercurius.png](/images/client_get_secret_mercurius.png)
+
+![user_add_role_add_mercurius.png](/images/user_add_role_add_mercurius.png)
