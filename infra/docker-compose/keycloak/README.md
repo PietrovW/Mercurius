@@ -150,3 +150,5 @@ Zaloguj się do konsoli administracyjnej Keycloak, kliknij Dodaj dziedzinę z me
 
 Ta opcja menu przeniesie Cię na stronę Dodaj Realm. Podaj nazwę dziedziny, którą chcesz zdefiniować i kliknij przycisk Utwórz. Alternatywnie możesz zaimportować dokument JSON, który definiuje Twoją nową Realm. Omówimy to bardziej szczegółowo w rozdziale Eksport i import.
 ![create_realn_mercurius.png](/images/create_realn_mercurius.png)
+![keycloak_home_mercurius.png](/images/keycloak_home_mercurius.png)
+
