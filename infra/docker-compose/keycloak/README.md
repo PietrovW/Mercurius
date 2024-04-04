@@ -140,3 +140,6 @@ Zainicjowanie Keycloak może zająć trochę czasu potrwać  przy pierwszym uruc
 http://localhost:8080
 https://localhost:8443
 ```
+
+strona startowa 
+[keycloak_start](/images/keycloak_start.png)
