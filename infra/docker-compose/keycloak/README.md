@@ -134,3 +134,9 @@ Aby uruchomić usługe Keycloak, uruchom następującego polecenie w terminalu:
 ```
 docker compose up -d
 ```
+
+Zainicjowanie Keycloak może zająć trochę czasu potrwać  przy pierwszym uruchomieniu. Po uruchomieniu możesz uzyskać dostęp do  Keycloak pod adresem
+```
+http://localhost:8080
+https://localhost:8443
+```
