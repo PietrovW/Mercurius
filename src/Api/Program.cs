@@ -18,10 +18,6 @@ using Asp.Versioning.Builder;
 using Ardalis.Result.AspNetCore;
 using System.Net;
 using Ardalis.Result;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Builder;
-using Swashbuckle.AspNetCore.SwaggerGen;
-
 [assembly: InternalsVisibleTo("FunctionalTests")]
 
 var builder = WebApplication.CreateSlimBuilder(args);
@@ -41,7 +37,6 @@ builder.Services.AddControllers(mvcOptions => mvcOptions
     ));
 builder.Services.AddApplicationSwagger(configuration: configuration)
     .AddConfigurationDataBase(configuration: configuration)
-    .AddSwagger(configuration: configuration)
     .AddAuth(configuration: configuration)
     .AddAndConfigLocalization();
 builder.Host.UseWolverine(options =>

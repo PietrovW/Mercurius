@@ -29,38 +29,6 @@ internal static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddSwagger(this IServiceCollection services, ConfigurationManager configuration)
-    {
-        //services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-        //services.AddSwaggerGen(options =>
-        //{
-        //    options.OperationFilter<SwaggerDefaultValues>();
-        //    options.OperationFilter<SwaggerLanguageHeader>();
-
-        //    //var securityScheme = new OpenApiSecurityScheme
-        //    //{
-        //    //    Name = "JWT Authentication",
-        //    //    Description = "Enter JWT Bearer token **_only_**",
-        //    //    In = ParameterLocation.Header,
-        //    //    Type = SecuritySchemeType.OpenIdConnect,
-        //    //    OpenIdConnectUrl = new Uri($"{configuration["Keycloak:auth-server-url"]}realms/{configuration["Keycloak:realm"]}/.well-known/openid-configuration"),
-        //    //    Scheme = "bearer",
-        //    //    BearerFormat = "JWT",
-        //    //    Reference = new OpenApiReference
-        //    //    {
-        //    //        Id = JwtBearerDefaults.AuthenticationScheme,
-        //    //        Type = ReferenceType.SecurityScheme
-        //    //    }
-        //    //};
-        //    //options.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
-        //    //options.AddSecurityRequirement(new OpenApiSecurityRequirement
-        //    //{
-        //    //    {securityScheme, Array.Empty<string>()}
-        //    //});
-        //});
-        return services;
-    }
-
     public static IServiceCollection AddConfigurationDataBase(this IServiceCollection services, ConfigurationManager configuration)
     {
         services.AddDbContextFactory<MercuriusContext>(options =>
