@@ -109,7 +109,7 @@ volumes:
     driver: local 
 ```
 
-
+kowiguracaja pliku  .env
 
 ```
 KEYCLOAK_VERSION=23.0.6
