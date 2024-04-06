@@ -1,5 +1,5 @@
 
-## Keycloak
+# Keycloak
 
 Keycloak to otwarte oprogramowanie umożliwiające jednokrotne logowanie (SSO) oraz zarządzanie tożsamością. Jest to rozwiązanie, które dodaje uwierzytelnianie i autoryzację do aplikacji i usług z minimalnym wysiłkiem. Oto kilka kluczowych cech Keycloak:
 
