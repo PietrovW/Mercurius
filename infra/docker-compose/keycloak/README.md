@@ -2,7 +2,6 @@
 # Keycloak
 
 Keycloak to otwarte oprogramowanie umożliwiające jednokrotne logowanie (SSO) oraz zarządzanie tożsamością. Jest to rozwiązanie, które dodaje uwierzytelnianie i autoryzację do aplikacji i usług z minimalnym wysiłkiem. Oto kilka kluczowych cech Keycloak:
-
 Jednokrotne logowanie (SSO): Użytkownicy uwierzytelniają się w Keycloak, a nie w poszczególnych aplikacjach. To oznacza, że Twoje aplikacje nie muszą obsługiwać formularzy logowania, uwierzytelniania użytkowników ani przechowywania ich danych. Po zalogowaniu się w Keycloak, użytkownicy nie muszą ponownie logować się, aby uzyskać dostęp do innej aplikacji. To samo dotyczy wylogowywania się.
 Broker tożsamości i logowanie społecznościowe: Dodawanie logowania za pomocą sieci społecznościowych jest proste. Wystarczy wybrać społeczność, którą chcesz dodać, bez konieczności zmian w kodzie aplikacji. Keycloak może również uwierzytelniać użytkowników za pomocą istniejących dostawców tożsamości OpenID Connect lub SAML 2.0.
 Federacja użytkowników: Keycloak ma wbudowane wsparcie dla połączenia z istniejącymi serwerami LDAP lub Active Directory. Możesz również zaimplementować własny dostawca, jeśli masz użytkowników w innych źródłach, takich jak baza danych relacyjna.
@@ -12,10 +11,64 @@ Jeśli potrzebujesz bardziej szczegółowych informacji, możesz sprawdzić doku
 
 ## Konfiguracja Keycloak
 
+Keycloak configuration .net : 
 
-Keycloak configuration: 
+```
+public static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
+{
+    string authServerUrl= configuration["Keycloak:AuthServerUrl"]!;
+    string realms = configuration["Keycloak:realm"]!;
+    string issuerSigningKey = configuration["JwtBearer:IssuerSigningKey"]!;
+    services.AddTransient<IClaimsTransformation>(_ =>
+       new RolesClaimsTransformation("role"));
+    services.AddHttpContextAccessor();
+    
+    services.AddSingleton<IAuthorizationHandler, DecisionRequirementHandler>();
+    services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(options =>
+    {
+        options.Authority = $"{authServerUrl}realms/{realms}";
+        options.MetadataAddress = $"{authServerUrl}realms/{realms}/.well-known/openid-configuration";
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            ValidateIssuer = true,
+            ValidIssuer = $"{authServerUrl}realms/{realms}",
+            ValidateLifetime = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(issuerSigningKey))
+        };
+        options.Events = new JwtBearerEvents()
+        {
+            OnAuthenticationFailed = c =>
+            {
+                c.NoResult();
+                c.Response.StatusCode = 401;
+                c.Response.ContentType = "text/plain";
+                return c.Response.WriteAsync(c.Exception.ToString());
+            }
+        };
+    });
 
+    services.AddAuthorization(options =>
+    {
+        options.DefaultPolicy = new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .RequireClaim("email_verified", "true")
+            .Build();
 
+        options.AddPolicy(RolesConstants.RolaAdd
+               , builder => builder.AddRequirements(new DecisionRequirement(RolesConstants.RolaAdd))
+           );
+    });
+    
+    return services;
+}
+```
 
 # Konfiguracja Docker Compose
 
