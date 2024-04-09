@@ -46,8 +46,6 @@ Creating a migration:
 * [MySql](Pomelo.EntityFrameworkCore.MySql)
 * [Docker Compose](https://docs.docker.com/compose/)
 * [xunit](https://xunit.net/)
-## Application architecture
-
 
 
 
@@ -57,7 +55,6 @@ Creating a migration:
 
 
 ## License
-
 Mercurius is licensed under the [MIT LICENSE](https://choosealicense.com/licenses/mit/) 
 
 
