@@ -1,6 +1,6 @@
 ﻿namespace Application.ExceptionInfos.Commands.CreateExceptionInfoItem;
 
-public record CreateExceptionInfoItemCommand
+public sealed record CreateExceptionInfoItemCommand
 {
     public required string Message { get; init; }
     public required string Source { get; init; }
