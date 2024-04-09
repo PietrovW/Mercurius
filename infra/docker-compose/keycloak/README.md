@@ -1,43 +1,74 @@
 
+# Keycloak
+
+Keycloak to otwarte oprogramowanie umożliwiające jednokrotne logowanie (SSO) oraz zarządzanie tożsamością. Jest to rozwiązanie, które dodaje uwierzytelnianie i autoryzację do aplikacji i usług z minimalnym wysiłkiem. Oto kilka kluczowych cech Keycloak:
+Jednokrotne logowanie (SSO): Użytkownicy uwierzytelniają się w Keycloak, a nie w poszczególnych aplikacjach. To oznacza, że Twoje aplikacje nie muszą obsługiwać formularzy logowania, uwierzytelniania użytkowników ani przechowywania ich danych. Po zalogowaniu się w Keycloak, użytkownicy nie muszą ponownie logować się, aby uzyskać dostęp do innej aplikacji. To samo dotyczy wylogowywania się.
+Broker tożsamości i logowanie społecznościowe: Dodawanie logowania za pomocą sieci społecznościowych jest proste. Wystarczy wybrać społeczność, którą chcesz dodać, bez konieczności zmian w kodzie aplikacji. Keycloak może również uwierzytelniać użytkowników za pomocą istniejących dostawców tożsamości OpenID Connect lub SAML 2.0.
+Federacja użytkowników: Keycloak ma wbudowane wsparcie dla połączenia z istniejącymi serwerami LDAP lub Active Directory. Możesz również zaimplementować własny dostawca, jeśli masz użytkowników w innych źródłach, takich jak baza danych relacyjna.
+Konsola administracyjna: Administratorzy mogą centralnie zarządzać wszystkimi aspektami serwera Keycloak za pomocą konsoli administracyjnej. Mogą włączać i wyłączać różne funkcje, konfigurować federację tożsamości i zarządzać aplikacjami, usługami oraz politykami autoryzacji.
+Standardowe protokoły: Keycloak opiera się na standardowych protokołach i obsługuje OpenID Connect, OAuth 2.0 i SAML.
+Jeśli potrzebujesz bardziej szczegółowych informacji, możesz sprawdzić dokumentację Keycloak1. To narzędzie jest szczególnie przydatne dla zabezpieczania aplikacji i usług w kontekście tożsamości i autoryzacji.
+
 ## Konfiguracja Keycloak
 
-
-Keycloak configuration: 
-
-Testing 
+Keycloak configuration .net : 
 
 ```
-services.AddAuthentication(options =>
+public static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-{
-    options.Authority = $"{authServerUrl}realms/{realms}";
-    options.MetadataAddress = $"{authServerUrl}realms/{realms}/.well-known/openid-configuration";
-    options.RequireHttpsMetadata = false;
-    options.TokenValidationParameters = new TokenValidationParameters()
+    string authServerUrl= configuration["Keycloak:AuthServerUrl"]!;
+    string realms = configuration["Keycloak:realm"]!;
+    string issuerSigningKey = configuration["JwtBearer:IssuerSigningKey"]!;
+    services.AddTransient<IClaimsTransformation>(_ =>
+       new RolesClaimsTransformation("role"));
+    services.AddHttpContextAccessor();
+    
+    services.AddSingleton<IAuthorizationHandler, DecisionRequirementHandler>();
+    services.AddAuthentication(options =>
     {
-        ValidateAudience = false,
-        ValidateIssuerSigningKey = true,
-        ValidateIssuer = true,
-        ValidIssuer = $"{authServerUrl}realms/{realms}",
-        ValidateLifetime = true
-    };
-    options.Events = new JwtBearerEvents()
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(options =>
     {
-        OnAuthenticationFailed = c =>
+        options.Authority = $"{authServerUrl}realms/{realms}";
+        options.MetadataAddress = $"{authServerUrl}realms/{realms}/.well-known/openid-configuration";
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters()
         {
-            c.NoResult();
-            c.Response.StatusCode = 401;
-            c.Response.ContentType = "text/plain";
-            return c.Response.WriteAsync(c.Exception.ToString());
-        }
-    };
-});
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            ValidateIssuer = true,
+            ValidIssuer = $"{authServerUrl}realms/{realms}",
+            ValidateLifetime = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(issuerSigningKey))
+        };
+        options.Events = new JwtBearerEvents()
+        {
+            OnAuthenticationFailed = c =>
+            {
+                c.NoResult();
+                c.Response.StatusCode = 401;
+                c.Response.ContentType = "text/plain";
+                return c.Response.WriteAsync(c.Exception.ToString());
+            }
+        };
+    });
+
+    services.AddAuthorization(options =>
+    {
+        options.DefaultPolicy = new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .RequireClaim("email_verified", "true")
+            .Build();
+
+        options.AddPolicy(RolesConstants.RolaAdd
+               , builder => builder.AddRequirements(new DecisionRequirement(RolesConstants.RolaAdd))
+           );
+    });
+    
+    return services;
+}
 ```
-
-
 
 # Konfiguracja Docker Compose
 
@@ -178,3 +209,15 @@ Wypełnij formularz w następujący sposób:
 
 pobierz dane uwierzytelniające i wygeneruj tokeny
 ![client_get_secret_mercurius.png](/images/client_get_secret_mercurius.png)
+
+![user_add_role_add_mercurius.png](/images/user_add_role_add_mercurius.png)
+
+## Źródła 
+1. [Building an API with .NET Core, Docker and Kubernetes](https://medium.com/@josesousa8/building-an-api-with-net-core-docker-and-kubernetes-aa3e02add0c) 
+2. [Containerization and Kubernetes: Empowering Modern Application Development](https://www.wwt.com/blog/containerization-and-kubernetes-empowering-modern-application-development) 
+3. [Containerization and Microservices: The Future of Building and ...](https://dev.to/kingsley/containerization-and-microservices-the-future-of-building-and-deploying-modern-applications-1pia) 
+4. [Containers | Kubernetes](https://kubernetes.io/docs/concepts/containers/) 
+5. [Containerization and Kubernetes - Scaler Topics](https://www.scaler.com/topics/kubernetes/kubernetes-containerization/) 
+6. [What is Kubernetes Containerization? | Glossary | HPE](https://www.hpe.com/us/en/what-is/kubernetes-containerization.html) 
+7. [Demystifying containers, Docker, and Kubernetes](https://cloudblogs.microsoft.com/opensource/2019/07/15/how-to-get-started-containers-docker-kubernetes/)
+8. [minikube start | minikube (k8s.io)](https://minikube.sigs.k8s.io/docs/start/) 
