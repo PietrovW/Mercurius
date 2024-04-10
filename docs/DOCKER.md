@@ -8,7 +8,6 @@ Przed przystąpieniem do kroków upewnij się, że masz zainstalowane następuj�
 * .NET Core SDK 
 * Docker 
 
-
 Krok 1: Tworzenie interfejsu API przy użyciu .NET Core 
 
  Otwórz swoje ulubione środowisko programistyczne (IDE) lub wiersz poleceń (CLI). 
@@ -80,8 +79,6 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Api.dll"]
 
 ```
-
-
 
 ## Źródła 
 1. [Building an API with .NET Core, Docker and Kubernetes](https://medium.com/@josesousa8/building-an-api-with-net-core-docker-and-kubernetes-aa3e02add0c) 
