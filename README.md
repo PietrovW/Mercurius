@@ -8,6 +8,7 @@
 A program error collection application is a tool that allows you to detect,
 monitoring and reporting software errors
 
+
 Launch Apps, using the command
 ```
     docker-compose up
@@ -47,6 +48,7 @@ Creating a migration:
 
 ## Architecture
 
+
 Clean Architecture to wzorzec architektury, który ma na celu budowanie aplikacji, które są łatwe do utrzymania, skalowania i testowania. Osiąga to poprzez podział aplikacji na różne warstwy o odrębnych odpowiedzialnościach:
 
 Warstwa domeny (Domain Layer): Stanowi rdzeń aplikacji i zawiera zasady biznesowe oraz encje. Nie powinna mieć zależności zewnętrznych.
@@ -62,6 +64,7 @@ Jeśli chcesz zgłębić temat Clean Architecture w C#, polecam zapoznać się z
 ## Links
 [Link architecture pattern](https://github.com/dotnet-architecture/eShopOnWeb)
 [Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
+
 
 
 ## License
