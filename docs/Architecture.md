@@ -10,3 +10,6 @@ Clean Architecture to wzorzec architektury, który ma na celu budowanie aplikacj
 Warto również wspomnieć, że Clean Architecture i wzorzec Onion Architecture mają podobne cele i zasady, ale różnią się nieco w szczegółach. Onion Architecture skupia się na warstwie centralnej (zwanej Core), używając interfejsów i odwrócenia zależności, aby odseparować warstwy aplikacji i umożliwić wyższy stopień testowalności12.
 
 Jeśli chcesz zgłębić temat Clean Architecture w C#, polecam zapoznać się z materiałami dostępnymi na stronie Code Maze. Tam znajdziesz więcej informacji oraz przykłady implementacji tego wzorca.
+
+
+
