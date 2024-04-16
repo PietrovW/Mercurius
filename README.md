@@ -1,7 +1,6 @@
 [![100 - COMMITOW](https://img.shields.io/badge/100-COMMITOW-2ea44f)](https://100commitow.pl/)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-
 ![Logo](/images/logo.png)
 
 # Readme Mercurius
@@ -36,6 +35,7 @@ Creating a migration:
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.SqlServer  -- --provider SqlServer
 ```
 
+
 ## Technologies
 * [ASP.NET Core 8](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)
 * [Entity Framework Core 8](https://docs.microsoft.com/en-us/ef/core/)
@@ -64,7 +64,6 @@ Jeśli chcesz zgłębić temat Clean Architecture w C#, polecam zapoznać się z
 ## Links
 [Link architecture pattern](https://github.com/dotnet-architecture/eShopOnWeb)
 [Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
-
 
 
 ## License
