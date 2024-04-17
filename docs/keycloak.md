@@ -10,13 +10,9 @@ Standardowe protokoły: Keycloak opiera się na standardowych protokołach i obs
 Jeśli potrzebujesz bardziej szczegółowych informacji, możesz sprawdzić dokumentację Keycloak1. To narzędzie jest szczególnie przydatne dla zabezpieczania aplikacji i usług w kontekście tożsamości i autoryzacji.
 
 ![Home](/images/Home.png)
-
 ![login](/images/login.png)
-
 ![create_realm](/images/create_realm.png)
-
 ![create_realm_mercurius](/images/create_realm_mercurius.png)
-
 ![Swagger Login](/images/swagger_Login.png)
 
 ## Source
