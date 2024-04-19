@@ -61,9 +61,9 @@ Warto również wspomnieć, że Clean Architecture i wzorzec Onion Architecture 
 
 Jeśli chcesz zgłębić temat Clean Architecture w C#, polecam zapoznać się z materiałami dostępnymi na stronie Code Maze. Tam znajdziesz więcej informacji oraz przykłady implementacji tego wzorca.
 
-## Links
-[Link architecture pattern](https://github.com/dotnet-architecture/eShopOnWeb)
-[Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
+## Links :
+* [Link architecture pattern](https://github.com/dotnet-architecture/eShopOnWeb)
+* [Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
 
 
 ## License
