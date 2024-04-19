@@ -9,13 +9,13 @@ Konsola administracyjna: Administratorzy mogą centralnie zarządzać wszystkimi
 Standardowe protokoły: Keycloak opiera się na standardowych protokołach i obsługuje OpenID Connect, OAuth 2.0 i SAML.
 Jeśli potrzebujesz bardziej szczegółowych informacji, możesz sprawdzić dokumentację Keycloak1. To narzędzie jest szczególnie przydatne dla zabezpieczania aplikacji i usług w kontekście tożsamości i autoryzacji.
 
-![Home](/images/Home.png)
-![login](/images/login.png)
-![create_realm](/images/create_realm.png)
-![create_realm_mercurius](/images/create_realm_mercurius.png)
-![Swagger Login](/images/swagger_Login.png)
 
 ## Source
 [Mapping, customizing, and transforming claims in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/claims?view=aspnetcore-8.0)
 [Mapping, customizing, and transforming claims in ASP.NET Core GitHub](https://github.com/dotnet/AspNetCore.Docs/blob/main/aspnetcore/security/authentication/claims.md)
  
+![Home](/images/Home.png)
+![login](/images/login.png)
+![create_realm](/images/create_realm.png)
+![create_realm_mercurius](/images/create_realm_mercurius.png)
+![Swagger Login](/images/swagger_Login.png)
