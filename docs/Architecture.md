@@ -11,7 +11,6 @@ Clean Architecture to wzorzec architektury, który ma na celu budowanie aplikacj
 Warto również wspomnieć, że Clean Architecture i wzorzec Onion Architecture mają podobne cele i zasady, ale różnią się nieco w szczegółach. Onion Architecture skupia się na warstwie centralnej (zwanej Core), używając interfejsów i odwrócenia zależności, aby odseparować warstwy aplikacji i umożliwić wyższy stopień testowalności12.
 Jeśli chcesz zgłębić temat Clean Architecture w C#, polecam zapoznać się z materiałami dostępnymi na stronie Code Maze. Tam znajdziesz więcej informacji oraz przykłady implementacji tego wzorca.
 
-
 Clean Architecture w kontekście programowania w C# to podejście projektowe, które promuje rozdzielenie kodu na warstwy z wyraźnie określonymi odpowiedzialnościami. Ta architektura została spopularyzowana przez Roberta C. Martina i ma na celu tworzenie systemów, które są łatwiejsze do zarządzania, testowania i utrzymania w dłuższym okresie. Oto podstawowe składniki Clean Architecture w kontekście C#:
 
 ### 1. Niezależność od Frameworków
@@ -41,8 +40,6 @@ System powinien być zaprojektowany tak, aby integracje z zewnętrznymi agentami
 4. *Frameworks and Drivers (Frameworki i Sterowniki)*: Ostateczna warstwa, która jest odpowiedzialna za implementację szczegółów zewnętrznych frameworków, GUI, bazy danych itp.
 
 ### Implementacja w C#
-
 Podczas implementacji Clean Architecture w C#, używa się często takich podejść jak Dependency Injection (DI) do zarządzania zależnościami między różnymi warstwami. Rozwiązania takie jak .NET Core są idealne do wdrożenia DI i pomagają w utrzymaniu kodu zgodnie z zasadami Clean Architecture. Inversion of Control (IoC) containers również odgrywają kluczową rolę w zapewnieniu elastyczności i niezależności warstw.
-
 Podsumowując, Clean Architecture w C# ma na celu stworzenie systemu, który jest elastyczny, łatwy do testowania i utrzymania, poprzez ścisłe oddzielenie i abstrakcję poszczególnych elementów systemu.
 
