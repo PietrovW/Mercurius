@@ -19,6 +19,8 @@ Upewnij się, że twoje API obsługuje wyjątki i błędy w odpowiedni sposób.
 Przykład: Testowanie, czy API zwraca odpowiedni kod błędu dla nieprawidłowych żądań.
 Automatyzacja testów:
 
+
+
 Automatyzacja testów pozwala na wykonywanie testów automatycznie po każdej zmianie w kodzie.
 Wykorzystaj narzędzia takie jak dotnet test w połączeniu z CI/CD.
 Jeśli jesteś początkującym programistą w C#, polecam zapoznać się z Microsoft Learn, gdzie znajdziesz interaktywne samouczki na temat testowania jednostkowego w języku C# przy użyciu narzędzia dotnet test i xUnit 1. Powodzenia w testowaniu swojego API
