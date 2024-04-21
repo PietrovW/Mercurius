@@ -1,5 +1,6 @@
 version: '3.4'
 
+
 services:
   api:
     image: ${DOCKER_REGISTRY-}api
@@ -14,6 +15,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - Provider=${Provider}
       - ConnectionStrings__Postgres=${ConnectionStrings}
+      
   web:
     image: ${DOCKER_REGISTRY-}web
     build:
