@@ -13,15 +13,10 @@ Krok 1: Tworzenie interfejsu API przy użyciu .NET Core
  Utwórz nowy projekt .NET Core Web API, wykonując poniższą komendę: 
  
  Struktura plików powinna wyglądać podobnie do tej: 
- 
- Zawiera pliki Program kontrolerów odpowiedzialnych za obsługę żądań API i definiowanie punktów końcowych. 
- 
- Plik Mercurius.csproj to plik projektu, który zarządza zależnościami i konfiguracją projektu. 
- 
- Plik Program.cs to punkt wejścia do aplikacji i konfiguruje aplikację i usługi. 
- 
- Teraz możemy zbudować i uruchomić nasz projekt interfejsu API: 
-
+  Zawiera pliki Program kontrolerów odpowiedzialnych za obsługę żądań API i definiowanie punktów końcowych. 
+  Plik Mercurius.csproj to plik projektu, który zarządza zależnościami i konfiguracją projektu. 
+  Plik Program.cs to punkt wejścia do aplikacji i konfiguruje aplikację i usługi. 
+  Teraz możemy zbudować i uruchomić nasz projekt interfejsu API: 
 Otwórz przeglądarkę i odwiedź adres URL: 4(http://localhost:5248/api/mercurius) 
 
 Krok 2: Umieszczanie interfejsu API w kontenerze Docker 
