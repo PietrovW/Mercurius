@@ -53,13 +53,8 @@ public sealed class ExceptionInfoRepository : IExceptionInfoRepository
       await _context.ExceptionInfos.AddAsync(exceptionInfo, cancellationToken: cancellationToken);
     }
 
-    public async Task SaveAsync(CancellationToken cancellationToken = default(CancellationToken))
-    {
-        await _context.SaveChangesAsync(cancellationToken: cancellationToken);
-    }
+    public async Task SaveAsync(CancellationToken cancellationToken = default(CancellationToken))=? await _context.SaveChangesAsync(cancellationToken: cancellationToken);
 
-    public void UpdateExceptionInfo(ExceptionInfoEntitie exceptionInfo)
-    {
-        _context.ExceptionInfos.Update(exceptionInfo);
-    }
+    public void UpdateExceptionInfo(ExceptionInfoEntitie exceptionInfo) =>   _context.ExceptionInfos.Update(exceptionInfo);
+   
 }
