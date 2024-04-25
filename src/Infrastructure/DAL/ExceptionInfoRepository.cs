@@ -18,7 +18,10 @@ public sealed class ExceptionInfoRepository : IExceptionInfoRepository
     public async Task<bool> DeleteExceptionInfoAsync(Guid exceptionInfoId, CancellationToken cancellationToken = default(CancellationToken))
     {
         var result = await _context.ExceptionInfos.FirstOrDefaultAsync(s => s.Id == exceptionInfoId, cancellationToken: cancellationToken);
-        if (result == null) return false;
+        if (result == null) 
+        {
+            return false;
+        }
         var resultDelete = _context.ExceptionInfos.Remove(result);
         if (resultDelete != null)
         {
