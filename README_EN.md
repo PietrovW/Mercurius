@@ -4,7 +4,6 @@
 
 ![Logo](/images/logo.png)
 
-![swagger](/images/swagger.png)
 
 # Readme Mercurius
 A program error collection application is a tool that allows you to detect,
@@ -32,11 +31,9 @@ Creating a migration:
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.MySql  -- --provider MySql
 ```
-
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.Postgres  -- --provider Postgres
 ```
-
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.SqlServer  -- --provider SqlServer
 ```
@@ -51,7 +48,6 @@ Creating a migration:
 * [Docker Compose](https://docs.docker.com/compose/)
 * [xunit](https://xunit.net/)
 ## Application architecture
-
 
 ## Links
 
