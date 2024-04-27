@@ -12,7 +12,6 @@ namespace FunctionalTests.Api;
 
 public class ExceptionInfoEndpointTest
 {
-
     [Fact]
     public async Task GetAllExceptionInfoItemCommandShouldReturnStatusCodeOK()
     {
