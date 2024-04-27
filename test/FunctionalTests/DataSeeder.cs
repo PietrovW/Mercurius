@@ -32,7 +32,6 @@ public class DataSeeder
                     TargetSite = $"TargetSite_{Guid.NewGuid()}",
                 });
             }
-
             context.ExceptionInfos.AddRange(exceptionInfos);
             context.SaveChanges();
         }
