@@ -1,14 +1,12 @@
 [![100 - COMMITOW](https://img.shields.io/badge/100-COMMITOW-2ea44f)](https://100commitow.pl/)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-
 ![Logo](/images/logo.png)
 
 
 # Readme Mercurius
 A program error collection application is a tool that allows you to detect,
 monitoring and reporting software errors
-
 
 Launch Apps, using the command
 ```
@@ -49,7 +47,14 @@ Creating a migration:
 * [xunit](https://xunit.net/)
 ## Application architecture
 
+
+
+
+
+
+
 ## Links
+
 
 [Link architecture pattern](https://github.com/dotnet-architecture/eShopOnWeb)
 [Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
