@@ -37,6 +37,7 @@ public class GetExceptionInfoByID
     }
 }
 
+
 public class MigrationsContextFactory : IDbContextFactory<MercuriusContext>
 {
     public MercuriusContext CreateDbContext()
