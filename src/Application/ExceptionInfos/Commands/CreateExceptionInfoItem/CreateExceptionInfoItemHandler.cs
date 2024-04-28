@@ -14,6 +14,7 @@ public sealed class CreateExceptionInfoItemHandler
 
     public async Task<ExceptionInfoCreatedEvent> Handle(CreateExceptionInfoItemCommand command, CancellationToken cancellationToken = default(CancellationToken))
     {
+        
         var record = new Entities.ExceptionInfoEntitie()
         {
             InnerException = command.InnerException,
