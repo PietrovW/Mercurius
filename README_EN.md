@@ -3,7 +3,6 @@
 
 ![Logo](/images/logo.png)
 
-
 # Readme Mercurius
 A program error collection application is a tool that allows you to detect,
 monitoring and reporting software errors
@@ -36,7 +35,8 @@ Creating a migration:
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.SqlServer  -- --provider SqlServer
 ```
 
-## Technologies
+
+## Technologies :
 * [ASP.NET Core 8](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)
 * [Entity Framework Core 8](https://docs.microsoft.com/en-us/ef/core/)
 * [wolverine](https://wolverine.netlify.app/)
@@ -48,13 +48,7 @@ Creating a migration:
 ## Application architecture
 
 
-
-
-
-
-
 ## Links
-
 
 [Link architecture pattern](https://github.com/dotnet-architecture/eShopOnWeb)
 [Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
