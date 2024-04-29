@@ -22,7 +22,6 @@ Launch Apps, using the command
 - SDK pozwoli na zbieranie informacji o błędach i ich przesyłanie do Api ( jezyk C#)
 
 Creating a migration:
-
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.MySql  -- --provider MySql
 ```
