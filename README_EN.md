@@ -11,8 +11,8 @@ Launch Apps, using the command
 ```
     docker-compose up
 ```
-## Features
 
+## Features
 - Bug reporting: Users can report bugs, defects and issues related to the application.
 - Assignment and Tracking: Bugs are assigned to the appropriate team members and then tracked through the remediation process.
 - Priorities and statuses: Each bug is assigned a priority (e.g. critical, high, low) and a status (e.g. open, under repair, closed).
@@ -48,7 +48,6 @@ Creating a migration:
 ## Application architecture
 
 ## Links
-
 [Link architecture pattern](https://github.com/dotnet-architecture/eShopOnWeb)
 [Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
 
