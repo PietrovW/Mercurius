@@ -20,19 +20,15 @@ Clean Architecture w kontekście programowania w C# to podejście projektowe, kt
 Clean Architecture sugeruje, aby system nie był zależny od używanych bibliotek i frameworków. Oznacza to, że logika biznesowa aplikacji nie powinna być uzależniona od zewnętrznych bibliotek, co ułatwia jej testowanie i modernizację.
 
 ### 2. Testowalność
-
 Kod powinien być łatwy do testowania. Logika biznesowa powinna być oddzielona od interfejsu użytkownika, bazy danych, i innych elementów zewnętrznych, co umożliwia łatwe i efektywne testowanie jednostkowe.
 
 ### 3. Niezależność UI
-
 Interfejs użytkownika powinien być łatwy do zmiany bez wpływu na resztę systemu. Wzorce takie jak MVVM (Model-View-ViewModel) są często stosowane w aplikacjach C#, aby odseparować logikę biznesową od UI.
 
 ### 4. Niezależność od Bazy Danych
-
 Clean Architecture zachęca do projektowania systemu w taki sposób, aby był niezależny od konkretnej bazy danych lub schematu przechowywania danych. Dostęp do danych powinien być realizowany poprzez abstrakcje, co pozwala na łatwą zmianę mechanizmów przechowywania danych.
 
 ### 5. Niezależność od Agentów Zewnętrznych
-
 System powinien być zaprojektowany tak, aby integracje z zewnętrznymi agentami, takimi jak API stron trzecich, nie wpływały negatywnie na logikę biznesową.
 
 ### Struktura Clean Architecture
