@@ -31,8 +31,6 @@ Creating a migration:
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.SqlServer  -- --provider SqlServer
 ```
-
-
 ## Technologies
 * [ASP.NET Core 8](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)
 * [Entity Framework Core 8](https://docs.microsoft.com/en-us/ef/core/)
@@ -60,5 +58,3 @@ Jeśli chcesz zgłębić temat Clean Architecture w C#, polecam zapoznać się z
 
 ## License
 Mercurius is licensed under the [MIT LICENSE](https://choosealicense.com/licenses/mit/) 
-
-
