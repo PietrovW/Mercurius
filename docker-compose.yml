@@ -1,6 +1,5 @@
 version: '3.4'
 
-
 services:
   api:
     image: ${DOCKER_REGISTRY-}api
@@ -21,4 +20,3 @@ services:
     build:
       context: .
       dockerfile: src/Web/Web/Dockerfile
-
