@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure;
 
+
 public static class Extensions
 {
     public static IServiceCollection ConfigureInfrastructureServices(this IServiceCollection services )
