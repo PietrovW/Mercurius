@@ -20,11 +20,13 @@ internal sealed class RolesClaimsTransformation : IClaimsTransformation
             return Task.FromResult(result);
         }
 
+
         var resourceAccessValue = principal.FindFirst("realm_access")?.Value;
         if (string.IsNullOrWhiteSpace(resourceAccessValue))
         {
             return Task.FromResult(result);
         }
+
 
         using var resourceAccess = JsonDocument.Parse(resourceAccessValue);
         var clientRoles = resourceAccess
