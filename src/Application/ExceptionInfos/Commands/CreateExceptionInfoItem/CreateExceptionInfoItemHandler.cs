@@ -22,7 +22,6 @@ public sealed class CreateExceptionInfoItemHandler
             Source = command.Source,
             StackTrace = command.StackTrace,
             TargetSite = command.TargetSite,
-
         };
         
         await _exceptionInfoRepository.InsertExceptionInfoAsync(exceptionInfo: record, cancellationToken: cancellationToken);
