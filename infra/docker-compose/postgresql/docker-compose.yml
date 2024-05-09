@@ -11,5 +11,8 @@ services:
       - POSTGRES_PASSWORD=${PASSWORD}
       - POSTGRES_USER=${USER}
       - POSTGRES_DB=${DB}
+
+
+      
 volumes:
   volum-db:
