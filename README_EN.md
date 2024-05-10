@@ -3,6 +3,8 @@
 
 ![Logo](/images/logo.png)
 
+
+
 # Readme Mercurius
 A program error collection application is a tool that allows you to detect,
 monitoring and reporting software errors
@@ -51,6 +53,9 @@ Creating a migration:
 ## Links
 [Link architecture pattern](https://github.com/dotnet-architecture/eShopOnWeb)
 [Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
+
+
+
 
 
 
