@@ -5,6 +5,8 @@
 
 
 
+
+
 # Readme Mercurius
 A program error collection application is a tool that allows you to detect,
 monitoring and reporting software errors
