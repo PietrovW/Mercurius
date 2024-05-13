@@ -10,7 +10,6 @@ public static class Extensions
     public static IServiceCollection ConfigureInfrastructureServices(this IServiceCollection services )
     {
         services.AddSingleton<IExceptionInfoRepository, ExceptionInfoRepository>();
-        
         return services;
     }
 }
