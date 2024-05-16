@@ -2,6 +2,7 @@
 using Api.Authorization.Decision;
 using Api.Providers;
 using Infrastructure.Data;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -123,6 +124,7 @@ internal static class ServiceCollectionExtensions
         string authServerUrl = configuration["Keycloak:AuthServerUrl"]!;
         string realms = configuration["Keycloak:realm"]!;
         services.AddEndpointsApiExplorer();
+        services.AddFluentValidationRulesToSwagger();
         services.AddSwaggerGen(options =>
         {
             options.OperationFilter<SwaggerDefaultValues>();
