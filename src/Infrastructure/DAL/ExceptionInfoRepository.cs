@@ -15,10 +15,14 @@ public sealed class ExceptionInfoRepository : IExceptionInfoRepository
         _dbContextFactory = dbContextFactory;
         _context = _dbContextFactory.CreateDbContext();
     }
+    
     public async Task<bool> DeleteExceptionInfoAsync(Guid exceptionInfoId, CancellationToken cancellationToken = default(CancellationToken))
     {
         var result = await _context.ExceptionInfos.FirstOrDefaultAsync(s => s.Id == exceptionInfoId, cancellationToken: cancellationToken);
-        if (result == null) return false;
+        if (result == null) 
+        {
+            return false;
+        }
         var resultDelete = _context.ExceptionInfos.Remove(result);
         if (resultDelete != null)
         {
@@ -53,13 +57,7 @@ public sealed class ExceptionInfoRepository : IExceptionInfoRepository
       await _context.ExceptionInfos.AddAsync(exceptionInfo, cancellationToken: cancellationToken);
     }
 
-    public async Task SaveAsync(CancellationToken cancellationToken = default(CancellationToken))
-    {
-        await _context.SaveChangesAsync(cancellationToken: cancellationToken);
-    }
+    public async Task SaveAsync(CancellationToken cancellationToken = default(CancellationToken))=? await _context.SaveChangesAsync(cancellationToken: cancellationToken);
 
-    public void UpdateExceptionInfo(ExceptionInfoEntitie exceptionInfo)
-    {
-        _context.ExceptionInfos.Update(exceptionInfo);
-    }
+    public void UpdateExceptionInfo(ExceptionInfoEntitie exceptionInfo) =>   _context.ExceptionInfos.Update(exceptionInfo);
 }

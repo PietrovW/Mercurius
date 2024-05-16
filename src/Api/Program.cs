@@ -66,11 +66,6 @@ builder.Services.AddApiVersioning(options =>
     options.SubstituteApiVersionInUrl = true;
 }).EnableApiVersionBinding();
 
-//builder.Services.AddSwaggerGen(options =>
-//{
-//    options.OperationFilter<SwaggerDefaultValues>();
-//    options.OperationFilter<SwaggerLanguageHeader>();
-//});
 builder.Services.Configure<RouteOptions>(options => { options.LowercaseUrls = true; });
 var app = builder.Build();
 ApiVersionSet versionSet = app.NewApiVersionSet()

@@ -5,9 +5,9 @@ namespace Domain;
 
 public static class Extensions
 {
-    public static void ConfigureServices(IConfiguration configuration, IServiceCollection services)
+    public static IServiceCollection ConfigureServices(IConfiguration configuration, IServiceCollection services)
     {
-
+            return services;
     }
 }
 

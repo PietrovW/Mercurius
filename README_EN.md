@@ -1,25 +1,16 @@
 [![100 - COMMITOW](https://img.shields.io/badge/100-COMMITOW-2ea44f)](https://100commitow.pl/)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-
-
-
-
 ![Logo](/images/logo.png)
-
-![swagger](/images/swagger.png)
 
 # Readme Mercurius
 A program error collection application is a tool that allows you to detect,
 monitoring and reporting software errors
-
-
 Launch Apps, using the command
 ```
     docker-compose up
 ```
 ## Features
-
 - Bug reporting: Users can report bugs, defects and issues related to the application.
 - Assignment and Tracking: Bugs are assigned to the appropriate team members and then tracked through the remediation process.
 - Priorities and statuses: Each bug is assigned a priority (e.g. critical, high, low) and a status (e.g. open, under repair, closed).
@@ -35,16 +26,15 @@ Creating a migration:
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.MySql  -- --provider MySql
 ```
-
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.Postgres  -- --provider Postgres
 ```
-
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.SqlServer  -- --provider SqlServer
 ```
 
-## Technologies
+
+## Technologies :
 * [ASP.NET Core 8](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)
 * [Entity Framework Core 8](https://docs.microsoft.com/en-us/ef/core/)
 * [wolverine](https://wolverine.netlify.app/)
@@ -55,11 +45,10 @@ Creating a migration:
 * [xunit](https://xunit.net/)
 ## Application architecture
 
-
 ## Links
-
 [Link architecture pattern](https://github.com/dotnet-architecture/eShopOnWeb)
 [Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
+
 
 
 

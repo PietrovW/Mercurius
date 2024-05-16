@@ -6,8 +6,9 @@ namespace Infrastructure;
 
 public static class Extensions
 {
-    public static void ConfigureInfrastructureServices(this IServiceCollection services )
+    public static IServiceCollection ConfigureInfrastructureServices(this IServiceCollection services )
     {
         services.AddSingleton<IExceptionInfoRepository, ExceptionInfoRepository>();
+        return services;
     }
 }
