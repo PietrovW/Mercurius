@@ -8,9 +8,12 @@ A program error collection application is a tool that allows you to detect,
 monitoring and reporting software errors
 Launch Apps, using the command
 
+
 ```
     docker-compose up
 ```
+
+
 ## Features
 - Bug reporting: Users can report bugs, defects and issues related to the application.
 - Assignment and Tracking: Bugs are assigned to the appropriate team members and then tracked through the remediation process.
@@ -21,6 +24,8 @@ Launch Apps, using the command
 - Saving errors reported by applications.
 - Automatic error grouping: can group similar errors together, making them easier to manage and track
 - SDK will allow you to collect information about errors and send them to API (C# language)
+
+
 
 Creating a migration:
 
