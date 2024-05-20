@@ -8,12 +8,9 @@ A program error collection application is a tool that allows you to detect,
 monitoring and reporting software errors
 Launch Apps, using the command
 
-
 ```
     docker-compose up
 ```
-
-
 ## Features
 - Bug reporting: Users can report bugs, defects and issues related to the application.
 - Assignment and Tracking: Bugs are assigned to the appropriate team members and then tracked through the remediation process.
@@ -38,7 +35,6 @@ Creating a migration:
 ```
  dotnet ef migrations add InitialCreate --project ../Migrations/Infrastructure.SqlServer  -- --provider SqlServer
 ```
-
 
 ## Technologies :
 * [ASP.NET Core 8](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)
