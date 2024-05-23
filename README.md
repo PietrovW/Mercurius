@@ -2,14 +2,10 @@
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 ![Logo](/images/logo.png)
 
-
-
-
 # Readme Mercurius
 A program error collection application is a tool that allows you to detect,
 monitoring and reporting software errors
 Launch Apps, using the command
-
 ```
     docker-compose up
 ```
