@@ -7,7 +7,6 @@ A program error collection application is a tool that allows you to detect,
 monitoring and reporting software errors
 Launch Apps, using the command
 
-
 ```
     docker-compose up
 ```
@@ -41,8 +40,6 @@ Creating a migration:
 * [MySql](Pomelo.EntityFrameworkCore.MySql)
 * [Docker Compose](https://docs.docker.com/compose/)
 * [xunit](https://xunit.net/)
-
-
 
 
 ## Architecture
