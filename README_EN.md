@@ -22,12 +22,6 @@ Launch Apps, using the command
 - Automatic error grouping: can group similar errors together, making them easier to manage and track
 - SDK will allow you to collect information about errors and send them to API (C# language)
 
-
-
-
-
-
-
 Creating a migration:
 
 ```
@@ -54,8 +48,6 @@ Creating a migration:
 ## Links
 [Link architecture pattern](https://github.com/dotnet-architecture/eShopOnWeb)
 [Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
-
-
 
 
 ## License
