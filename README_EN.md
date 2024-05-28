@@ -1,6 +1,10 @@
 [![100 - COMMITOW](https://img.shields.io/badge/100-COMMITOW-2ea44f)](https://100commitow.pl/)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
+
+
+
+
 ![Logo](/images/logo.png)
 
 # Readme Mercurius
