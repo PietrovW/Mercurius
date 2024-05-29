@@ -10,6 +10,8 @@
 
 Clean Architecture to wzorzec architektury, który ma na celu budowanie aplikacji, które są łatwe do utrzymania, skalowania i testowania. Osiąga to poprzez podział aplikacji na różne warstwy o odrębnych odpowiedzialnościach:
 
+
+
 * Warstwa domeny (Domain Layer): Stanowi rdzeń aplikacji i zawiera zasady biznesowe oraz encje. Nie powinna mieć zależności zewnętrznych.
 * Warstwa aplikacji (Application Layer): Leży tuż za warstwą domeny i działa jako pośrednik między nią a innymi warstwami. Odpowiada za przypadki użycia aplikacji i eksponuje zasady biznesowe z warstwy domeny.
 * Warstwa infrastruktury (Infrastructure Layer): Tutaj implementujemy usługi zewnętrzne, takie jak bazy danych, przechowywanie plików, e-maile itp. Warstwa ta
