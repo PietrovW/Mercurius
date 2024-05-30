@@ -1,13 +1,6 @@
 ## Clean Architecture
 
 
-
-
-
-
-
-
-
 Clean Architecture to wzorzec architektury, który ma na celu budowanie aplikacji, które są łatwe do utrzymania, skalowania i testowania. Osiąga to poprzez podział aplikacji na różne warstwy o odrębnych odpowiedzialnościach:
 
 
