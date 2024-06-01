@@ -7,7 +7,6 @@
 A program error collection application is a tool that allows you to detect,
 monitoring and reporting software errors
 Launch Apps, using the command
-
 ```
     docker-compose up
 ```
@@ -44,7 +43,6 @@ Creating a migration:
 * [Docker Compose](https://docs.docker.com/compose/)
 * [xunit](https://xunit.net/)
 ## Application architecture
-
 ## Links
 [Link architecture pattern](https://github.com/dotnet-architecture/eShopOnWeb)
 [Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
