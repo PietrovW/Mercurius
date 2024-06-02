@@ -7,6 +7,9 @@ A program error collection application is a tool that allows you to detect,
 monitoring and reporting software errors
 Launch Apps, using the command
 
+
+
+
 ```
     docker-compose up
 ```
