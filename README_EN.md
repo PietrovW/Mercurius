@@ -13,6 +13,9 @@ Launch Apps, using the command
 
 
 
+
+
+
 ## Features
 - Bug reporting: Users can report bugs, defects and issues related to the application.
 - Assignment and Tracking: Bugs are assigned to the appropriate team members and then tracked through the remediation process.
