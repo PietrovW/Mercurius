@@ -11,6 +11,9 @@ public class AppFixture : IDisposable, IAsyncLifetime
 {
     public IAlbaHost Host { get; private set; }
 
+
+
+
     public Task DisposeAsync()
     {
         return Host.StopAsync();
