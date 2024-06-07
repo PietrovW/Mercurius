@@ -9,6 +9,9 @@ Konsola administracyjna: Administratorzy mogą centralnie zarządzać wszystkimi
 Standardowe protokoły: Keycloak opiera się na standardowych protokołach i obsługuje OpenID Connect, OAuth 2.0 i SAML.
 Jeśli potrzebujesz bardziej szczegółowych informacji, możesz sprawdzić dokumentację Keycloak1. To narzędzie jest szczególnie przydatne dla zabezpieczania aplikacji i usług w kontekście tożsamości i autoryzacji.
 
+
+
+
 ## Konfiguracja Keycloak
 
 Keycloak configuration .net : 
